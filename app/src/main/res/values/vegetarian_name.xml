@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="vegetarian">
+        <item>全素</item>
+        <item>奶素</item>
+        <item>蛋素</item>
+        <item>蛋奶素</item>
+        <item>五辛素</item>
+        <item>葷</item>
+        <item>未知</item>
+    </string-array>
+</resources>

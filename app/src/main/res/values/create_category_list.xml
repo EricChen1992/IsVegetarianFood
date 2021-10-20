@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="create_category">
+        <item>餅乾</item>
+        <item>糖果</item>
+        <item>飲料</item>
+        <item>泡麵</item>
+        <item>食材</item>
+        <item>罐頭</item>
+        <item>果醬</item>
+        <item>其他</item>
+    </string-array>
+</resources>

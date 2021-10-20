@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">IsVegetarianFood</string>
+    <string name="app_name_zh">素不素</string>
+
+    <!--    ScannerActivity-->
+    <string name="turn_on_flashlight">Flashlight ON </string>
+    <string name="turn_off_flashlight">Flashlight OFF</string>
+</resources>
