@@ -8,6 +8,10 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="white_light">#4FFFFFFF</color>
+    <color name="grey">#4F3C3838</color>
+    <color name="member_heard">#1D272E</color>
+    <color name="member_confirm">#D86891</color>
+    <color name="member_image_side">#E6400C</color>
     <color name="yellow_193">#FFC107</color>
     <color name="yellow_152">#FF9800</color>
     <color name="yellow_206">#FFCE85</color>

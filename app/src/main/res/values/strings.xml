@@ -111,4 +111,13 @@
     <string name="ivf_signup_edit_gender_error">請選擇性別</string>
     <string name="ivf_signup_edit_county_error">請選擇縣市</string>
     <string name="ivf_signup_edit_town_error">請選擇市鄉鎮</string>
+
+    <!--  NavigationIvfMember  -->
+    <string name="ivf_navigation_member_tittle">會員資料</string>
+    <string name="ivf_navigation_member_save">儲存</string>
+    <string name="ivf_navigation_member_cancel">取消</string>
+    <string name="ivf_navigation_member_name">姓名*</string>
+    <string name="ivf_navigation_member_email">信箱</string>
+    <string name="ivf_navigation_member_phone">電話</string>
+    <string name="ivf_navigation_member_change_password">變更密碼</string>
 </resources>

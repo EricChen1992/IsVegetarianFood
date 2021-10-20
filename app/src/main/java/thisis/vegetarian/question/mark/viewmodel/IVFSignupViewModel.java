@@ -43,7 +43,7 @@ public class IVFSignupViewModel extends ViewModel {
     public ObservableInt selectedPosition = new ObservableInt(0);
     public List<List<String>> townListContainer = new ArrayList<>();
     public ObservableField<Boolean> townClickable = new ObservableField<>(false);
-    Integer[] townListName = {  R.array.taipei_city_town_zh,
+    final Integer[] townListName = {  R.array.taipei_city_town_zh,
                                 R.array.new_taipei_city_town_zh,
                                 R.array.keelung_city_town_zh,
                                 R.array.taoyuan_city_town_zh,

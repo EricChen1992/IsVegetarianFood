@@ -59,7 +59,8 @@
             android:layout_marginTop="5dp"
             android:layout_marginEnd="5dp"
             android:paddingStart="5dp"
-            android:paddingEnd="5dp"/>
+            android:paddingEnd="5dp"
+            android:textColor="@color/grey"/>
 
         <Button
             android:id="@+id/ivf_login_login"

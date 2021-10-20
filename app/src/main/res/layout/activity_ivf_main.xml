@@ -63,7 +63,9 @@
                     android:id="@+id/main_scrim"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:elevation="10dp" />
+                    android:elevation="10dp"
+                    android:background="@color/grey"
+                    android:visibility="gone"/>
 
                 <com.google.android.material.navigation.NavigationView
                     android:id="@+id/main_bottom_navigation_view"
@@ -75,7 +77,8 @@
                     app:behavior_hideable="true"
                     app:headerLayout="@layout/navigation_ivf_header"
                     app:layout_behavior="@string/bottom_sheet_behavior"
-                    app:menu="@menu/navigation_drawer_menu" />
+                    app:menu="@menu/navigation_drawer_menu"
+                    android:visibility="gone"/>
 
             </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
@@ -96,6 +99,17 @@
                 android:layout_gravity="bottom"
                 app:menu="@menu/bottom_app_bar"
                 app:navigationIcon="@drawable/ivf_menu" />
+
+            <com.google.android.material.navigation.NavigationView
+                android:id="@+id/user_info_bottom_navigation_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ivf_navigation_shap"
+                android:fitsSystemWindows="true"
+                android:paddingBottom="?attr/actionBarSize"
+                app:behavior_hideable="true"
+                app:headerLayout="@layout/navigation_ivf_member"
+                app:layout_behavior="@string/bottom_sheet_behavior" />
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

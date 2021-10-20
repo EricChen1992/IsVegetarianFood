@@ -39,6 +39,7 @@ import java.util.List;
 
 import thisis.vegetarian.question.mark.databinding.ActivityIvfMainBinding;
 import thisis.vegetarian.question.mark.databinding.NavigationIvfHeaderBinding;
+import thisis.vegetarian.question.mark.databinding.NavigationIvfMemberBinding;
 import thisis.vegetarian.question.mark.db.entity.UserInfoEntity;
 import thisis.vegetarian.question.mark.viewmodel.IVFMainViewModel;
 
@@ -49,6 +50,7 @@ public class IVFMainActivity extends AppCompatActivity {
     private IVFMainViewModel mainViewModel;
     private ViewPager2 viewPager2;
     private BottomSheetBehavior<NavigationView> bottomSheetBehavior;
+    private BottomSheetBehavior<NavigationView> infoBottomSheetBehavior;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,16 +90,39 @@ public class IVFMainActivity extends AppCompatActivity {
         //Set NavigationView
         bottomSheetBehavior = BottomSheetBehavior.from(activityIvfMainBinding.mainBottomNavigationView);
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+
+        //set Info NavigationView
+        infoBottomSheetBehavior = BottomSheetBehavior.from(activityIvfMainBinding.userInfoBottomNavigationView);
+        infoBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+
         activityIvfMainBinding.mainScrim.setVisibility(View.GONE);
         activityIvfMainBinding.mainScrim.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 view.setVisibility(View.GONE);
                 bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+                infoBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
             }
         });
 
         bottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull @NotNull View bottomSheet, int newState) {
+
+            }
+
+            @Override
+            public void onSlide(@NonNull @NotNull View bottomSheet, float slideOffset) {
+                int black = Color.BLACK;
+                float baseAlpha = ResourcesCompat.getFloat(getResources(), R.dimen.material_emphasis_medium);
+                float offset = (slideOffset - (-1f)) / (1f - (-1f)) * (1f - 0f) + 0f;
+                int alpha = (int) MathUtils.lerp(0f, 255f, offset * baseAlpha);
+                int color = Color.argb(alpha, Color.red(black), Color.green(black), Color.blue(black));
+                activityIvfMainBinding.mainScrim.setBackgroundColor(color);
+            }
+        });
+
+        infoBottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull @NotNull View bottomSheet, int newState) {
 
@@ -151,6 +176,7 @@ public class IVFMainActivity extends AppCompatActivity {
                 return true;
             }
         });
+
         //Set Navigation Header Close Button
         NavigationIvfHeaderBinding navigationIvfHeaderBinding = NavigationIvfHeaderBinding.bind(activityIvfMainBinding.mainBottomNavigationView.getHeaderView(0));
         navigationIvfHeaderBinding.setViewmodel(mainViewModel);
@@ -164,6 +190,11 @@ public class IVFMainActivity extends AppCompatActivity {
             }
         });
 
+        //Set Info Navigation Header
+        NavigationIvfMemberBinding navigationIvfMemberBinding = NavigationIvfMemberBinding.bind(activityIvfMainBinding.userInfoBottomNavigationView.getHeaderView(0));
+        navigationIvfMemberBinding.setViewmodel(mainViewModel);
+        navigationIvfMemberBinding.setLifecycleOwner(this);
+
         //Set User info on Navigation Header
         mainViewModel.getCheckUser();
 
@@ -173,11 +204,16 @@ public class IVFMainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Log.e("Main", "Navigation icon click.");
                 if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_HIDDEN){
-                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
                     activityIvfMainBinding.mainScrim.setVisibility(View.VISIBLE);
+                    activityIvfMainBinding.mainBottomNavigationView.setVisibility(View.VISIBLE);
+                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                    //info
+                    activityIvfMainBinding.userInfoBottomNavigationView.setVisibility(View.GONE);
+                    infoBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
                 } else {
-                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
                     activityIvfMainBinding.mainScrim.setVisibility(View.GONE);
+                    activityIvfMainBinding.mainBottomNavigationView.setVisibility(View.GONE);
+                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
                 }
             }
         });
@@ -186,6 +222,17 @@ public class IVFMainActivity extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()){
+                    case R.id.main_bottom_bar_member:
+                        if (infoBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_HIDDEN){
+                            //menu
+                            activityIvfMainBinding.mainBottomNavigationView.setVisibility(View.GONE);
+                            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+
+                            activityIvfMainBinding.userInfoBottomNavigationView.setVisibility(View.VISIBLE);
+                            infoBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                            activityIvfMainBinding.mainScrim.setVisibility(View.VISIBLE);
+                        }
+                        return true;
                     case R.id.main_bottom_bar_feedback:
                         Log.d("Main","bottom bar feedback");
                         setFeedbackLauncher(mainViewModel.userInfo.get());
@@ -282,7 +329,7 @@ public class IVFMainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        setBackPressedDialog(1, R.string.ivf_dialog_close_tittle_zh, R.string.ivf_dialog_close_message_zh);
+        setBackPressedDialog(0, R.string.ivf_dialog_close_tittle_zh, R.string.ivf_dialog_close_message_zh);
     }
 
     @Override

@@ -1,4 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--<selector xmlns:android="http://schemas.android.com/apk/res/android">-->
+<!--    &lt;!&ndash; disable state. &ndash;&gt;-->
+<!--    <item android:state_enabled="true">-->
+<!--        <shape android:shape="rectangle">-->
+<!--            <corners android:radius="20dp"/>-->
+<!--            <solid android:color="@color/yellow_193"/>-->
+<!--            <stroke android:color="@color/yellow_193" android:width="2dp"/>-->
+<!--        </shape>-->
+<!--    </item>-->
+<!--    &lt;!&ndash; disable state. &ndash;&gt;-->
+<!--    <item android:state_enabled="false">-->
+<!--        <shape android:shape="rectangle">-->
+<!--            <corners android:radius="20dp"/>-->
+<!--            <solid android:color="@color/grey"/>-->
+<!--            <stroke android:color="@color/grey" android:width="2dp"/>-->
+<!--        </shape>-->
+<!--    </item>-->
+<!--    &lt;!&ndash;released state. &ndash;&gt;-->
+<!--    <item android:state_pressed="false">-->
+<!--        <shape android:shape="rectangle">-->
+<!--            <corners android:radius="20dp"/>-->
+<!--            <solid android:color="@color/yellow_193"/>-->
+<!--            <stroke android:color="@color/yellow_193" android:width="2dp"/>-->
+<!--        </shape>-->
+<!--    </item>-->
+<!--    &lt;!&ndash;pressed state. &ndash;&gt;-->
+<!--    <item android:state_pressed="true">-->
+<!--        <shape android:shape="rectangle">-->
+<!--            <corners android:radius="20dp"/>-->
+<!--            <solid android:color="@color/yellow_193"/>-->
+<!--            <stroke android:color="@color/yellow_193" android:width="2dp"/>-->
+<!--        </shape>-->
+<!--    </item>-->
+
+<!--</selector>-->
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <corners android:radius="20dp"/>
     <solid android:color="@color/yellow_193"/>
