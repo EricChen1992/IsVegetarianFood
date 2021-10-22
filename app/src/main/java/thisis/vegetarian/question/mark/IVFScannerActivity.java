@@ -48,7 +48,7 @@ public class IVFScannerActivity extends AppCompatActivity implements DecoratedBa
         captureManager.decode();
 
 //        changeMaskColor(null);
-        changeLaserVisibility(true);
+//        changeLaserVisibility(true);
 
         //set actionbar close button
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ivf_close);

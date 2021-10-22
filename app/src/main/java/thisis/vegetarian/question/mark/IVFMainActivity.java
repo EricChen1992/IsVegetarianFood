@@ -91,9 +91,17 @@ public class IVFMainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
             } else {
                 //判斷格式是否正確
-                //判斷商品是否存在
-                Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
-                createProductLauncher.launch(result.getContents());//跳轉至建立頁面
+                if (IntentIntegrator.PRODUCT_CODE_TYPES.contains(result.getFormatName())){
+                    //判斷商品是否存在
+                    if (new IVFVerifyBarcode().verifyBarcode(result.getContents())){
+                        Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
+                        createProductLauncher.launch(result.getContents());//跳轉至建立頁面
+                    } else {
+                        Toast.makeText(this, "BarCode錯誤編碼，請重新掃描", Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Toast.makeText(this, "BarCode格式錯誤", Toast.LENGTH_LONG).show();
+                }
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
