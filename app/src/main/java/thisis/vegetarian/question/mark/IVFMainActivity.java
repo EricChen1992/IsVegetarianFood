@@ -25,7 +25,6 @@ import com.google.zxing.integration.android.IntentResult;
 import org.jetbrains.annotations.NotNull;
 
 import thisis.vegetarian.question.mark.databinding.ActivityIvfMainBinding;
-import thisis.vegetarian.question.mark.db.entity.IVF_ProductDataEntity;
 import thisis.vegetarian.question.mark.viewmodel.IVFMainViewModel;
 
 public class IVFMainActivity extends AppCompatActivity {

@@ -17,6 +17,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.IsVegetarianFood">
+        <activity android:name=".IVFInfoProduct"></activity>
         <activity
             android:name=".IVFMainActivity"
             android:exported="true"
@@ -31,9 +32,10 @@
             android:name=".IVFScannerActivity"
             android:parentActivityName=".IVFMainActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".IVFCreateProduct"
+        <activity
+            android:name=".IVFCreateProduct"
             android:parentActivityName=".IVFMainActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

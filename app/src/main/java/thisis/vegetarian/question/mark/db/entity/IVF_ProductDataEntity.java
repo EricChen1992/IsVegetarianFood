@@ -4,8 +4,10 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import thisis.vegetarian.question.mark.model.Product;
+
 @Entity(tableName = "IVF_Product")
-public class IVF_ProductDataEntity {
+public class IVF_ProductDataEntity implements Product {
 
     @PrimaryKey(autoGenerate = true)
     private long id;

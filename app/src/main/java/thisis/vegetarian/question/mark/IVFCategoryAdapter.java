@@ -15,10 +15,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import thisis.vegetarian.question.mark.db.entity.IVF_ProductDataEntity;
+import thisis.vegetarian.question.mark.model.OnItemListener;
+import thisis.vegetarian.question.mark.model.Product;
 
 public class IVFCategoryAdapter extends RecyclerView.Adapter<IVFCategoryAdapter.ProductHolder> {
-    private List<IVF_ProductDataEntity> productDataEntityList = new ArrayList<>();
+    private List<? extends Product> productDataEntityList = new ArrayList<>();
     private List<String> vegetarian_name ;
     private int[] vegetarian_image = new int[]{R.drawable.icon_vegan,
                                                 R.drawable.icon_lacto_vegetarian,
@@ -27,6 +28,10 @@ public class IVFCategoryAdapter extends RecyclerView.Adapter<IVFCategoryAdapter.
                                                 R.drawable.icon_five_pungent_spices_vegetarian,
                                                 R.drawable.icon_meat,
                                                 R.drawable.icon_unknow_vegetarian};
+    private OnItemListener onItemListener;
+    public void setOnItemListener(OnItemListener onItemListener){
+        this.onItemListener = onItemListener;
+    }
     @NonNull
     @NotNull
     @Override
@@ -38,11 +43,18 @@ public class IVFCategoryAdapter extends RecyclerView.Adapter<IVFCategoryAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull ProductHolder holder, int position) {
-        IVF_ProductDataEntity productDataEntity = productDataEntityList.get(position);
+        Product productDataEntity = productDataEntityList.get(position);
         holder.product_name.setText(productDataEntity.getName());
         holder.product_barcode.setText(String.format("%013d",Long.parseLong(productDataEntity.getBarcode())));
         holder.product_vegetarian.setText(productDataEntity.getVegetarian() < vegetarian_name.size() - 1 ? vegetarian_name.get(productDataEntity.getVegetarian()) : vegetarian_name.get(vegetarian_name.size() - 1));
         holder.product_icon.setImageResource(productDataEntity.getVegetarian() < vegetarian_image.length -1 ? vegetarian_image[productDataEntity.getVegetarian()] : vegetarian_image[vegetarian_image.length -1]);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onItemListener.onItemClick(view, productDataEntity);
+            }
+        });
     }
 
     @Override
@@ -50,7 +62,7 @@ public class IVFCategoryAdapter extends RecyclerView.Adapter<IVFCategoryAdapter.
         return productDataEntityList.size();
     }
 
-    public void setProductDataEntityList(List<IVF_ProductDataEntity> list){
+    public void setProductDataEntityList(List<? extends Product> list){
         this.productDataEntityList = list;
         notifyDataSetChanged();
     }
