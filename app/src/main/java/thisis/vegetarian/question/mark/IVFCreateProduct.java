@@ -3,9 +3,12 @@ package thisis.vegetarian.question.mark;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,6 +21,8 @@ import java.util.Arrays;
 import java.util.Objects;
 
 import thisis.vegetarian.question.mark.databinding.ActivityIvfCreateproductBinding;
+import thisis.vegetarian.question.mark.db.entity.IVF_ProductDataEntity;
+import thisis.vegetarian.question.mark.viewmodel.IVFCreateProductViewModel;
 
 public class IVFCreateProduct extends AppCompatActivity {
     public static final String EXTRA_BARCODE = "thisis.vegetarian.question.mark.EXTRA_BARCODE";
@@ -32,11 +37,15 @@ public class IVFCreateProduct extends AppCompatActivity {
     int tempVegetarian = -1;
     String tempBarcode;
     private ActivityIvfCreateproductBinding activityIvfCreateproductBinding;
-
+    private IVFCreateProductViewModel createProductViewModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        createProductViewModel = new ViewModelProvider(this).get(IVFCreateProductViewModel.class);
         activityIvfCreateproductBinding = DataBindingUtil.setContentView(IVFCreateProduct.this, R.layout.activity_ivf_createproduct);
+        activityIvfCreateproductBinding.setLifecycleOwner(this);
+        activityIvfCreateproductBinding.setViewModel(createProductViewModel);
 
         Intent intent = getIntent();
         String barcode = intent.getStringExtra(IVFMainActivity.EXTRA_BARCODE);
@@ -78,6 +87,16 @@ public class IVFCreateProduct extends AppCompatActivity {
         });
 
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ivf_close);
+
+        createProductViewModel.getUpdateType().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if (aBoolean != null && aBoolean){
+                    setResult(RESULT_OK, new Intent());
+                    finish();
+                }
+            }
+        });
     }
 
     private void saveData(){
@@ -89,23 +108,23 @@ public class IVFCreateProduct extends AppCompatActivity {
         int createVegetarian = tempVegetarian;
 //        Log.e("TEST", "createName: " + createName + " createCategory: " + createCategory + " createOrigin: " + createOrigin + " createVegetarian: " + createVegetarian);
         if ("".equals(createBarcode) ) {
-            Toast.makeText(this, "Barcode 發現錯誤", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Barcode 發生錯誤", Toast.LENGTH_LONG).show();
             return;
         }
         if ("".equals(createName) && -1 == createCategory && ("".equals(createOrigin) || null == createOrigin)&& -1 == createVegetarian){
             Toast.makeText(this, "名稱、種類、產地、素食類型 未輸入", Toast.LENGTH_LONG).show();
             return;
         }
-
-        Intent intent = new Intent();
-        intent.putExtra(EXTRA_BARCODE,createBarcode);
-        intent.putExtra(EXTRA_NAME, createName);
-        intent.putExtra(EXTRA_CATEGORY, createCategory);
-        intent.putExtra(EXTRA_ORIGIN, createOrigin);
-        intent.putExtra(EXTRA_VEGETARIAN, createVegetarian);
-        intent.putExtra(EXTRA_REMARK, createRemark);
-        setResult(RESULT_OK, intent);
-        finish();
+        createProductViewModel.insert(new IVF_ProductDataEntity(createBarcode, createName, createCategory, createOrigin, createVegetarian, createRemark, 0));
+//        Intent intent = new Intent();
+//        intent.putExtra(EXTRA_BARCODE,createBarcode);
+//        intent.putExtra(EXTRA_NAME, createName);
+//        intent.putExtra(EXTRA_CATEGORY, createCategory);
+//        intent.putExtra(EXTRA_ORIGIN, createOrigin);
+//        intent.putExtra(EXTRA_VEGETARIAN, createVegetarian);
+//        intent.putExtra(EXTRA_REMARK, createRemark);
+//        setResult(RESULT_OK, intent);
+//        finish();
     }
 
     @Override

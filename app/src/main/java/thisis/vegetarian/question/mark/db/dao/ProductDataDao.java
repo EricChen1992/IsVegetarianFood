@@ -14,8 +14,8 @@ import thisis.vegetarian.question.mark.db.entity.IVF_ProductDataEntity;
 @Dao
 public interface ProductDataDao {
 
-    default void insert(IVF_ProductDataEntity ivf_productDataEntity){
-        insertQ(ivf_productDataEntity.getBarcode(),
+    default long insert(IVF_ProductDataEntity ivf_productDataEntity){
+        return insertQ(ivf_productDataEntity.getBarcode(),
                 ivf_productDataEntity.getName(),
                 ivf_productDataEntity.getCategory(),
                 ivf_productDataEntity.getOrigin(),
@@ -25,7 +25,7 @@ public interface ProductDataDao {
     };
 
     @Query("Insert into IVF_Product('barcode', 'name', 'category', 'origin', 'vegetarian', 'remark', 'status') values(:barcode, :name, :category, :origin, :vegetarian, :remark, :status)")
-    void insertQ(String barcode, String name, int category, String origin, int vegetarian, String remark, int status);
+    long insertQ(String barcode, String name, int category, String origin, int vegetarian, String remark, int status);
 
     @Update
     void update(IVF_ProductDataEntity ivf_productDataEntity);

@@ -50,34 +50,6 @@ public class IVFMainActivity extends AppCompatActivity {
         for (String fragmentName : fragmentList){
             viewPage2Adapter.addFragment(new IVFCategoryFragment(fragmentName));
         }
-//        //建立各類別Fragment
-//        IVFCategoryFragment hotFragment = new IVFCategoryFragment("topSearch");
-//        viewPage2Adapter.addFragment(hotFragment);
-//
-//        IVFCategoryFragment cookiesFragment = new IVFCategoryFragment("cookies");
-//        viewPage2Adapter.addFragment(cookiesFragment);
-//
-//        IVFCategoryFragment candyFragment = new IVFCategoryFragment("candy");
-//        viewPage2Adapter.addFragment(candyFragment);
-//
-//        IVFCategoryFragment drinksFragment = new IVFCategoryFragment("drinks");
-//        viewPage2Adapter.addFragment(drinksFragment);
-//
-//        IVFCategoryFragment instantNoodlesFragment = new IVFCategoryFragment("instantNoodles");
-//        viewPage2Adapter.addFragment(instantNoodlesFragment);
-//
-//        IVFCategoryFragment ingredientsFragment = new IVFCategoryFragment("Ingredients");
-//        viewPage2Adapter.addFragment(ingredientsFragment);
-//
-//        IVFCategoryFragment cannedFoodFragment = new IVFCategoryFragment("cannedFood");
-//        viewPage2Adapter.addFragment(cannedFoodFragment);
-//
-//        IVFCategoryFragment jamFragment = new IVFCategoryFragment("jam");
-//        viewPage2Adapter.addFragment(jamFragment);
-//
-//        IVFCategoryFragment otherFragment = new IVFCategoryFragment("other");
-//        viewPage2Adapter.addFragment(otherFragment);
-
         //set viewpage2 adapter to viewpage2
         viewPager2.setAdapter(viewPage2Adapter);
 
@@ -140,14 +112,6 @@ public class IVFMainActivity extends AppCompatActivity {
         @Override
         public String parseResult(int resultCode, @Nullable Intent intent) {//return result
             if (resultCode == RESULT_OK && intent != null){
-                String barcode = intent.getStringExtra(IVFCreateProduct.EXTRA_BARCODE);
-                String name = intent.getStringExtra(IVFCreateProduct.EXTRA_NAME);
-                int category = intent.getIntExtra(IVFCreateProduct.EXTRA_CATEGORY,7);
-                String origin = intent.getStringExtra(IVFCreateProduct.EXTRA_ORIGIN);
-                int vegetarian = intent.getIntExtra(IVFCreateProduct.EXTRA_VEGETARIAN, 6);
-                String remark = intent.getStringExtra(IVFCreateProduct.EXTRA_REMARK);
-                Log.e("Result","name: " + name + " category: " + category + " origin: " + origin + " vegetarian: " + vegetarian + " remark: " + remark);
-                mainViewModel.insert(new IVF_ProductDataEntity(barcode, name, category, origin, vegetarian, remark, 0));
                 return "Create Success";
             }
             return null;

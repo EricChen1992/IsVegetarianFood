@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
 import thisis.vegetarian.question.mark.db.entity.IVF_ProductDataEntity;
+import thisis.vegetarian.question.mark.model.InsertCallback;
 import thisis.vegetarian.question.mark.repositories.DataProductRepository;
 
 public class IVFMainViewModel extends AndroidViewModel {
@@ -16,6 +17,11 @@ public class IVFMainViewModel extends AndroidViewModel {
     }
 
     public void insert(IVF_ProductDataEntity ivf_productDataEntity){
-        this.repository.insert(ivf_productDataEntity);
+        this.repository.insert(ivf_productDataEntity, new InsertCallback() {
+            @Override
+            public void insertFinish(Boolean result) {
+
+            }
+        });
     }
 }
