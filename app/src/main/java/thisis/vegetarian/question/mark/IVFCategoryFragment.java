@@ -83,6 +83,8 @@ public class IVFCategoryFragment extends Fragment implements OnItemListener {
         Log.e("Click", "---> " + product.getId());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             itemProductLauncher.launch(product, ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), view, "select_item"));
+        } else {
+            itemProductLauncher.launch(product);
         }
     }
 
@@ -91,9 +93,14 @@ public class IVFCategoryFragment extends Fragment implements OnItemListener {
 
                 @NonNull
                 @Override
-                public Intent createIntent(@NonNull  Context context, Product input) {
+                public Intent createIntent(@NonNull  Context context, Product product) {
                     Intent intent = new Intent(getActivity(), IVFInfoProduct.class);
-                    intent.putExtra("itemProduct", "Test");
+                    intent.putExtra(IVFInfoProduct.EXTRA_BARCODE, product.getBarcode());
+                    intent.putExtra(IVFInfoProduct.EXTRA_NAME, product.getName());
+                    intent.putExtra(IVFInfoProduct.EXTRA_CATEGORY, product.getCategory());
+                    intent.putExtra(IVFInfoProduct.EXTRA_ORIGIN, product.getOrigin());
+                    intent.putExtra(IVFInfoProduct.EXTRA_VEGETARIAN, product.getVegetarian());
+                    intent.putExtra(IVFInfoProduct.EXTRA_REMARK, product.getRemark());
                     return intent;
                 }
 

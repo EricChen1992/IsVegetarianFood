@@ -10,8 +10,8 @@ public class IVFVerifyBarcode {
         int oddSum = 0;
         //奇數總和
         int evenSum = 0;
-        for (int i = checkValue.length - 2 ; i > 0  ; i--){
-            if (i % 2 == 0){
+        for (int i = checkValue.length - 2 ; i >= 0  ; i--){
+            if ((i + 1) % 2 == 0){//這邊+1判斷位數順序
                 evenSum += Integer.parseInt(checkValue[i]);
             } else {
                 oddSum += Integer.parseInt(checkValue[i]);

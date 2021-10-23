@@ -25,13 +25,6 @@ import thisis.vegetarian.question.mark.db.entity.IVF_ProductDataEntity;
 import thisis.vegetarian.question.mark.viewmodel.IVFCreateProductViewModel;
 
 public class IVFCreateProduct extends AppCompatActivity {
-    public static final String EXTRA_BARCODE = "thisis.vegetarian.question.mark.EXTRA_BARCODE";
-    public static final String EXTRA_NAME = "thisis.vegetarian.question.mark.EXTRA_NAME";
-    public static final String EXTRA_CATEGORY = "thisis.vegetarian.question.mark.EXTRA_CATEGORY";
-    public static final String EXTRA_ORIGIN = "thisis.vegetarian.question.mark.EXTRA_ORIGIN";
-    public static final String EXTRA_VEGETARIAN = "thisis.vegetarian.question.mark.EXTRA_VEGETARIAN";
-    public static final String EXTRA_REMARK = "thisis.vegetarian.question.mark.EXTRA_REMARK";
-
     int tempCategory = -1;
     String tempOrigin;
     int tempVegetarian = -1;
@@ -106,7 +99,6 @@ public class IVFCreateProduct extends AppCompatActivity {
         int createCategory = tempCategory;
         String createOrigin = tempOrigin;
         int createVegetarian = tempVegetarian;
-//        Log.e("TEST", "createName: " + createName + " createCategory: " + createCategory + " createOrigin: " + createOrigin + " createVegetarian: " + createVegetarian);
         if ("".equals(createBarcode) ) {
             Toast.makeText(this, "Barcode 發生錯誤", Toast.LENGTH_LONG).show();
             return;
@@ -116,15 +108,6 @@ public class IVFCreateProduct extends AppCompatActivity {
             return;
         }
         createProductViewModel.insert(new IVF_ProductDataEntity(createBarcode, createName, createCategory, createOrigin, createVegetarian, createRemark, 0));
-//        Intent intent = new Intent();
-//        intent.putExtra(EXTRA_BARCODE,createBarcode);
-//        intent.putExtra(EXTRA_NAME, createName);
-//        intent.putExtra(EXTRA_CATEGORY, createCategory);
-//        intent.putExtra(EXTRA_ORIGIN, createOrigin);
-//        intent.putExtra(EXTRA_VEGETARIAN, createVegetarian);
-//        intent.putExtra(EXTRA_REMARK, createRemark);
-//        setResult(RESULT_OK, intent);
-//        finish();
     }
 
     @Override
