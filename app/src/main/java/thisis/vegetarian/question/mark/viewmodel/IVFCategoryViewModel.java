@@ -29,21 +29,21 @@ public class IVFCategoryViewModel extends ViewModel {
         if (this.TAG.equals("hotSearch")){
             return repository.getTopSearchProduct();
         } else if (this.TAG.equals("cookies")){
-            return repository.getCategoryProduct(1);
+            return repository.getCategoryProduct(0);
         } else if (this.TAG.equals("candy")){
-            return repository.getCategoryProduct(2);
+            return repository.getCategoryProduct(1);
         } else if (this.TAG.equals("drinks")){
-            return repository.getCategoryProduct(3);
+            return repository.getCategoryProduct(2);
         } else if (this.TAG.equals("instantNoodles")){
-            return repository.getCategoryProduct(4);
+            return repository.getCategoryProduct(3);
         } else if (this.TAG.equals("Ingredients")){
-            return repository.getCategoryProduct(5);
+            return repository.getCategoryProduct(4);
         } else if (this.TAG.equals("cannedFood")){
-            return repository.getCategoryProduct(6);
+            return repository.getCategoryProduct(5);
         } else if (this.TAG.equals("jam")){
-            return repository.getCategoryProduct(7);
+            return repository.getCategoryProduct(6);
         } else if (this.TAG.equals("other")){
-            return repository.getCategoryProduct(8);
+            return repository.getCategoryProduct(7);
         }
         return repository.getTopSearchProduct();
     }

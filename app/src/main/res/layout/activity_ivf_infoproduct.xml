@@ -30,13 +30,15 @@
                     <TextView
                         android:id="@+id/ivf_info_product_name"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="每朝健康綠茶"
+                        android:layout_height="match_parent"
                         android:textAppearance="?attr/textAppearanceHeadline4"
                         android:textColor="@color/black"
                         android:textStyle="bold"
                         android:layout_margin="10dp"
-                        android:layout_gravity="center"/>
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:lines="1"
+                        app:autoSizeTextType="uniform"/>
 
                 </com.google.android.material.card.MaterialCardView>
                 <LinearLayout
@@ -63,14 +65,13 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="類別："
+                                    android:text="@string/ivf_info_category"
                                     android:textAppearance="?attr/textAppearanceBody2"
                                     android:textColor="?android:attr/textColorSecondary" />
                                 <TextView
                                     android:id="@+id/ivf_info_product_category"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="飲料"
                                     android:textAppearance="?attr/textAppearanceBody2"
                                     android:textColor="?android:attr/textColorSecondary" />
                             </LinearLayout>
@@ -84,14 +85,13 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="產地："
+                                    android:text="@string/ivf_info_origin"
                                     android:textAppearance="?attr/textAppearanceBody2"
                                     android:textColor="?android:attr/textColorSecondary" />
                                 <TextView
                                     android:id="@+id/ivf_info_product_origin"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="美國"
                                     android:textAppearance="?attr/textAppearanceBody2"
                                     android:textColor="?android:attr/textColorSecondary" />
                             </LinearLayout>
@@ -104,13 +104,12 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="素食類型："
+                                    android:text="@string/ivf_info_vegetarian"
                                     android:textAppearance="?attr/textAppearanceBody1" />
                                 <TextView
                                     android:id="@+id/ivf_info_product_vegetarian"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="五辛素"
                                     android:textStyle="italic|bold"
                                     android:textColor="@color/yellow_152"
                                     android:textAppearance="?attr/textAppearanceBody1" />
@@ -134,7 +133,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:layout_marginStart="5dp"
-                        android:text="註解："
+                        android:text="@string/ivf_info_remark"
                         android:textAppearance="?attr/textAppearanceBody2"
                         android:textColor="?android:attr/textColorSecondary" />
 
@@ -145,7 +144,7 @@
                         android:layout_marginTop="3dp"
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp"
-                        android:text="喝了大概兩三個月的每朝+作息調整所以瘦了滿多，可是他都完完全全沒有在運動，我覺得一定是作息調整影響比較大，但還是很好奇每朝這類飲品有沒有有效果的輔助呢？"
+                        android:text="@string/ivf_info_remark_text"
                         android:textAppearance="?attr/textAppearanceSearchResultSubtitle"/>
                 </LinearLayout>
             </LinearLayout>

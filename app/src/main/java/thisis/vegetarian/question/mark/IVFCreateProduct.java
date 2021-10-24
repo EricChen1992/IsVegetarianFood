@@ -31,6 +31,7 @@ public class IVFCreateProduct extends AppCompatActivity {
     String tempBarcode;
     private ActivityIvfCreateproductBinding activityIvfCreateproductBinding;
     private IVFCreateProductViewModel createProductViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +49,16 @@ public class IVFCreateProduct extends AppCompatActivity {
         }
 
         //建立
+        /**
+         * 0 餅乾
+         * 1 糖果
+         * 2 飲料
+         * 3 泡麵
+         * 4 食材
+         * 5 罐頭
+         * 6 果醬
+         * 7 其他
+         * */
         ArrayAdapter<String> categoryAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, Arrays.asList(getResources().getStringArray(R.array.create_category)));
         activityIvfCreateproductBinding.ivfCreateCategory.setAdapter(categoryAdapter);
         activityIvfCreateproductBinding.ivfCreateCategory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -69,6 +80,15 @@ public class IVFCreateProduct extends AppCompatActivity {
             }
         });
 
+        /**
+         * 0 全素
+         * 1 奶素
+         * 2 蛋素
+         * 3 蛋奶素
+         * 4 五辛素
+         * 5 葷
+         * 6 未知
+         */
         ArrayAdapter<String> vegetarianAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, Arrays.asList(getResources().getStringArray(R.array.vegetarian)));
         activityIvfCreateproductBinding.ivfCreateVegetarian.setAdapter(vegetarianAdapter);
         activityIvfCreateproductBinding.ivfCreateVegetarian.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -92,7 +112,7 @@ public class IVFCreateProduct extends AppCompatActivity {
         });
     }
 
-    private void saveData(){
+    private void saveData() {
         String createBarcode = tempBarcode;
         String createName = Objects.requireNonNull(activityIvfCreateproductBinding.ivfCreateName.getText(), "Create name is Null").toString();
         String createRemark = Objects.requireNonNull(activityIvfCreateproductBinding.ivfCreateRemark.getText(), "Create remark is Null").toString();

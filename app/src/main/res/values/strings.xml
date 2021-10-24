@@ -5,4 +5,10 @@
     <!--    ScannerActivity-->
     <string name="turn_on_flashlight">閃光燈 關 </string>
     <string name="turn_off_flashlight">閃光燈 開</string>
+
+    <string name="ivf_info_category">類別：</string>
+    <string name="ivf_info_origin">產地：</string>
+    <string name="ivf_info_vegetarian">素食類型：</string>
+    <string name="ivf_info_remark">註解：</string>
+    <string name="ivf_info_remark_text">沒有特別註解.</string>
 </resources>
