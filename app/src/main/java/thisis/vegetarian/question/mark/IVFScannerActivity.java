@@ -2,6 +2,7 @@ package thisis.vegetarian.question.mark;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.pm.PackageManager;
 import android.os.Build;

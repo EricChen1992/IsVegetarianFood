@@ -7,6 +7,7 @@ import androidx.databinding.DataBindingUtil;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.transition.Transition;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.Window;
@@ -61,7 +62,7 @@ public class IVFInfoProduct extends AppCompatActivity {
             activityIvfInfoproductBinding.ivfInfoProductRemark.setText(infoRemark);
         } else {
             //Do Black Activity
-            Toast.makeText(this, "發生錯誤！商品資料有誤.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.product_info_error_msg, Toast.LENGTH_SHORT).show();
             finish();
         }
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

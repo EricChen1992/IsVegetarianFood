@@ -69,6 +69,9 @@ public class IVFCreateProduct extends AppCompatActivity {
             }
         });
 
+        /**
+         * 國家代碼
+         * */
         ArrayAdapter<String> originAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, Arrays.asList(getResources().getStringArray(R.array.origin_zh)));
         String[] origin_us = getResources().getStringArray(R.array.origin_us);//建立轉換英文對照
         activityIvfCreateproductBinding.ivfCreateOrigin.setAdapter(originAdapter);

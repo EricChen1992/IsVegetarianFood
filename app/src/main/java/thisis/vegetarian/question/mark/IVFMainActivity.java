@@ -6,17 +6,24 @@ import androidx.activity.result.contract.ActivityResultContract;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.math.MathUtils;
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -25,6 +32,7 @@ import com.google.zxing.integration.android.IntentResult;
 import org.jetbrains.annotations.NotNull;
 
 import thisis.vegetarian.question.mark.databinding.ActivityIvfMainBinding;
+import thisis.vegetarian.question.mark.databinding.NavigationIvfHeaderBinding;
 import thisis.vegetarian.question.mark.viewmodel.IVFMainViewModel;
 
 public class IVFMainActivity extends AppCompatActivity {
@@ -32,6 +40,7 @@ public class IVFMainActivity extends AppCompatActivity {
     private TabLayoutMediator tabLayoutMediator;
     private ActivityIvfMainBinding activityIvfMainBinding;
     private IVFMainViewModel mainViewModel;
+    private BottomSheetBehavior<NavigationView> bottomSheetBehavior;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +83,111 @@ public class IVFMainActivity extends AppCompatActivity {
             }
         });
 
+        //Set NavigationView
+        bottomSheetBehavior = BottomSheetBehavior.from(activityIvfMainBinding.mainBottomNavigationView);
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+        activityIvfMainBinding.mainScrim.setVisibility(View.GONE);
+        activityIvfMainBinding.mainScrim.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                view.setVisibility(View.GONE);
+                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+            }
+        });
+
+        bottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull @NotNull View bottomSheet, int newState) {
+
+            }
+
+            @Override
+            public void onSlide(@NonNull @NotNull View bottomSheet, float slideOffset) {
+                int black = Color.BLACK;
+                float baseAlpha = ResourcesCompat.getFloat(getResources(), R.dimen.material_emphasis_medium);
+                float offset = (slideOffset - (-1f)) / (1f - (-1f)) * (1f - 0f) + 0f;
+                int alpha = (int) MathUtils.lerp(0f, 255f, offset * baseAlpha);
+                int color = Color.argb(alpha, Color.red(black), Color.green(black), Color.blue(black));
+                activityIvfMainBinding.mainScrim.setBackgroundColor(color);
+            }
+        });
+
+        activityIvfMainBinding.mainBottomNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.menu_topSearch:
+                        viewPager2.setCurrentItem(0, true);
+                        break;
+                    case R.id.menu_cookies:
+                        viewPager2.setCurrentItem(1, true);
+                        break;
+                    case R.id.menu_candy:
+                        viewPager2.setCurrentItem(2, true);
+                        break;
+                    case R.id.menu_drinks:
+                        viewPager2.setCurrentItem(3, true);
+                        break;
+                    case R.id.menu_instantNoodles:
+                        viewPager2.setCurrentItem(4, true);
+                        break;
+                    case R.id.menu_Ingredients:
+                        viewPager2.setCurrentItem(5, true);
+                        break;
+                    case R.id.menu_cannedFood:
+                        viewPager2.setCurrentItem(6, true);
+                        break;
+                    case R.id.menu_jam:
+                        viewPager2.setCurrentItem(7, true);
+                        break;
+                    case R.id.menu_other:
+                        viewPager2.setCurrentItem(8, true);
+                        break;
+                }
+                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+                activityIvfMainBinding.mainScrim.setVisibility(View.GONE);
+                return true;
+            }
+        });
+        //Set Navigation Header Close Button
+        NavigationIvfHeaderBinding navigationIvfHeaderBinding = NavigationIvfHeaderBinding.bind(activityIvfMainBinding.mainBottomNavigationView.getHeaderView(0));
+        navigationIvfHeaderBinding.ivfNavigationHeaderClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.e("Main", "Header close icon click.");
+                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+                activityIvfMainBinding.mainScrim.setVisibility(View.GONE);
+            }
+        });
+
+        //Set BottomBar Menu Click
+        activityIvfMainBinding.mainBottomBar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.e("Main", "Navigation icon click.");
+                if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_HIDDEN){
+                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                    activityIvfMainBinding.mainScrim.setVisibility(View.VISIBLE);
+                } else {
+                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+                    activityIvfMainBinding.mainScrim.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        activityIvfMainBinding.mainBottomBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.main_bottom_bar_more:
+                        Log.d("Main","bottom bar more");
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        });
+
     }
 
     @Override
@@ -96,10 +210,10 @@ public class IVFMainActivity extends AppCompatActivity {
                         Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
                         createProductLauncher.launch(result.getContents());//跳轉至建立頁面
                     } else {
-                        Toast.makeText(this, "BarCode錯誤編碼，請重新掃描", Toast.LENGTH_LONG).show();
+                        Toast.makeText(this, R.string.ivf_activity_scanner_decode_error_msg, Toast.LENGTH_LONG).show();
                     }
                 } else {
-                    Toast.makeText(this, "BarCode格式錯誤", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, R.string.ivf_activity_scanner_format_error_msg, Toast.LENGTH_LONG).show();
                 }
             }
         } else {

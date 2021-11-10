@@ -31,15 +31,18 @@
         <activity
             android:name=".IVFScannerActivity"
             android:parentActivityName=".IVFMainActivity"
+            android:theme="@style/ThemeIsVegetarianFoodActionBar"
             android:screenOrientation="portrait" />
 
         <activity
             android:name=".IVFCreateProduct"
             android:parentActivityName=".IVFMainActivity"
+            android:theme="@style/ThemeIsVegetarianFoodActionBar"
             android:screenOrientation="portrait" />
 
         <activity android:name=".IVFInfoProduct"
             android:parentActivityName=".IVFMainActivity"
+            android:theme="@style/ThemeIsVegetarianFoodActionBar"
             android:screenOrientation="portrait"/>
 
     </application>

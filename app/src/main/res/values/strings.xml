@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">IsVegetarianFood</string>
     <string name="app_name_zh">素不素</string>
+    <!-- IVFInfoProductActivity   -->
+    <string name="product_info_name">ProductInfo</string>
+    <string name="product_info_name_zh">商品資訊</string>
+    <string name="product_info_error_msg">發生錯誤！商品資料有誤.</string>
+    <string name="ivf_activity_scanner_decode_error_msg">BarCode錯誤編碼，請重新掃描</string>
+    <string name="ivf_activity_scanner_format_error_msg">BarCode格式錯誤</string>
 
     <!--    ScannerActivity-->
     <string name="turn_on_flashlight">閃光燈 關 </string>
@@ -11,4 +17,14 @@
     <string name="ivf_info_vegetarian">素食類型：</string>
     <string name="ivf_info_remark">註解：</string>
     <string name="ivf_info_remark_text">沒有特別註解.</string>
+
+    <string name="ivf_category_topSearch">熱門搜尋</string>
+    <string name="ivf_category_cookies">餅乾</string>
+    <string name="ivf_category_candy">糖果</string>
+    <string name="ivf_category_drinks">飲料</string>
+    <string name="ivf_category_instantNoodles">泡麵</string>
+    <string name="ivf_category_Ingredients">食材</string>
+    <string name="ivf_category_cannedFood">罐頭</string>
+    <string name="ivf_category_jam">果醬</string>
+    <string name="ivf_category_other">其他</string>
 </resources>

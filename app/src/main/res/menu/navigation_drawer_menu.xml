@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+        android:id="@+id/group1" >
+        <item
+            android:id="@+id/itemOne"
+            android:title="類別">
+            <menu>
+                <item
+                    android:id="@+id/menu_topSearch"
+                    android:icon="@drawable/ivf_menu_search"
+                    android:title="@string/ivf_category_topSearch" />
+                <item
+                    android:id="@+id/menu_cookies"
+                    android:icon="@drawable/ivf_menu_cookies"
+                    android:title="@string/ivf_category_cookies"/>
+                <item
+                    android:id="@+id/menu_candy"
+                    android:icon="@drawable/ivf_menu_candy"
+                    android:title="@string/ivf_category_candy"/>
+                <item
+                    android:id="@+id/menu_drinks"
+                    android:icon="@drawable/ivf_menu_drinks"
+                    android:title="@string/ivf_category_drinks" />
+                <item
+                    android:id="@+id/menu_instantNoodles"
+                    android:icon="@drawable/ivf_menu_instantnoodles"
+                    android:title="@string/ivf_category_instantNoodles" />
+                <item
+                    android:id="@+id/menu_Ingredients"
+                    android:icon="@drawable/ivf_menu_ingredients"
+                    android:title="@string/ivf_category_Ingredients"/>
+                <item
+                    android:id="@+id/menu_cannedFood"
+                    android:icon="@drawable/ivf_menu_cannedfood"
+                    android:title="@string/ivf_category_cannedFood" />
+                <item
+                    android:id="@+id/menu_jam"
+                    android:icon="@drawable/ivf_menu_jam"
+                    android:title="@string/ivf_category_jam" />
+                <item
+                    android:id="@+id/menu_other"
+                    android:icon="@drawable/ivf_menu_other"
+                    android:title="@string/ivf_category_other" />
+            </menu>
+        </item>
+    </group>
+</menu>

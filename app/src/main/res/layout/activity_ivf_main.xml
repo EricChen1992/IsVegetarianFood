@@ -16,50 +16,80 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <com.google.android.material.appbar.AppBarLayout
+            <androidx.coordinatorlayout.widget.CoordinatorLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
+                android:layout_height="match_parent">
 
-                <com.google.android.material.tabs.TabLayout
-                    android:id="@+id/main_tablayout"
+                <com.google.android.material.appbar.AppBarLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    app:tabMode="auto" />
+                    android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
 
-            </com.google.android.material.appbar.AppBarLayout>
+                    <com.google.android.material.appbar.MaterialToolbar
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/actionBarSize"
+                        android:gravity="center"
+                        app:layout_scrollFlags="scroll|enterAlways"
+                        app:title="@string/app_name"
+                        app:titleCentered="true" />
 
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/main_viewPage2"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
+                    <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/main_tablayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        app:tabMode="auto" />
 
+                </com.google.android.material.appbar.AppBarLayout>
 
-            <com.google.android.material.bottomappbar.BottomAppBar
-                android:id="@+id/bottomAppBar"
-                style="@style/Widget.MaterialComponents.BottomAppBar.PrimarySurface"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                app:hideOnScroll="true"
-                app:menu="@menu/bottom_app_bar"
-                app:navigationIcon="@drawable/ivf_menu" />
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/main_viewPage2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="?attr/actionBarSize"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+                <FrameLayout
+                    android:id="@+id/main_scrim"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:elevation="10dp"/>
+
+                <com.google.android.material.navigation.NavigationView
+                    android:id="@+id/main_bottom_navigation_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fitsSystemWindows="true"
+                    android:background="@drawable/ivf_navigation_shap"
+                    android:paddingBottom="?attr/actionBarSize"
+                    app:layout_behavior="@string/bottom_sheet_behavior"
+                    app:behavior_hideable="true"
+                    app:headerLayout="@layout/navigation_ivf_header"
+                    app:menu="@menu/navigation_drawer_menu"/>
+
+            </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/main_fa_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/yellow_206"
-                app:layout_anchor="@id/bottomAppBar"
+                app:layout_anchor="@id/main_bottom_bar"
                 app:srcCompat="@drawable/ivf_scanner"
                 tools:ignore="VectorDrawableCompat"/>
 
-        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+            <com.google.android.material.bottomappbar.BottomAppBar
+                android:id="@+id/main_bottom_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                style="@style/Widget.MaterialComponents.BottomAppBar.PrimarySurface"
+                app:menu="@menu/bottom_app_bar"
+                app:navigationIcon="@drawable/ivf_menu" />
 
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

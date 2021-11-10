@@ -20,37 +20,40 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
+
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
                     app:cardCornerRadius="5dp"
-                    app:cardElevation="10dp"
-                    android:layout_margin="8dp">
+                    app:cardElevation="10dp">
 
                     <TextView
                         android:id="@+id/ivf_info_product_name"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_margin="10dp"
+                        android:gravity="center"
+                        android:lines="1"
                         android:textAppearance="?attr/textAppearanceHeadline4"
                         android:textColor="@color/black"
                         android:textStyle="bold"
-                        android:layout_margin="10dp"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:lines="1"
-                        app:autoSizeTextType="uniform"/>
+                        app:autoSizeTextType="uniform" />
 
                 </com.google.android.material.card.MaterialCardView>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:padding="16dp">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_margin="5dp">
+                        android:layout_margin="5dp"
+                        android:orientation="horizontal">
 
                         <LinearLayout
                             android:layout_width="0dp"
@@ -62,12 +65,14 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal">
+
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="@string/ivf_info_category"
                                     android:textAppearance="?attr/textAppearanceBody2"
                                     android:textColor="?android:attr/textColorSecondary" />
+
                                 <TextView
                                     android:id="@+id/ivf_info_product_category"
                                     android:layout_width="match_parent"
@@ -82,12 +87,14 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="16dp"
                                 android:orientation="horizontal">
+
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="@string/ivf_info_origin"
                                     android:textAppearance="?attr/textAppearanceBody2"
                                     android:textColor="?android:attr/textColorSecondary" />
+
                                 <TextView
                                     android:id="@+id/ivf_info_product_origin"
                                     android:layout_width="match_parent"
@@ -101,38 +108,42 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="16dp"
                                 android:orientation="horizontal">
+
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="@string/ivf_info_vegetarian"
                                     android:textAppearance="?attr/textAppearanceBody1" />
+
                                 <TextView
                                     android:id="@+id/ivf_info_product_vegetarian"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:textStyle="italic|bold"
+                                    android:textAppearance="?attr/textAppearanceBody1"
                                     android:textColor="@color/yellow_152"
-                                    android:textAppearance="?attr/textAppearanceBody1" />
+                                    android:textStyle="italic|bold" />
                             </LinearLayout>
 
                         </LinearLayout>
+
                         <ImageView
                             android:id="@+id/ivf_info_product_vegetarian_icon"
                             android:layout_width="0dp"
                             android:layout_height="100dp"
+                            android:layout_gravity="center"
+                            android:layout_margin="1dp"
                             android:layout_weight="1"
                             android:maxWidth="100dp"
                             android:maxHeight="100dp"
-                            android:src="@drawable/icon_unknow_vegetarian"
-                            android:layout_gravity="center"
                             android:scaleType="fitCenter"
-                            android:layout_margin="1dp"/>
+                            android:src="@drawable/icon_unknow_vegetarian" />
                     </LinearLayout>
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
                         android:layout_marginStart="5dp"
+                        android:layout_marginTop="10dp"
                         android:text="@string/ivf_info_remark"
                         android:textAppearance="?attr/textAppearanceBody2"
                         android:textColor="?android:attr/textColorSecondary" />
@@ -141,11 +152,11 @@
                         android:id="@+id/ivf_info_product_remark"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
                         android:layout_marginStart="10dp"
+                        android:layout_marginTop="3dp"
                         android:layout_marginEnd="10dp"
                         android:text="@string/ivf_info_remark_text"
-                        android:textAppearance="?attr/textAppearanceSearchResultSubtitle"/>
+                        android:textAppearance="?attr/textAppearanceSearchResultSubtitle" />
                 </LinearLayout>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
