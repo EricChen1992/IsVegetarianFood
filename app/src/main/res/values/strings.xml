@@ -27,4 +27,7 @@
     <string name="ivf_category_cannedFood">罐頭</string>
     <string name="ivf_category_jam">果醬</string>
     <string name="ivf_category_other">其他</string>
+
+    <string name="ivf_info_bar_tittle">ProductInfo</string>
+    <string name="ivf_info_bar_tittle_zh">商品資訊</string>
 </resources>

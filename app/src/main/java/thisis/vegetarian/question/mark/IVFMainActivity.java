@@ -114,7 +114,7 @@ public class IVFMainActivity extends AppCompatActivity {
 
         activityIvfMainBinding.mainBottomNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.menu_topSearch:
                         viewPager2.setCurrentItem(0, true);
@@ -179,8 +179,8 @@ public class IVFMainActivity extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()){
-                    case R.id.main_bottom_bar_more:
-                        Log.d("Main","bottom bar more");
+                    case R.id.main_bottom_bar_feedback:
+                        Log.d("Main","bottom bar feedback");
                         return true;
                     default:
                         return false;
@@ -206,7 +206,7 @@ public class IVFMainActivity extends AppCompatActivity {
                 //判斷格式是否正確
                 if (IntentIntegrator.PRODUCT_CODE_TYPES.contains(result.getFormatName())){
                     //判斷商品是否存在
-                    if (new IVFVerifyBarcode().verifyBarcode(result.getContents())){
+                    if (IVFVerifyBarcode.verifyBarcode(result.getContents())){
                         Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
                         createProductLauncher.launch(result.getContents());//跳轉至建立頁面
                     } else {

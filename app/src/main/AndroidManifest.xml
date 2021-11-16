@@ -42,7 +42,6 @@
 
         <activity android:name=".IVFInfoProduct"
             android:parentActivityName=".IVFMainActivity"
-            android:theme="@style/ThemeIsVegetarianFoodActionBar"
             android:screenOrientation="portrait"/>
 
     </application>

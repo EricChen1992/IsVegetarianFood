@@ -10,7 +10,11 @@ import android.os.Bundle;
 import android.transition.Transition;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import com.google.android.material.color.MaterialColors;
@@ -54,6 +58,7 @@ public class IVFInfoProduct extends AppCompatActivity {
         String infoRemark = intent.getStringExtra(EXTRA_REMARK);
         if (null == infoRemark) infoRemark = "";
         if (checkValue(infoBarcode, infoName, infoCategory, infoOrigin, infoVegetarian)) {
+            activityIvfInfoproductBinding.ivfInfoProductBarcode.setText(String.format("%013d", Long.parseLong(infoBarcode)));
             activityIvfInfoproductBinding.ivfInfoProductName.setText(infoName);
             activityIvfInfoproductBinding.ivfInfoProductCategory.setText(getResources().getStringArray(R.array.create_category)[infoCategory]);
             activityIvfInfoproductBinding.ivfInfoProductOrigin.setText(new Locale("", infoOrigin).getDisplayCountry());
@@ -65,7 +70,22 @@ public class IVFInfoProduct extends AppCompatActivity {
             Toast.makeText(this, R.string.product_info_error_msg, Toast.LENGTH_SHORT).show();
             finish();
         }
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        Animation clickDownAnimation = AnimationUtils.loadAnimation(this, R.anim.ivf_info_break_down);
+        activityIvfInfoproductBinding.ivfInfoBreak.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN){
+                    activityIvfInfoproductBinding.ivfInfoBreak.setBackgroundResource(R.drawable.ivf_info_break_black);
+                    activityIvfInfoproductBinding.ivfInfoBreak.startAnimation(clickDownAnimation);
+                } else if (motionEvent.getAction() == MotionEvent.ACTION_UP){
+                    IVFInfoProduct.super.onBackPressed();
+                }
+                return true;
+            }
+        });
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setTitle(R.string.ivf_info_bar_tittle);
     }
 
     private boolean checkValue(String info_barcode, String info_name, int info_category, String info_origin, int info_vegetarian){

@@ -2,7 +2,7 @@ package thisis.vegetarian.question.mark;
 
 
 public class IVFVerifyBarcode {
-    public boolean verifyBarcode(String barcode){
+    public static boolean verifyBarcode(String barcode){
         String[] checkValue = barcode.split("");
         //取的檢核碼(最後一位元)
         int verifyBarcode = Integer.parseInt(checkValue[checkValue.length - 1]);
@@ -30,7 +30,7 @@ public class IVFVerifyBarcode {
         }
     }
 
-    private int getLastDigit(int in){
+    private static int getLastDigit(int in){
         return Math.abs(in) % 10;
     }
 }
