@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <EditText
+                android:id="@+id/ivf_login_account"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ivf_login_edittext_shap"
+                android:hint="@string/ivf_fragment_signup_account_zh"
+                android:paddingLeft="20dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:inputType="textEmailAddress"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintHorizontal_bias=".5"
+                app:layout_constraintVertical_bias=".07"
+                app:layout_constraintWidth_percent=".8" />
+
+            <EditText
+                android:id="@+id/ivf_login_password"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ivf_login_edittext_shap"
+                android:hint="@string/ivf_fragment_signup_password_zh"
+                android:paddingLeft="20dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:layout_marginTop="20dp"
+                android:inputType="textPassword"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivf_login_account"
+                app:layout_constraintHorizontal_bias=".5"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintWidth_percent=".8" />
+
+            <EditText
+                android:id="@+id/ivf_login_confirm_password"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ivf_login_edittext_shap"
+                android:hint="@string/ivf_fragment_signup_confirm_password_zh"
+                android:paddingLeft="20dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:layout_marginTop="20dp"
+                android:inputType="textPassword"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivf_login_password"
+                app:layout_constraintHorizontal_bias=".5"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintWidth_percent=".8" />
+            <LinearLayout
+                android:id="@+id/ivf_login_local"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivf_login_confirm_password"
+                app:layout_constraintHorizontal_bias=".5"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintWidth_percent=".8"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+                <Spinner
+                    android:id="@+id/ivf_login_local_county"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/ivf_login_edittext_shap"
+                    android:entries="@array/taiwan_county_name_zh"
+                    android:prompt="@string/taiwan_county_tittle_zh"
+                    android:spinnerMode="dialog"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:layout_marginEnd="3dp"
+                    android:gravity="center"/>
+                <Spinner
+                    android:id="@+id/ivf_login_local_town"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/ivf_login_edittext_shap"
+                    android:entries="@array/taipei_city_town_zh"
+                    android:prompt="@string/taiwan_town_tittle_zh"
+                    android:spinnerMode="dialog"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:layout_marginStart="2dp"
+                    android:gravity="center"
+                    android:clickable="false"/>
+            </LinearLayout>
+
+
+            <EditText
+                android:id="@+id/ivf_login_phone"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ivf_login_edittext_shap"
+                android:hint="@string/ivf_fragment_signup_phone_zh"
+                android:paddingLeft="20dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:layout_marginTop="20dp"
+                android:inputType="phone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivf_login_local"
+                app:layout_constraintHorizontal_bias=".5"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintWidth_percent=".8" />
+
+            <LinearLayout
+                android:id="@+id/ivf_login_verify"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivf_login_phone"
+                app:layout_constraintHorizontal_bias=".5"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintWidth_percent=".8">
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:background="@drawable/ivf_login_signup_verify_edit_shap"
+                    android:hint="@string/ivf_fragment_signup_verify_code_zh"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:inputType="text"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:textColor="@color/white"
+                        android:text="@string/ivf_fragment_signup_verify_code_btn_zh"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:background="@drawable/ivf_login_signup_verify_tv_shap"
+                        android:padding="1dp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                        android:background="@drawable/ivf_login_signup_verify_tv_shap"
+                        android:gravity="center"
+                        android:visibility="gone"
+                        android:text="0 S"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/ivf_login_buttom_shap"
+                android:text="@string/ivf_fragment_signup_confirm_zh"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginTop="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivf_login_verify"
+                app:layout_constraintWidth_percent=".8"
+                app:layout_constraintHorizontal_bias=".5"
+                app:layout_constraintVertical_bias="0"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+</layout>

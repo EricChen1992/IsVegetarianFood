@@ -30,4 +30,33 @@
 
     <string name="ivf_info_bar_tittle">ProductInfo</string>
     <string name="ivf_info_bar_tittle_zh">商品資訊</string>
+
+    <!--    IVFLoginActivity-->
+    <string name="ivf_login_msg">Welcome IsVegetarianFood</string>
+    <string name="ivf_login_msg_zh">歡迎加入 素不素行列</string>
+    <!--    IVFLoginFragment-->
+    <string name="ivf_fragment_login_account">Emil</string>
+    <string name="ivf_fragment_login_account_zh">信箱</string>
+    <string name="ivf_fragment_login_password">Password</string>
+    <string name="ivf_fragment_login_password_zh">密碼</string>
+    <string name="ivf_fragment_login_forget">forget the password?</string>
+    <string name="ivf_fragment_login_forget_zh">忘記密碼?</string>
+    <string name="ivf_fragment_login_login">LOGIN</string>
+    <string name="ivf_fragment_login_login_zh">登入</string>
+    <!--    IVFSignupFragment-->
+    <string name="ivf_fragment_signup_account">Emil</string>
+    <string name="ivf_fragment_signup_account_zh">信箱</string>
+    <string name="ivf_fragment_signup_password">Password</string>
+    <string name="ivf_fragment_signup_password_zh">密碼</string>
+    <string name="ivf_fragment_signup_confirm_password">Confirm Password</string>
+    <string name="ivf_fragment_signup_confirm_password_zh">再次輸入密碼</string>
+    <string name="ivf_fragment_signup_phone">Phone Number</string>
+    <string name="ivf_fragment_signup_phone_zh">電話</string>
+    <string name="ivf_fragment_signup_verify_code">Verify Code</string>
+    <string name="ivf_fragment_signup_verify_code_zh">驗證碼</string>
+    <string name="ivf_fragment_signup_verify_code_btn">Get</string>
+    <string name="ivf_fragment_signup_verify_code_btn_zh">取得驗證碼</string>
+    <string name="ivf_fragment_signup_confirm">CONFIRM</string>
+    <string name="ivf_fragment_signup_confirm_zh">確定</string>
+
 </resources>

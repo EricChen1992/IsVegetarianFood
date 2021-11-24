@@ -27,23 +27,23 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".IVFScannerActivity"
             android:parentActivityName=".IVFMainActivity"
-            android:theme="@style/ThemeIsVegetarianFoodActionBar"
-            android:screenOrientation="portrait" />
-
+            android:screenOrientation="portrait"
+            android:theme="@style/ThemeIsVegetarianFoodActionBar" />
         <activity
             android:name=".IVFCreateProduct"
             android:parentActivityName=".IVFMainActivity"
-            android:theme="@style/ThemeIsVegetarianFoodActionBar"
-            android:screenOrientation="portrait" />
-
-        <activity android:name=".IVFInfoProduct"
+            android:screenOrientation="portrait"
+            android:theme="@style/ThemeIsVegetarianFoodActionBar" />
+        <activity
+            android:name=".IVFInfoProduct"
             android:parentActivityName=".IVFMainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".IVFLoginActivity"
             android:screenOrientation="portrait"/>
-
     </application>
 
 </manifest>
