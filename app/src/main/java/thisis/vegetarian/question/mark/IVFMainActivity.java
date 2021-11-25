@@ -53,6 +53,7 @@ public class IVFMainActivity extends AppCompatActivity {
 
         //建立ViewPage1Adapter
         IVFViewPage2Adapter viewPage2Adapter = new IVFViewPage2Adapter(getSupportFragmentManager(), getLifecycle());
+
         //建立各類別Fragment
         String[] fragmentList = {"topSearch", "cookies", "candy", "drinks", "instantNoodles", "Ingredients", "cannedFood", "jam", "other"};
         for (String fragmentName : fragmentList){

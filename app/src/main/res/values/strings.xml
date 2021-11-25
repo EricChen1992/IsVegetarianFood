@@ -34,6 +34,10 @@
     <!--    IVFLoginActivity-->
     <string name="ivf_login_msg">Welcome IsVegetarianFood</string>
     <string name="ivf_login_msg_zh">歡迎加入 素不素行列</string>
+    <string name="ivf_login_tab_login">Login</string>
+    <string name="ivf_login_tab_login_zh">登入</string>
+    <string name="ivf_login_tab_signup">Signup</string>
+    <string name="ivf_login_tab_signup_zh">註冊</string>
     <!--    IVFLoginFragment-->
     <string name="ivf_fragment_login_account">Emil</string>
     <string name="ivf_fragment_login_account_zh">信箱</string>

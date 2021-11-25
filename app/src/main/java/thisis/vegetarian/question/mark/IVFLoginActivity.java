@@ -49,10 +49,10 @@ public class IVFLoginActivity extends AppCompatActivity {
             public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
                 switch (position){
                     case 0:
-                        tab.setText("Login");
+                        tab.setText(R.string.ivf_login_tab_login_zh);
                         break;
                     case 1:
-                        tab.setText("Signup");
+                        tab.setText(R.string.ivf_login_tab_signup_zh);
                         break;
                 }
             }

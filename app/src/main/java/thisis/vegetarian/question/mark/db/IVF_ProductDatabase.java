@@ -45,6 +45,7 @@ public abstract class IVF_ProductDatabase extends RoomDatabase {
                     @Override
                     public void run() {
                         productDataDao = instance.productDataDao();
+                        productDataDao.insertQ("000000001", "Product0", 0, "US", 4, "Test test", 1);
                         productDataDao.insertQ("123456789", "Product1", 1, "TW", 0, "Test Remark", 0);
                         productDataDao.insertQ("987654321", "Product2", 1, "TW", 1, "Test Remark", 0);
                         productDataDao.insertQ("456789132", "Product3", 2, "TW", 2, "Test Remark", 0);
