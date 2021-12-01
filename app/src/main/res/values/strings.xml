@@ -63,4 +63,7 @@
     <string name="ivf_fragment_signup_confirm">CONFIRM</string>
     <string name="ivf_fragment_signup_confirm_zh">確定</string>
 
+    <!--    IVFLoginActivity-->
+    <string name="ivf_login_edit_account_error">信箱格式錯誤</string>
+    <string name="ivf_login_edit_password_error">密碼格式錯誤</string>
 </resources>
