@@ -1,14 +1,21 @@
 package thisis.vegetarian.question.mark;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,6 +28,7 @@ import org.jetbrains.annotations.NotNull;
 
 import thisis.vegetarian.question.mark.databinding.FragmentIvfLoginBinding;
 import thisis.vegetarian.question.mark.model.LoginEditStatus;
+import thisis.vegetarian.question.mark.model.LoginUser;
 import thisis.vegetarian.question.mark.viewmodel.IVFLoginViewModel;
 
 
@@ -30,6 +38,7 @@ public class IVFLoginFragment extends Fragment {
     EditText etAccount, etPassword;
     TextView tvForget;
     Button btLogin;
+    ProgressBar progressBar;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         fragmentIvfLoginBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_ivf_login, container, false);
@@ -39,6 +48,7 @@ public class IVFLoginFragment extends Fragment {
         etPassword = fragmentIvfLoginBinding.ivfLoginPassword;
         tvForget = fragmentIvfLoginBinding.ivfLoginForget;
         btLogin = fragmentIvfLoginBinding.ivfLoginLogin;
+        progressBar = fragmentIvfLoginBinding.ivfLoginPrgBar;
 
         //set animation
         etAccount.setTranslationX(800);
@@ -98,5 +108,42 @@ public class IVFLoginFragment extends Fragment {
         //set listen function to edit account and password
         etAccount.addTextChangedListener(textChangedWatcher);
         etPassword.addTextChangedListener(textChangedWatcher);
+        etPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                if (actionId == EditorInfo.IME_ACTION_DONE){
+                    progressBar.setVisibility(View.VISIBLE);
+                    loginViewModel.login(etAccount.getText().toString(), etPassword.getText().toString());
+                }
+                return false;
+            }
+        });
+
+        btLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                progressBar.setVisibility(View.VISIBLE);
+                loginViewModel.login(etAccount.getText().toString(), etPassword.getText().toString());
+                closeKeyBoard(view);
+            }
+        });
+
+
+        loginViewModel.getLoginResult().observe(getViewLifecycleOwner(), new Observer<LoginUser>() {
+            @Override
+            public void onChanged(LoginUser loginUser) {
+                progressBar.setVisibility(View.GONE);
+                if (loginUser.getError() == null){
+                    Toast.makeText(getContext(), "Welcome " + loginUser.getUserDisplayName(), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), getString(loginUser.getError()), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void closeKeyBoard(View v){
+        InputMethodManager imm =  (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
     }
 }

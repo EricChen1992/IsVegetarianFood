@@ -11,12 +11,15 @@ import org.jetbrains.annotations.NotNull;
 import thisis.vegetarian.question.mark.R;
 import thisis.vegetarian.question.mark.data.LoginDataSource;
 import thisis.vegetarian.question.mark.data.LoginRepository;
+import thisis.vegetarian.question.mark.data.ResultType;
 import thisis.vegetarian.question.mark.model.LoginEditStatus;
+import thisis.vegetarian.question.mark.model.LoginUser;
 
 public class IVFLoginViewModel extends ViewModel {
     private LoginRepository loginRepository;
 
     private MutableLiveData<LoginEditStatus> loginEditStatus = new MutableLiveData<>();
+    private MutableLiveData<LoginUser> loginResult = new MutableLiveData<>();
 
     IVFLoginViewModel(LoginRepository repository){
         this.loginRepository = repository;
@@ -48,6 +51,25 @@ public class IVFLoginViewModel extends ViewModel {
 
     public MutableLiveData<LoginEditStatus> getLoginEditStatus() {
         return loginEditStatus;
+    }
+
+    public void login(String account, String password){
+        ResultType<LoginUser> result = loginRepository.login(account, password);
+        if (result instanceof ResultType.Success){
+            LoginUser loginUser = ((ResultType.Success<LoginUser>) result).getData();
+            loginResult.setValue(loginUser);
+        } else if (result instanceof ResultType.Error){
+            String errorMsg = ((ResultType.Error) result).getException().getMessage();
+            if (errorMsg.equals("Login Fail")){
+                loginResult.setValue(new LoginUser(R.string.ivf_login_error));
+            } else {
+                loginResult.setValue(new LoginUser(R.string.ivf_logging_error));
+            }
+        }
+    }
+
+    public MutableLiveData<LoginUser> getLoginResult() {
+        return loginResult;
     }
 
     public static class Factory extends ViewModelProvider.NewInstanceFactory{

@@ -66,4 +66,6 @@
     <!--    IVFLoginActivity-->
     <string name="ivf_login_edit_account_error">信箱格式錯誤</string>
     <string name="ivf_login_edit_password_error">密碼格式錯誤</string>
+    <string name="ivf_login_error">登入失敗</string>
+    <string name="ivf_logging_error">登入異常，請稍後再試</string>
 </resources>
