@@ -1,5 +1,6 @@
 package thisis.vegetarian.question.mark.viewmodel;
 
+import android.app.Application;
 import android.util.Patterns;
 
 import androidx.lifecycle.MutableLiveData;
@@ -12,6 +13,7 @@ import thisis.vegetarian.question.mark.R;
 import thisis.vegetarian.question.mark.data.LoginDataSource;
 import thisis.vegetarian.question.mark.data.LoginRepository;
 import thisis.vegetarian.question.mark.data.ResultType;
+import thisis.vegetarian.question.mark.db.IVF_Database;
 import thisis.vegetarian.question.mark.model.LoginEditStatus;
 import thisis.vegetarian.question.mark.model.LoginUser;
 
@@ -73,12 +75,16 @@ public class IVFLoginViewModel extends ViewModel {
     }
 
     public static class Factory extends ViewModelProvider.NewInstanceFactory{
+        IVF_Database ivf_database;
+        public Factory(Application application){
+            ivf_database = IVF_Database.getInstance(application);
+        }
         @NotNull
         @Override
         @SuppressWarnings("unchecked")
         public <T extends ViewModel> T create(@NotNull Class<T> modelClass) {
             if (modelClass.isAssignableFrom(IVFLoginViewModel.class)){
-                return (T) new IVFLoginViewModel(LoginRepository.getInstance(new LoginDataSource()));
+                return (T) new IVFLoginViewModel(LoginRepository.getInstance(new LoginDataSource(), ivf_database));
             } else {
                 throw new IllegalArgumentException("Unknown ViewModel class");
             }

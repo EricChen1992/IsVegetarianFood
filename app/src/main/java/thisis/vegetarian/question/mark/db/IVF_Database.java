@@ -14,18 +14,22 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import thisis.vegetarian.question.mark.db.dao.ProductDataDao;
+import thisis.vegetarian.question.mark.db.dao.UserInfoDao;
 import thisis.vegetarian.question.mark.db.entity.IVF_ProductDataEntity;
+import thisis.vegetarian.question.mark.db.entity.UserInfoEntity;
 
-@Database(entities = {IVF_ProductDataEntity.class}, version = 1)
-public abstract class IVF_ProductDatabase extends RoomDatabase {
+@Database(entities = {IVF_ProductDataEntity.class, UserInfoEntity.class}, version = 1)
+public abstract class IVF_Database extends RoomDatabase {
 
-    public static IVF_ProductDatabase instance;
+    public static IVF_Database instance;
 
     public abstract ProductDataDao productDataDao();
 
-    public static synchronized IVF_ProductDatabase getInstance(Context context) {
+    public abstract UserInfoDao userInfoDao();
+
+    public static synchronized IVF_Database getInstance(Context context) {
         if (instance == null){
-            instance = Room.databaseBuilder(context.getApplicationContext(), IVF_ProductDatabase.class, "IVF_Product")
+            instance = Room.databaseBuilder(context.getApplicationContext(), IVF_Database.class, "IVFDatabase")
                     .fallbackToDestructiveMigration()
                     .addCallback(callback)
                     .build();

@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import thisis.vegetarian.question.mark.db.IVF_ProductDatabase;
+import thisis.vegetarian.question.mark.db.IVF_Database;
 import thisis.vegetarian.question.mark.db.dao.ProductDataDao;
 import thisis.vegetarian.question.mark.db.entity.IVF_ProductDataEntity;
 import thisis.vegetarian.question.mark.model.InsertCallback;
@@ -18,8 +18,8 @@ public class DataProductRepository {
     private ExecutorService executorService;
 
     public DataProductRepository(Application application){
-        IVF_ProductDatabase ivfProductDatabase = IVF_ProductDatabase.getInstance(application);
-        productDataDao = ivfProductDatabase.productDataDao();
+        IVF_Database ivfDatabase = IVF_Database.getInstance(application);
+        productDataDao = ivfDatabase.productDataDao();
 
         executorService = Executors.newFixedThreadPool(1);
     }

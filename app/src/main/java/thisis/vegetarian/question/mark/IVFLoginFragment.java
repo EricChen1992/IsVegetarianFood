@@ -42,7 +42,7 @@ public class IVFLoginFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         fragmentIvfLoginBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_ivf_login, container, false);
-        loginViewModel = new ViewModelProvider(this, new IVFLoginViewModel.Factory()).get(IVFLoginViewModel.class);
+        loginViewModel = new ViewModelProvider(this, new IVFLoginViewModel.Factory(getActivity().getApplication())).get(IVFLoginViewModel.class);
 
         etAccount = fragmentIvfLoginBinding.ivfLoginAccount;
         etPassword = fragmentIvfLoginBinding.ivfLoginPassword;

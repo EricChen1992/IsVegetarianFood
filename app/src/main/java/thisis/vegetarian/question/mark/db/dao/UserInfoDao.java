@@ -1,24 +1,28 @@
 package thisis.vegetarian.question.mark.db.dao;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Query;
 
+import java.util.List;
+
+import thisis.vegetarian.question.mark.db.entity.IVF_ProductDataEntity;
 import thisis.vegetarian.question.mark.db.entity.UserInfoEntity;
 
 @Dao
 public interface UserInfoDao {
 
-    default void insert(UserInfoEntity userInfoEntity){
-        insertQ(userInfoEntity.getAdvertisingId(), userInfoEntity.getTokenId());
+    default long insert(UserInfoEntity userInfoEntity){
+        return insertQ(userInfoEntity.getUserId(), userInfoEntity.getDisplayName(), userInfoEntity.getTokenId());
     }
 
-    @Query("Insert into User_Info('advertisingId', 'tokenId') values(:advertisingId, :tokenId)")
-    void insertQ(String advertisingId, String tokenId);
+    @Query("Insert into User_Info('userId', 'displayName', 'tokenId') values(:userId, :displayname, :tokenId)")
+    long insertQ(String userId, String displayname, String tokenId);
 
     @Query("DELETE FROM User_Info")
     void deleteAll();
 
     @Query("SELECT * FROM User_Info")
-    void getAllId();
+    List<UserInfoEntity> getAll();
 
 }

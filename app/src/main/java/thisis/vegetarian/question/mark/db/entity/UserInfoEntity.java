@@ -1,29 +1,46 @@
 package thisis.vegetarian.question.mark.db.entity;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 
 @Entity(tableName = "User_Info")
 public class UserInfoEntity {
+    @PrimaryKey(autoGenerate = true)
+    private long id;
 
-    private String advertisingId;
+    private String userId;
+
+    private String displayName;
 
     private String tokenId;
 
+    @ColumnInfo(defaultValue = "CURRENT_TIMESTAMP")
     private String create_at;
 
+    @ColumnInfo(defaultValue = "CURRENT_TIMESTAMP")
     private String update_at;
 
     public UserInfoEntity(){}
 
     @Ignore
-    public UserInfoEntity(String advertisingId, String tokenId){
-        this.advertisingId = advertisingId;
+    public UserInfoEntity(String userId, String displayName, String tokenId){
+        this.userId = userId;
+        this.displayName = displayName;
         this.tokenId = tokenId;
     }
 
-    public void setAdvertisingId(String advertisingId) {
-        this.advertisingId = advertisingId;
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 
     public void setTokenId(String tokenId) {
@@ -38,8 +55,16 @@ public class UserInfoEntity {
         this.update_at = update_at;
     }
 
-    public String getAdvertisingId() {
-        return advertisingId;
+    public long getId() {
+        return id;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public String getDisplayName() {
+        return displayName;
     }
 
     public String getTokenId() {
