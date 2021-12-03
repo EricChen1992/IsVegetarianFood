@@ -11,8 +11,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+import thisis.vegetarian.question.mark.data.DataProductRepository;
 import thisis.vegetarian.question.mark.db.entity.IVF_ProductDataEntity;
-import thisis.vegetarian.question.mark.repositories.DataProductRepository;
 
 public class IVFCategoryViewModel extends ViewModel {
     private String TAG;

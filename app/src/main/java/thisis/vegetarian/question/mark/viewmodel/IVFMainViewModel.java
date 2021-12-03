@@ -5,9 +5,9 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
+import thisis.vegetarian.question.mark.data.DataProductRepository;
 import thisis.vegetarian.question.mark.db.entity.IVF_ProductDataEntity;
 import thisis.vegetarian.question.mark.model.InsertCallback;
-import thisis.vegetarian.question.mark.repositories.DataProductRepository;
 
 public class IVFMainViewModel extends AndroidViewModel {
     private DataProductRepository repository;

@@ -1,4 +1,4 @@
-package thisis.vegetarian.question.mark.repositories;
+package thisis.vegetarian.question.mark.data;
 
 import android.app.Application;
 

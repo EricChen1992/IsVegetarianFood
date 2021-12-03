@@ -7,9 +7,9 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import thisis.vegetarian.question.mark.data.DataProductRepository;
 import thisis.vegetarian.question.mark.db.entity.IVF_ProductDataEntity;
 import thisis.vegetarian.question.mark.model.InsertCallback;
-import thisis.vegetarian.question.mark.repositories.DataProductRepository;
 
 
 public class IVFCreateProductViewModel extends AndroidViewModel {
