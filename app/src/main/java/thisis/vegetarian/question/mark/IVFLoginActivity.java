@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
@@ -23,6 +25,7 @@ public class IVFLoginActivity extends AppCompatActivity {
     ViewPager2 viewPager2;
     TabLayoutMediator tabLayoutMediator;
     TextView tittle;
+    ImageView icon;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +34,7 @@ public class IVFLoginActivity extends AppCompatActivity {
         tabLayout = activityIvfLoginBinding.ivfLoginTablelayout;
         viewPager2 = activityIvfLoginBinding.ivfLoginViewpager;
         tittle = activityIvfLoginBinding.ivfLoginTittle;
+        icon = activityIvfLoginBinding.ivfLoginIcon;
 
         //set Login and Signup Fragment
         List<Fragment> fragmentList = new ArrayList<>();
@@ -60,17 +64,24 @@ public class IVFLoginActivity extends AppCompatActivity {
         tabLayoutMediator.attach();
 
         //set TabLayout Animation
+        icon.setTranslationY(200);
         tabLayout.setTranslationY(300);
         tabLayout.setAlpha(0);
         tittle.setAlpha(0);
 
+        icon.animate().translationY(0).setDuration(800).start();
+        tittle.animate().alpha(1).setDuration(900).setStartDelay(800).start();
         tabLayout.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(100).start();
-        tittle.animate().alpha(1).setDuration(900).setStartDelay(50).start();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         if (tabLayoutMediator != null) tabLayoutMediator.detach();
+    }
+
+    @Override
+    public void onBackPressed() {
+
     }
 }

@@ -12,13 +12,13 @@
     <application
         android:allowBackup="true"
         android:hardwareAccelerated="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ivf_app_icon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ivf_app_icon_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.IsVegetarianFood">
         <activity
-            android:name=".IVFMainActivity"
+            android:name=".IVFWelcomeActivity"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -27,6 +27,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".IVFLoginActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".IVFMainActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".IVFScannerActivity"
             android:parentActivityName=".IVFMainActivity"
@@ -41,9 +46,6 @@
             android:name=".IVFInfoProduct"
             android:parentActivityName=".IVFMainActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".IVFLoginActivity"
-            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

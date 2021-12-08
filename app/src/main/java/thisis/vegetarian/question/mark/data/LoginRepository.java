@@ -1,5 +1,8 @@
 package thisis.vegetarian.question.mark.data;
 
+import androidx.lifecycle.LiveData;
+
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -45,5 +48,9 @@ public class LoginRepository {
             });
         }
         return result;
+    }
+
+    public LiveData<List<UserInfoEntity>> getUser(){
+        return userInfoDao.getAll();
     }
 }

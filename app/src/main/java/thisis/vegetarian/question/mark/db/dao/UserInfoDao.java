@@ -6,7 +6,6 @@ import androidx.room.Query;
 
 import java.util.List;
 
-import thisis.vegetarian.question.mark.db.entity.IVF_ProductDataEntity;
 import thisis.vegetarian.question.mark.db.entity.UserInfoEntity;
 
 @Dao
@@ -23,6 +22,6 @@ public interface UserInfoDao {
     void deleteAll();
 
     @Query("SELECT * FROM User_Info")
-    List<UserInfoEntity> getAll();
+    LiveData<List<UserInfoEntity>> getAll();
 
 }

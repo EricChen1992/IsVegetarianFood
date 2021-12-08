@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".IVFWelcomeActivity"
+        android:background="@color/yellow_193">
+
+        <ImageView
+            android:id="@+id/ivf_welcome_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:src="@drawable/ivf_welcome_icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent=".2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias=".3" />
+
+        <TextView
+            android:id="@+id/ivf_welcome_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            style="@style/TextAppearance.AppCompat.Title"
+            android:textSize="35dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivf_welcome_icon"
+            app:layout_constraintVertical_bias=".1"/>
+
+        <TextView
+            android:id="@+id/ivf_welcome_slogan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="分析食品，享受食品"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:layout_marginTop="5dp"
+            style="@style/TextAppearance.AppCompat.Body2"
+            android:textSize="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivf_welcome_name"
+            app:layout_constraintVertical_bias=".0"/>
+
+        <ProgressBar
+            android:id="@+id/ivf_welcome_progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:indeterminate="true"
+            android:indeterminateDrawable="@drawable/ivf_progress_shap"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivf_welcome_slogan"
+            app:layout_constraintVertical_bias="0.8"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
