@@ -68,4 +68,14 @@
     <string name="ivf_login_edit_password_error">密碼格式錯誤</string>
     <string name="ivf_login_error">登入失敗</string>
     <string name="ivf_logging_error">登入異常，請稍後再試</string>
+
+    <!-- Dialog   -->
+    <string name="ivf_dialog_tittle">Close</string>
+    <string name="ivf_dialog_tittle_zh">離開</string>
+    <string name="ivf_dialog_message">Are sure close application?</string>
+    <string name="ivf_dialog_message_zh">確定要離開 素不素 程式?</string>
+    <string name="ivf_dialog_left">Cancel</string>
+    <string name="ivf_dialog_left_zh">取消</string>
+    <string name="ivf_dialog_right">Confirm</string>
+    <string name="ivf_dialog_right_zh">確定</string>
 </resources>

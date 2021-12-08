@@ -1,11 +1,13 @@
 package thisis.vegetarian.question.mark;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
@@ -74,6 +76,26 @@ public class IVFLoginActivity extends AppCompatActivity {
         tabLayout.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(100).start();
     }
 
+    private void setBackPressedDialog(){
+        AlertDialog.Builder alertDialogBuild = new AlertDialog.Builder(this);
+        alertDialogBuild.setTitle(getString(R.string.ivf_dialog_tittle_zh));
+        alertDialogBuild.setMessage(getString(R.string.ivf_dialog_message_zh));
+        alertDialogBuild.setPositiveButton(getString(R.string.ivf_dialog_right_zh), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                finishAffinity();
+            }
+        });
+        alertDialogBuild.setNegativeButton(getString(R.string.ivf_dialog_left_zh), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        AlertDialog alertDialog = alertDialogBuild.create();
+        alertDialog.show();
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -82,6 +104,6 @@ public class IVFLoginActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-
+        setBackPressedDialog();
     }
 }

@@ -5,6 +5,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContract;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.res.ResourcesCompat;
@@ -13,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -191,6 +193,27 @@ public class IVFMainActivity extends AppCompatActivity {
 
     }
 
+
+    private void setBackPressedDialog(){
+        AlertDialog.Builder alertDialogBuild = new AlertDialog.Builder(this);
+        alertDialogBuild.setTitle(getString(R.string.ivf_dialog_tittle_zh));
+        alertDialogBuild.setMessage(getString(R.string.ivf_dialog_message_zh));
+        alertDialogBuild.setPositiveButton(getString(R.string.ivf_dialog_right_zh), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                finishAffinity();
+            }
+        });
+        alertDialogBuild.setNegativeButton(getString(R.string.ivf_dialog_left_zh), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        AlertDialog alertDialog = alertDialogBuild.create();
+        alertDialog.show();
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -199,7 +222,7 @@ public class IVFMainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-
+        setBackPressedDialog();
     }
 
     @Override
