@@ -78,12 +78,12 @@ public class IVFWelcomeActivity extends AppCompatActivity implements Animator.An
                             && entity.getTokenId() != null
                             && !"".equals(entity.getTokenId())
                     ){
-                        loginLauncher.launch(EXTRA_MAIN);//主畫面
+                        goActivity(EXTRA_MAIN);//主畫面
                     } else {
-                        loginLauncher.launch(EXTRA_LOGIN);//登入畫面
+                        goActivity(EXTRA_LOGIN);//登入畫面
                     }
                 } else {
-                    loginLauncher.launch(EXTRA_LOGIN);//登入畫面
+                    goActivity(EXTRA_LOGIN);//登入畫面
                 }
             }
         });
@@ -99,27 +99,41 @@ public class IVFWelcomeActivity extends AppCompatActivity implements Animator.An
 
     }
 
-    private ActivityResultLauncher<String> loginLauncher = registerForActivityResult(new ActivityResultContract<String, String>() {
-        @NonNull
-        @Override
-        public Intent createIntent(@NonNull Context context, String activity) {
-            if (activity.equals(EXTRA_LOGIN)){
-                return new Intent(IVFWelcomeActivity.this, IVFLoginActivity.class);
-            }
-            if (activity.equals(EXTRA_MAIN)){
-                return new Intent(IVFWelcomeActivity.this, IVFMainActivity.class);
-            }
-            return null;
+    private void goActivity(String activity_name){
+        Intent intent = null;
+        if (activity_name.equals(EXTRA_LOGIN)){
+            intent =  new Intent(IVFWelcomeActivity.this, IVFLoginActivity.class);
+        }
+        if (activity_name.equals(EXTRA_MAIN)){
+            intent = new Intent(IVFWelcomeActivity.this, IVFMainActivity.class);
         }
 
-        @Override
-        public String parseResult(int resultCode, @Nullable Intent intent) {
-            return null;
+        if (intent != null){
+            startActivity(intent);
         }
-    }, new ActivityResultCallback<String>() {
-        @Override
-        public void onActivityResult(String result) {
+    }
 
-        }
-    });
+//    private ActivityResultLauncher<String> loginLauncher = registerForActivityResult(new ActivityResultContract<String, String>() {
+//        @NonNull
+//        @Override
+//        public Intent createIntent(@NonNull Context context, String activity) {
+//            if (activity.equals(EXTRA_LOGIN)){
+//                return new Intent(IVFWelcomeActivity.this, IVFLoginActivity.class);
+//            }
+//            if (activity.equals(EXTRA_MAIN)){
+//                return new Intent(IVFWelcomeActivity.this, IVFMainActivity.class);
+//            }
+//            return null;
+//        }
+//
+//        @Override
+//        public String parseResult(int resultCode, @Nullable Intent intent) {
+//            return null;
+//        }
+//    }, new ActivityResultCallback<String>() {
+//        @Override
+//        public void onActivityResult(String result) {
+//
+//        }
+//    });
 }

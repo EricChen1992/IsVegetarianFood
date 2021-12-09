@@ -1,6 +1,7 @@
 package thisis.vegetarian.question.mark;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -135,6 +136,7 @@ public class IVFLoginFragment extends Fragment {
                 progressBar.setVisibility(View.GONE);
                 if (loginUser.getError() == null){
                     Toast.makeText(getContext(), "Welcome " + loginUser.getUserDisplayName(), Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(getActivity(), IVFMainActivity.class));//Into MainActivity
                 } else {
                     Toast.makeText(getContext(), getString(loginUser.getError()), Toast.LENGTH_SHORT).show();
                 }
