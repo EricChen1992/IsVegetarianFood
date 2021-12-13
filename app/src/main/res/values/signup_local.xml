@@ -325,7 +325,7 @@
         <item>安定區</item>
     </string-array>
     
-    <string-array name="Kaohsiung_city_town_zh">
+    <string-array name="kaohsiung_city_town_zh">
         <item>請選擇地區</item>
         <item>楠梓區</item>
         <item>左營區</item>

@@ -2,6 +2,11 @@
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="viewmodel"
+            type="thisis.vegetarian.question.mark.viewmodel.IVFSignupViewModel" />
+    </data>
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -84,29 +89,27 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/ivf_login_edittext_shap"
-                    android:entries="@array/taiwan_county_name_zh"
+                    spinnerContent="@{viewmodel.countyString}"
+                    selectionPosition="@={viewmodel.selectedPosition}"
                     android:prompt="@string/taiwan_county_tittle_zh"
                     android:spinnerMode="dialog"
-                    android:paddingLeft="20dp"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
+                    android:paddingStart="10dp"
                     android:layout_marginEnd="3dp"
                     android:gravity="center"/>
+
                 <Spinner
                     android:id="@+id/ivf_login_local_town"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/ivf_login_edittext_shap"
-                    android:entries="@array/taipei_city_town_zh"
+                    spinnerContent="@{viewmodel.townString}"
                     android:prompt="@string/taiwan_town_tittle_zh"
                     android:spinnerMode="dialog"
-                    android:paddingLeft="20dp"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
+                    android:paddingStart="10dp"
                     android:layout_marginStart="2dp"
                     android:gravity="center"
-                    android:clickable="false"/>
+                    android:clickable="@{viewmodel.townClickable}"/>
             </LinearLayout>
 
 

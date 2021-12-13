@@ -123,9 +123,13 @@ public class IVFLoginFragment extends Fragment {
         btLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progressBar.setVisibility(View.VISIBLE);
-                loginViewModel.login(etAccount.getText().toString(), etPassword.getText().toString());
-                closeKeyBoard(view);
+                String account = etAccount.getText().toString();
+                String password =  etPassword.getText().toString();
+                if (isUserAccountAndPasswordEmpty(account, password)){
+                    progressBar.setVisibility(View.VISIBLE);
+                    loginViewModel.login(account, password);
+                    closeKeyBoard(view);
+                }
             }
         });
 
@@ -142,6 +146,19 @@ public class IVFLoginFragment extends Fragment {
                 }
             }
         });
+    }
+
+    private boolean isUserAccountAndPasswordEmpty(String user_account, String user_password){
+        if (null == user_account || user_account.isEmpty() || "".equals(user_account)){
+            Toast.makeText(getContext(), "帳號不能為空白", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (null == user_password || user_password.isEmpty() || "".equals(user_password)){
+            Toast.makeText(getContext(), "密碼不能為空白", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
     }
 
     private void closeKeyBoard(View v){
