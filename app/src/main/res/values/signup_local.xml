@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="ivf_signup_gender_tittle">請選擇</string>
+    <string-array name="ivf_signup_gender">
+        <item>性別</item>
+        <item>男</item>
+        <item>女</item>
+    </string-array>
     <string name="taiwan_county_tittle_zh">請選擇縣市</string>
     <string name="taiwan_town_tittle_zh">請選選擇市鎮鄉</string>
     <string-array name="taiwan_county_name_zh">

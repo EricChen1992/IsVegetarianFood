@@ -10,20 +10,20 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-import thisis.vegetarian.question.mark.data.LoginDataSource;
-import thisis.vegetarian.question.mark.data.LoginRepository;
+import thisis.vegetarian.question.mark.data.DataUserSource;
+import thisis.vegetarian.question.mark.data.DataUserRepository;
 import thisis.vegetarian.question.mark.db.IVF_Database;
 import thisis.vegetarian.question.mark.db.entity.UserInfoEntity;
 
 public class IVFWelcomeViewModel extends ViewModel {
-    private LoginRepository loginRepository;
+    private DataUserRepository dataUserRepository;
 
-    public IVFWelcomeViewModel(LoginRepository loginRepository){
-        this.loginRepository = loginRepository;
+    public IVFWelcomeViewModel(DataUserRepository dataUserRepository){
+        this.dataUserRepository = dataUserRepository;
     }
 
     public LiveData<List<UserInfoEntity>> getCheckUser() {
-        return loginRepository.getUser();
+        return dataUserRepository.getLoginUser();
     }
 
     public static class Factory extends ViewModelProvider.NewInstanceFactory{
@@ -37,7 +37,7 @@ public class IVFWelcomeViewModel extends ViewModel {
         @SuppressWarnings("unchecked")
         public <T extends ViewModel> T create(@NotNull Class<T> modelClass) {
             if (modelClass.isAssignableFrom(IVFWelcomeViewModel.class)){
-                return (T) new IVFWelcomeViewModel(LoginRepository.getInstance(new LoginDataSource(), database));
+                return (T) new IVFWelcomeViewModel(DataUserRepository.getInstance(new DataUserSource(), database));
             } else {
                 throw new IllegalArgumentException("Unknown ViewModel class");
             }

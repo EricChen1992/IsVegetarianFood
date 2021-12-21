@@ -14,18 +14,22 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import thisis.vegetarian.question.mark.db.dao.ProductDataDao;
-import thisis.vegetarian.question.mark.db.dao.UserInfoDao;
+import thisis.vegetarian.question.mark.db.dao.MemberProfileDao;
+import thisis.vegetarian.question.mark.db.dao.UserLoginInfoDao;
 import thisis.vegetarian.question.mark.db.entity.IVF_ProductDataEntity;
+import thisis.vegetarian.question.mark.db.entity.MemberProfileEntity;
 import thisis.vegetarian.question.mark.db.entity.UserInfoEntity;
 
-@Database(entities = {IVF_ProductDataEntity.class, UserInfoEntity.class}, version = 1)
+@Database(entities = {IVF_ProductDataEntity.class, UserInfoEntity.class, MemberProfileEntity.class}, version = 1)
 public abstract class IVF_Database extends RoomDatabase {
 
     public static IVF_Database instance;
 
     public abstract ProductDataDao productDataDao();
 
-    public abstract UserInfoDao userInfoDao();
+    public abstract UserLoginInfoDao userLoginInfoDao();
+
+    public abstract MemberProfileDao userInfoDao();
 
     public static synchronized IVF_Database getInstance(Context context) {
         if (instance == null){

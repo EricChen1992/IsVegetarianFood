@@ -48,6 +48,10 @@
     <string name="ivf_fragment_login_login">LOGIN</string>
     <string name="ivf_fragment_login_login_zh">登入</string>
     <!--    IVFSignupFragment-->
+    <string name="ivf_fragment_signup_name">Name</string>
+    <string name="ivf_fragment_signup_name_zh">名稱</string>
+    <string name="ivf_fragment_signup_gender">Gender</string>
+    <string name="ivf_fragment_signup_gender_zh">性別</string>
     <string name="ivf_fragment_signup_account">Emil</string>
     <string name="ivf_fragment_signup_account_zh">信箱</string>
     <string name="ivf_fragment_signup_password">Password</string>
@@ -78,4 +82,19 @@
     <string name="ivf_dialog_left_zh">取消</string>
     <string name="ivf_dialog_right">Confirm</string>
     <string name="ivf_dialog_right_zh">確定</string>
+
+    <!--   IVFSignupActivity -->
+    <string name="ivf_signup_edit_name_error">名稱太長</string>
+    <string name="ivf_signup_edit_name_empty_error">名稱不能為空白</string>
+    <string name="ivf_signup_edit_email_error">信箱格式錯誤</string>
+    <string name="ivf_signup_edit_email_empty_error">信箱不能為空白</string>
+    <string name="ivf_signup_edit_password_error">密碼格式錯誤</string>
+    <string name="ivf_signup_edit_password_empty_error">密碼不能為空白</string>
+    <string name="ivf_signup_edit_password_match_error">密碼不一致</string>
+    <string name="ivf_signup_edit_password_match_empty_error">確認密碼不能為空白</string>
+    <string name="ivf_signup_edit_phone_error">電話格式錯誤</string>
+    <string name="ivf_signup_edit_phone_empty_error">電話不能為空白</string>
+    <string name="ivf_signup_edit_gender_error">請選擇性別</string>
+    <string name="ivf_signup_edit_county_error">請選擇縣市</string>
+    <string name="ivf_signup_edit_town_error">請選擇市鄉鎮</string>
 </resources>

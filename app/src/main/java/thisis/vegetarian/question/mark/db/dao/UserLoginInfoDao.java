@@ -9,7 +9,7 @@ import java.util.List;
 import thisis.vegetarian.question.mark.db.entity.UserInfoEntity;
 
 @Dao
-public interface UserInfoDao {
+public interface UserLoginInfoDao {
 
     default long insert(UserInfoEntity userInfoEntity){
         return insertQ(userInfoEntity.getUserId(), userInfoEntity.getDisplayName(), userInfoEntity.getTokenId());

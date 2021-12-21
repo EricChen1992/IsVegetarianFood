@@ -76,6 +76,10 @@ public class IVFLoginActivity extends AppCompatActivity {
         tabLayout.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(100).start();
     }
 
+    public void selectPage(int page){
+        viewPager2.setCurrentItem(page);
+    }
+
     private void setBackPressedDialog(){
         AlertDialog.Builder alertDialogBuild = new AlertDialog.Builder(this);
         alertDialogBuild.setTitle(getString(R.string.ivf_dialog_tittle_zh));

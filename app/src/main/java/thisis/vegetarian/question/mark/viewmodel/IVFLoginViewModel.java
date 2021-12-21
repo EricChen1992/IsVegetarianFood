@@ -10,21 +10,21 @@ import androidx.lifecycle.ViewModelProvider;
 import org.jetbrains.annotations.NotNull;
 
 import thisis.vegetarian.question.mark.R;
-import thisis.vegetarian.question.mark.data.LoginDataSource;
-import thisis.vegetarian.question.mark.data.LoginRepository;
+import thisis.vegetarian.question.mark.data.DataUserSource;
+import thisis.vegetarian.question.mark.data.DataUserRepository;
 import thisis.vegetarian.question.mark.data.ResultType;
 import thisis.vegetarian.question.mark.db.IVF_Database;
 import thisis.vegetarian.question.mark.model.LoginEditStatus;
 import thisis.vegetarian.question.mark.model.LoginUser;
 
 public class IVFLoginViewModel extends ViewModel {
-    private LoginRepository loginRepository;
+    private DataUserRepository dataUserRepository;
 
     private MutableLiveData<LoginEditStatus> loginEditStatus = new MutableLiveData<>();
     private MutableLiveData<LoginUser> loginResult = new MutableLiveData<>();
 
-    IVFLoginViewModel(LoginRepository repository){
-        this.loginRepository = repository;
+    IVFLoginViewModel(DataUserRepository repository){
+        this.dataUserRepository = repository;
     }
 
     public void loginDataChange(String account_data, String password_data){
@@ -56,7 +56,7 @@ public class IVFLoginViewModel extends ViewModel {
     }
 
     public void login(String account, String password){
-        ResultType<LoginUser> result = loginRepository.login(account, password);
+        ResultType<LoginUser> result = dataUserRepository.login(account, password);
         if (result instanceof ResultType.Success){
             LoginUser loginUser = ((ResultType.Success<LoginUser>) result).getData();
             loginResult.setValue(loginUser);
@@ -84,7 +84,7 @@ public class IVFLoginViewModel extends ViewModel {
         @SuppressWarnings("unchecked")
         public <T extends ViewModel> T create(@NotNull Class<T> modelClass) {
             if (modelClass.isAssignableFrom(IVFLoginViewModel.class)){
-                return (T) new IVFLoginViewModel(LoginRepository.getInstance(new LoginDataSource(), ivf_database));
+                return (T) new IVFLoginViewModel(DataUserRepository.getInstance(new DataUserSource(), ivf_database));
             } else {
                 throw new IllegalArgumentException("Unknown ViewModel class");
             }
