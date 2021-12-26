@@ -89,7 +89,7 @@ public class IVFSignupFragment extends Fragment {
                 ivfSignupViewModel.signup(editName.getText().toString(),
                                             spinnerGender.getSelectedItemPosition(),
                                             editEmail.getText().toString(),
-                                            IVFHashEncode.generatePassword(editPassword.getText().toString()),
+                                            editPassword.getText().toString(),
                                             spinnerCounty.getSelectedItemPosition(),
                                             spinnerTown.getSelectedItemPosition(),
                                             PhoneNumberUtils.stripSeparators(editPhone.getText().toString()));

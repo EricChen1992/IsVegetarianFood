@@ -27,6 +27,6 @@ public interface MemberProfileDao {
     void delUser(String email);
 
     @Query("SELECT * FROM MemberProfile WHERE email = :email AND password = :password")
-    LiveData<MemberProfileEntity> getUser(String email, String password);
+    MemberProfileEntity getUser(String email, String password);
 
 }

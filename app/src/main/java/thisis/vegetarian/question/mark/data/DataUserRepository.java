@@ -16,6 +16,7 @@ import thisis.vegetarian.question.mark.db.dao.UserLoginInfoDao;
 import thisis.vegetarian.question.mark.db.entity.MemberProfileEntity;
 import thisis.vegetarian.question.mark.db.entity.UserInfoEntity;
 import thisis.vegetarian.question.mark.model.InsertCallback;
+import thisis.vegetarian.question.mark.model.LoginCallback;
 import thisis.vegetarian.question.mark.model.LoginUser;
 
 public class DataUserRepository {
@@ -44,20 +45,29 @@ public class DataUserRepository {
         return instance;
     }
 
-    public ResultType<LoginUser> login(String account, String password){
-        ResultType<LoginUser> result = dataUserSource.login(account, password);
-        if (result instanceof ResultType.Success){
-            //if success then set user info to db
-            LoginUser successResult = ((ResultType.Success<LoginUser>) result).getData();
-            executorService.submit(new Runnable() {
-                @Override
-                public void run() {
-                    userLoginInfoDao.deleteAll();
-                    userLoginInfoDao.insert(new UserInfoEntity(successResult.getUserId(), successResult.getUserDisplayName(), successResult.getUserToken()));
+    public void login(String account, String password, LoginCallback callback){
+        //On-line
+//        ResultType<LoginUser> result = dataUserSource.login(account, password);
+
+        //Test get Faker User
+        executorService.submit(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    MemberProfileEntity m = memberProfileDao.getUser(account, IVFHashEncode.generatePassword(password));
+                    Thread.sleep(2000);//Fake loading
+                    if (null != m) {
+                        callback.onLoginResult(new ResultType.Success(new LoginUser(String.valueOf(m.getId()), m.getName(), m.getTokenId())));
+                        userLoginInfoDao.deleteAll();
+                        userLoginInfoDao.insert(new UserInfoEntity(String.valueOf(m.getId()), m.getName(), m.getTokenId()));
+                    } else {
+                        callback.onLoginResult(new ResultType.Error(new LoginException("Login Fail")));
+                    }
+                } catch (Exception e){
+                    e.getStackTrace();
                 }
-            });
-        }
-        return result;
+            }
+        });
     }
 
     public LiveData<List<UserInfoEntity>> getLoginUser(){

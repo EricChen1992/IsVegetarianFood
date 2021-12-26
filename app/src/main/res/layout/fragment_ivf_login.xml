@@ -80,10 +80,11 @@
 
         <ProgressBar
             android:id="@+id/ivf_login_prgBar"
-            style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:indeterminate="true"
             android:visibility="gone"
+            android:indeterminateDrawable="@drawable/ivf_progress_yellow_shap"
             app:layout_constraintBottom_toBottomOf="@+id/ivf_login_password"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

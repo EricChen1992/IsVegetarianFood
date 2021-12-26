@@ -14,6 +14,7 @@ import thisis.vegetarian.question.mark.data.DataUserSource;
 import thisis.vegetarian.question.mark.data.DataUserRepository;
 import thisis.vegetarian.question.mark.data.ResultType;
 import thisis.vegetarian.question.mark.db.IVF_Database;
+import thisis.vegetarian.question.mark.model.LoginCallback;
 import thisis.vegetarian.question.mark.model.LoginEditStatus;
 import thisis.vegetarian.question.mark.model.LoginUser;
 
@@ -56,18 +57,21 @@ public class IVFLoginViewModel extends ViewModel {
     }
 
     public void login(String account, String password){
-        ResultType<LoginUser> result = dataUserRepository.login(account, password);
-        if (result instanceof ResultType.Success){
-            LoginUser loginUser = ((ResultType.Success<LoginUser>) result).getData();
-            loginResult.setValue(loginUser);
-        } else if (result instanceof ResultType.Error){
-            String errorMsg = ((ResultType.Error) result).getException().getMessage();
-            if (errorMsg.equals("Login Fail")){
-                loginResult.setValue(new LoginUser(R.string.ivf_login_error));
-            } else {
-                loginResult.setValue(new LoginUser(R.string.ivf_logging_error));
+        dataUserRepository.login(account, password, new LoginCallback() {
+            @Override
+            public void onLoginResult(ResultType result) {
+                if (result instanceof ResultType.Success){
+                    loginResult.postValue(((ResultType.Success<LoginUser>) result).getData());
+                } else {
+                    String errorMsg = ((ResultType.Error) result).getException().getMessage();
+                    if (errorMsg.equals("Login Fail")){
+                        loginResult.postValue(new LoginUser(R.string.ivf_login_error));
+                    } else {
+                        loginResult.postValue(new LoginUser(R.string.ivf_logging_error));
+                    }
+                }
             }
-        }
+        });
     }
 
     public MutableLiveData<LoginUser> getLoginResult() {
