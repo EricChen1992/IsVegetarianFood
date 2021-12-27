@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -33,8 +34,11 @@ import com.google.zxing.integration.android.IntentResult;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 import thisis.vegetarian.question.mark.databinding.ActivityIvfMainBinding;
 import thisis.vegetarian.question.mark.databinding.NavigationIvfHeaderBinding;
+import thisis.vegetarian.question.mark.db.entity.UserInfoEntity;
 import thisis.vegetarian.question.mark.viewmodel.IVFMainViewModel;
 
 public class IVFMainActivity extends AppCompatActivity {
@@ -42,6 +46,7 @@ public class IVFMainActivity extends AppCompatActivity {
     private TabLayoutMediator tabLayoutMediator;
     private ActivityIvfMainBinding activityIvfMainBinding;
     private IVFMainViewModel mainViewModel;
+    private ViewPager2 viewPager2;
     private BottomSheetBehavior<NavigationView> bottomSheetBehavior;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,31 +56,23 @@ public class IVFMainActivity extends AppCompatActivity {
         activityIvfMainBinding.setLifecycleOwner(this);
 
         //建立ViewPage2
-        ViewPager2 viewPager2 = activityIvfMainBinding.mainViewPage2;
+        viewPager2 = activityIvfMainBinding.mainViewPage2;
 
-        //建立ViewPage1Adapter
+        //建立ViewPage2Adapter
         IVFViewPage2Adapter viewPage2Adapter = new IVFViewPage2Adapter(getSupportFragmentManager(), getLifecycle());
 
         //建立各類別Fragment
-        String[] fragmentList = {"topSearch", "cookies", "candy", "drinks", "instantNoodles", "Ingredients", "cannedFood", "jam", "other"};
-        for (String fragmentName : fragmentList){
-            viewPage2Adapter.addFragment(new IVFCategoryFragment(fragmentName));
-        }
-        //set viewpage2 adapter to viewpage2
-        viewPager2.setAdapter(viewPage2Adapter);
-
-
-        //Set TabLayout and ViewPage2 sync
-        tabLayoutMediator = new TabLayoutMediator(activityIvfMainBinding.mainTablayout, viewPager2, new TabLayoutMediator.TabConfigurationStrategy() {
+        mainViewModel.setFragmentList(viewPage2Adapter);
+        mainViewModel.getAdapterMutableLiveData().observe(this, new Observer<IVFViewPage2Adapter>() {
             @Override
-            public void onConfigureTab(@NonNull @NotNull TabLayout.Tab tab, int position) {
-                tab.setText(getResources().getStringArray(R.array.table_item)[position]);
+            public void onChanged(IVFViewPage2Adapter adapter) {
+                //set viewpage2 adapter to viewpage2
+                viewPager2.setAdapter(adapter);
+                setTabLayoutMediator(viewPager2);
             }
         });
 
-        tabLayoutMediator.attach();
-
-        activityIvfMainBinding.mainFaButton.setOnClickListener(new View.OnClickListener() {
+        activityIvfMainBinding.mainScannerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 new IntentIntegrator(IVFMainActivity.this)
@@ -163,6 +160,19 @@ public class IVFMainActivity extends AppCompatActivity {
             }
         });
 
+        //Set User info on Navigation Header
+        mainViewModel.getCheckUser().observe(this, new Observer<List<UserInfoEntity>>() {
+            @Override
+            public void onChanged(List<UserInfoEntity> userInfoEntities) {
+                if (userInfoEntities != null && userInfoEntities.size() > 0){
+                    String userName = userInfoEntities.get(0).getDisplayName();
+                    String userId = String.valueOf(userInfoEntities.get(0).getId());
+                    navigationIvfHeaderBinding.headerName.setText(userName);
+                    navigationIvfHeaderBinding.headerId.setText(userId);
+                }
+            }
+        });
+
         //Set BottomBar Menu Click
         activityIvfMainBinding.mainBottomBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -193,6 +203,17 @@ public class IVFMainActivity extends AppCompatActivity {
 
     }
 
+    private void setTabLayoutMediator(ViewPager2 vP2){
+        //Set TabLayout and ViewPage2 sync
+        tabLayoutMediator = new TabLayoutMediator(activityIvfMainBinding.mainTablayout, vP2, new TabLayoutMediator.TabConfigurationStrategy() {
+            @Override
+            public void onConfigureTab(@NonNull @NotNull TabLayout.Tab tab, int position) {
+                tab.setText(getResources().getStringArray(R.array.table_item)[position]);
+            }
+        });
+
+        tabLayoutMediator.attach();
+    }
 
     private void setBackPressedDialog(){
         AlertDialog.Builder alertDialogBuild = new AlertDialog.Builder(this);

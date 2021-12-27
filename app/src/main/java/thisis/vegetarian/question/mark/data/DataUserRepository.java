@@ -31,6 +31,11 @@ public class DataUserRepository {
 
     private final ExecutorService executorService;
 
+    public DataUserRepository(IVF_Database ivf_productDatabase){
+        this.userLoginInfoDao = ivf_productDatabase.userLoginInfoDao();
+        executorService = Executors.newFixedThreadPool(1);
+    }
+
     private DataUserRepository(DataUserSource dataSource, IVF_Database ivf_productDatabase){
         this.dataUserSource = dataSource;
         this.userLoginInfoDao = ivf_productDatabase.userLoginInfoDao();
