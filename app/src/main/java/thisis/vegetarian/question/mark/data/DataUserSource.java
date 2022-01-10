@@ -15,7 +15,7 @@ public class DataUserSource {
     public ResultType<LoginUser> login(String account, String password){
         try {
             if (account != null && password != null){
-                return new ResultType.Success(new LoginUser(java.util.UUID.randomUUID().toString(), "Eric", "udjd-kwhu-kaud-loii"));
+                return new ResultType.Success(new LoginUser(java.util.UUID.randomUUID().toString(), "Eric", "eric@clickforce.com.tw", "udjd-kwhu-kaud-loii"));
             } else {
                 return new ResultType.Error(new LoginException("Login Fail"));
             }

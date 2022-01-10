@@ -18,6 +18,7 @@ import thisis.vegetarian.question.mark.db.entity.UserInfoEntity;
 import thisis.vegetarian.question.mark.model.InsertCallback;
 import thisis.vegetarian.question.mark.model.LoginCallback;
 import thisis.vegetarian.question.mark.model.LoginUser;
+import thisis.vegetarian.question.mark.model.UserRepositoryCallback;
 
 public class DataUserRepository {
 
@@ -62,9 +63,9 @@ public class DataUserRepository {
                     MemberProfileEntity m = memberProfileDao.getUser(account, IVFHashEncode.generatePassword(password));
                     Thread.sleep(2000);//Fake loading
                     if (null != m) {
-                        callback.onLoginResult(new ResultType.Success(new LoginUser(String.valueOf(m.getId()), m.getName(), m.getTokenId())));
+                        callback.onLoginResult(new ResultType.Success(new LoginUser(String.valueOf(m.getId()), m.getName(), m.getEmail(), m.getTokenId())));
                         userLoginInfoDao.deleteAll();
-                        userLoginInfoDao.insert(new UserInfoEntity(String.valueOf(m.getId()), m.getName(), m.getTokenId()));
+                        userLoginInfoDao.insert(new UserInfoEntity(String.valueOf(m.getId()), m.getName(), m.getEmail(), m.getTokenId()));
                     } else {
                         callback.onLoginResult(new ResultType.Error(new LoginException("Login Fail")));
                     }
@@ -75,11 +76,19 @@ public class DataUserRepository {
         });
     }
 
-    public LiveData<List<UserInfoEntity>> getLoginUser(){
-        return userLoginInfoDao.getAll();
+    public void getUser(UserRepositoryCallback.UserCallback callback){
+        executorService.submit(new Runnable() {
+            @Override
+            public void run() {
+                List<UserInfoEntity> list = userLoginInfoDao.getUser();
+                if (list.size() > 0){
+                    callback.onGetUserResult(list.get(0));
+                }
+            }
+        });
     }
 
-    public void signup(MemberProfileEntity memberProfileEntity, InsertCallback callback){
+    public void signup(MemberProfileEntity memberProfileEntity, UserRepositoryCallback.DatabaseCallback callback){
         //on-line DB
 //        ResultType<Boolean> result = dataUserSource.signup(memberProfileEntity);
         //Save to DB for test
@@ -93,9 +102,9 @@ public class DataUserRepository {
                 try {
                     long r = memberProfileDao.insert(insertMpe);
                     Thread.sleep(2000);
-                    callback.insertFinish(r > -1);
+                    callback.onInsertResult(r > -1);
                 } catch (Exception e){
-                    callback.insertFinish(false);
+                    callback.onInsertResult(false);
                 }
             }
         });

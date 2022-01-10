@@ -58,6 +58,7 @@ public class IVFWelcomeActivity extends AppCompatActivity implements Animator.An
         welcome_slogan.animate().alpha(1).setDuration(800).start();
         welcome_progressbar.animate().alpha(1).setStartDelay(1000).setDuration(1000).setListener(this).start();
 
+        ivfWelcomeViewModel.getCheckUser();
     }
 
     @Override
@@ -68,25 +69,11 @@ public class IVFWelcomeActivity extends AppCompatActivity implements Animator.An
     @Override
     public void onAnimationEnd(Animator animator) {
         //check have login
-        ivfWelcomeViewModel.getCheckUser().observe(this, new Observer<List<UserInfoEntity>>() {
-            @Override
-            public void onChanged(List<UserInfoEntity> userInfoEntities) {
-                if (userInfoEntities != null && userInfoEntities.size() > 0){
-                    UserInfoEntity entity = userInfoEntities.get(0);
-                    if (entity.getDisplayName() != null
-                            && !"".equals(entity.getDisplayName())
-                            && entity.getTokenId() != null
-                            && !"".equals(entity.getTokenId())
-                    ){
-                        goActivity(EXTRA_MAIN);//主畫面
-                    } else {
-                        goActivity(EXTRA_LOGIN);//登入畫面
-                    }
-                } else {
-                    goActivity(EXTRA_LOGIN);//登入畫面
-                }
+        if (ivfWelcomeViewModel.haveUser.get()){
+                goActivity(EXTRA_MAIN);//主畫面
+            } else {
+                goActivity(EXTRA_LOGIN);//登入畫面
             }
-        });
     }
 
     @Override

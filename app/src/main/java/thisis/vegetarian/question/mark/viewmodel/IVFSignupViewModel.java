@@ -33,6 +33,7 @@ import thisis.vegetarian.question.mark.db.IVF_Database;
 import thisis.vegetarian.question.mark.db.entity.MemberProfileEntity;
 import thisis.vegetarian.question.mark.model.InsertCallback;
 import thisis.vegetarian.question.mark.model.SignupEditStatus;
+import thisis.vegetarian.question.mark.model.UserRepositoryCallback;
 
 public class IVFSignupViewModel extends ViewModel {
 
@@ -135,9 +136,9 @@ public class IVFSignupViewModel extends ViewModel {
         if (name.isEmpty() && email.isEmpty() && password.isEmpty() && phone.isEmpty()) return;
 
         showProgressView.postValue(true);
-        repository.signup(new MemberProfileEntity(name, gender, email, password, county, town, phone), new InsertCallback() {
+        repository.signup(new MemberProfileEntity(name, gender, email, password, county, town, phone), new UserRepositoryCallback.DatabaseCallback() {
             @Override
-            public void insertFinish(Boolean result) {
+            public void onInsertResult(Boolean result) {
                 signupStatus.postValue(result);
                 //set mutableLiveData show ProgressView
                 showProgressView.postValue(false);

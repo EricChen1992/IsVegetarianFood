@@ -2,6 +2,11 @@
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="viewmodel"
+            type="thisis.vegetarian.question.mark.viewmodel.IVFMainViewModel" />
+    </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -43,6 +48,7 @@
                         android:id="@+id/header_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="@{viewmodel.userName}"
                         android:textAppearance="?attr/textAppearanceHeadline5" />
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -57,6 +63,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="2dp"
+                            android:text="@{viewmodel.userId}"
                             android:textAppearance="?attr/textAppearanceBody2" />
                     </LinearLayout>
 

@@ -1,7 +1,9 @@
 package thisis.vegetarian.question.mark.viewmodel;
 
 import android.app.Application;
+import android.util.Log;
 
+import androidx.databinding.ObservableBoolean;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
@@ -14,16 +16,22 @@ import thisis.vegetarian.question.mark.data.DataUserSource;
 import thisis.vegetarian.question.mark.data.DataUserRepository;
 import thisis.vegetarian.question.mark.db.IVF_Database;
 import thisis.vegetarian.question.mark.db.entity.UserInfoEntity;
+import thisis.vegetarian.question.mark.model.UserRepositoryCallback;
 
 public class IVFWelcomeViewModel extends ViewModel {
     private DataUserRepository dataUserRepository;
-
+    public ObservableBoolean haveUser = new ObservableBoolean(false);
     public IVFWelcomeViewModel(DataUserRepository dataUserRepository){
         this.dataUserRepository = dataUserRepository;
     }
 
-    public LiveData<List<UserInfoEntity>> getCheckUser() {
-        return dataUserRepository.getLoginUser();
+    public void getCheckUser(){
+        dataUserRepository.getUser(new UserRepositoryCallback.UserCallback() {
+            @Override
+            public void onGetUserResult(UserInfoEntity userInfoEntity) {
+                haveUser.set(!userInfoEntity.getDisplayName().equals(""));
+            }
+        });
     }
 
     public static class Factory extends ViewModelProvider.NewInstanceFactory{

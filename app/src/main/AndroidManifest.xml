@@ -30,7 +30,8 @@
         <activity
             android:name=".IVFLoginActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".IVFMainActivity"
+        <activity
+            android:name=".IVFMainActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".IVFScannerActivity"
@@ -46,6 +47,11 @@
             android:name=".IVFInfoProduct"
             android:parentActivityName=".IVFMainActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".IVFFeedBackActivity"
+            android:parentActivityName=".IVFMainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ThemeIsVegetarianFoodActionBar"/>
     </application>
 
 </manifest>

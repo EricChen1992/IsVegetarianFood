@@ -151,6 +151,8 @@ public class IVFMainActivity extends AppCompatActivity {
         });
         //Set Navigation Header Close Button
         NavigationIvfHeaderBinding navigationIvfHeaderBinding = NavigationIvfHeaderBinding.bind(activityIvfMainBinding.mainBottomNavigationView.getHeaderView(0));
+        navigationIvfHeaderBinding.setViewmodel(mainViewModel);
+        navigationIvfHeaderBinding.setLifecycleOwner(this);
         navigationIvfHeaderBinding.ivfNavigationHeaderClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -161,17 +163,7 @@ public class IVFMainActivity extends AppCompatActivity {
         });
 
         //Set User info on Navigation Header
-        mainViewModel.getCheckUser().observe(this, new Observer<List<UserInfoEntity>>() {
-            @Override
-            public void onChanged(List<UserInfoEntity> userInfoEntities) {
-                if (userInfoEntities != null && userInfoEntities.size() > 0){
-                    String userName = userInfoEntities.get(0).getDisplayName();
-                    String userId = String.valueOf(userInfoEntities.get(0).getId());
-                    navigationIvfHeaderBinding.headerName.setText(userName);
-                    navigationIvfHeaderBinding.headerId.setText(userId);
-                }
-            }
-        });
+        mainViewModel.getCheckUser();
 
         //Set BottomBar Menu Click
         activityIvfMainBinding.mainBottomBar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -194,6 +186,7 @@ public class IVFMainActivity extends AppCompatActivity {
                 switch (item.getItemId()){
                     case R.id.main_bottom_bar_feedback:
                         Log.d("Main","bottom bar feedback");
+                        setFeedbackLauncher(mainViewModel.userInfo.get());
                         return true;
                     default:
                         return false;
@@ -233,6 +226,20 @@ public class IVFMainActivity extends AppCompatActivity {
         });
         AlertDialog alertDialog = alertDialogBuild.create();
         alertDialog.show();
+    }
+
+    private void setFeedbackLauncher(UserInfoEntity userInfoEntity){
+        if (userInfoEntity == null || "".equals(userInfoEntity.getDisplayName())){
+            showMessage("發現錯誤，需稍後在試，或嘗試重新開啟APP.");
+        } else {
+            feedbackLauncher.launch(userInfoEntity);
+        }
+    }
+
+    private void showMessage(String msg){
+        if (!"".equals(msg)){
+            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -283,14 +290,42 @@ public class IVFMainActivity extends AppCompatActivity {
         @Override
         public String parseResult(int resultCode, @Nullable Intent intent) {//return result
             if (resultCode == RESULT_OK && intent != null){
-                return "Create Success";
+                return "Create product success.";
+            }
+            return "";
+        }
+    }, new ActivityResultCallback<String>() {
+        @Override
+        public void onActivityResult(String result) {//CallBack result
+            if (!"".equals(result)) Log.e("main", result);
+        }
+    });
+
+
+    ActivityResultLauncher<UserInfoEntity> feedbackLauncher = registerForActivityResult(new ActivityResultContract<UserInfoEntity, String>() {
+        @NonNull
+        @Override
+        public Intent createIntent(@NonNull Context context, UserInfoEntity userInfoEntity) {
+            Intent intent = new Intent(IVFMainActivity.this, IVFFeedBackActivity.class);
+            intent.putExtra(IVFFeedBackActivity.EXTRA_NAME, userInfoEntity.getDisplayName());
+            intent.putExtra(IVFFeedBackActivity.EXTRA_ID, String.valueOf(userInfoEntity.getId()));
+            return intent; //start activity
+        }
+
+        @Override
+        public String parseResult(int resultCode, @Nullable Intent intent) {//return result
+            if (resultCode == RESULT_OK && intent != null){
+                return "Send mail success.";
             }
             return null;
         }
     }, new ActivityResultCallback<String>() {
         @Override
         public void onActivityResult(String result) {//CallBack result
-            if (!"".equals(result)) Log.e("main", result);
+            if (!"".equals(result)) {
+                Log.e("main", result);
+                showMessage("Hello " + mainViewModel.userName.get() + ", thanks you feedback.");
+            }
         }
     });
 }

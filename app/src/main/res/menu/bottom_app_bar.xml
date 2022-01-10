@@ -2,8 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/main_bottom_bar_member"
+        android:title="會員資料"
+        android:contentDescription="member"
+        app:showAsAction="never"/>
+    <item
         android:id="@+id/main_bottom_bar_feedback"
         android:title="回報"
         android:contentDescription="feedback"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/main_bottom_bar_logout"
+        android:title="登出"
+        android:contentDescription="logout"
         app:showAsAction="never"/>
 </menu>

@@ -3,11 +3,10 @@ package thisis.vegetarian.question.mark.viewmodel;
 import android.app.Application;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.ObservableField;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import java.util.List;
 
 import thisis.vegetarian.question.mark.IVFCategoryFragment;
 import thisis.vegetarian.question.mark.IVFViewPage2Adapter;
@@ -17,11 +16,15 @@ import thisis.vegetarian.question.mark.db.IVF_Database;
 import thisis.vegetarian.question.mark.db.entity.IVF_ProductDataEntity;
 import thisis.vegetarian.question.mark.db.entity.UserInfoEntity;
 import thisis.vegetarian.question.mark.model.InsertCallback;
+import thisis.vegetarian.question.mark.model.UserRepositoryCallback;
 
 public class IVFMainViewModel extends AndroidViewModel {
     private DataProductRepository dataProductRepository;
     private DataUserRepository dataUserRepository;
     private MutableLiveData<IVFViewPage2Adapter> adapterMutableLiveData = new MutableLiveData<>();
+    public ObservableField<String> userName = new ObservableField<>("");
+    public ObservableField<String> userId = new ObservableField<>("");
+    public ObservableField<UserInfoEntity> userInfo = new ObservableField<>();
     public IVFMainViewModel(@NonNull Application application) {
         super(application);
         this.dataProductRepository = new DataProductRepository(application);
@@ -44,8 +47,15 @@ public class IVFMainViewModel extends AndroidViewModel {
         return adapterMutableLiveData;
     }
 
-    public LiveData<List<UserInfoEntity>> getCheckUser() {
-        return dataUserRepository.getLoginUser();
+    public void getCheckUser(){
+        dataUserRepository.getUser(new UserRepositoryCallback.UserCallback() {
+            @Override
+            public void onGetUserResult(UserInfoEntity userInfoEntity) {
+                userName.set(userInfoEntity.getDisplayName());
+                userId.set(String.valueOf(userInfoEntity.getId()));
+                userInfo.set(userInfoEntity);
+            }
+        });
     }
 
     public void insert(IVF_ProductDataEntity ivf_productDataEntity){
