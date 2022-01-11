@@ -82,8 +82,8 @@ public class IVFLoginActivity extends AppCompatActivity {
 
     private void setBackPressedDialog(){
         AlertDialog.Builder alertDialogBuild = new AlertDialog.Builder(this);
-        alertDialogBuild.setTitle(getString(R.string.ivf_dialog_tittle_zh));
-        alertDialogBuild.setMessage(getString(R.string.ivf_dialog_message_zh));
+        alertDialogBuild.setTitle(getString(R.string.ivf_dialog_close_tittle_zh));
+        alertDialogBuild.setMessage(getString(R.string.ivf_dialog_close_message_zh));
         alertDialogBuild.setPositiveButton(getString(R.string.ivf_dialog_right_zh), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {

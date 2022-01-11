@@ -73,11 +73,25 @@
     <string name="ivf_login_error">登入失敗</string>
     <string name="ivf_logging_error">登入異常，請稍後再試</string>
 
+    <!--    IVFLoginActivity-->
+    <string name="ivf_main_logout_success">Logout success.</string>
+    <string name="ivf_main_logout_success_zh">登出成功.</string>
+    <string name="ivf_main_logout_fail">Logout fail, please try again later.</string>
+    <string name="ivf_main_logout_fail_zh">登出失敗, 請稍後再試.</string>
+    <string name="ivf_main_feedback_fail">Error, you need to try later or try to restart the application.</string>
+    <string name="ivf_main_feedback_fail_zh">發現錯誤，需稍後在試，或嘗試重新開啟APP.</string>
+    <string name="ivf_main_feedback_result">"Hello {0}, thanks you feedback.</string>
+    <string name="ivf_main_feedback_result_zh">"哈囉 {0}, 感謝您的回報問題.</string>
+
     <!-- Dialog   -->
-    <string name="ivf_dialog_tittle">Close</string>
-    <string name="ivf_dialog_tittle_zh">離開</string>
-    <string name="ivf_dialog_message">Are sure close application?</string>
-    <string name="ivf_dialog_message_zh">確定要離開 素不素 程式?</string>
+    <string name="ivf_dialog_logout_tittle">Log out</string>
+    <string name="ivf_dialog_logout_tittle_zh">登出</string>
+    <string name="ivf_dialog_logout_message">Are you sure want to log out?</string>
+    <string name="ivf_dialog_logout_message_zh">確定要 登出 ?</string>
+    <string name="ivf_dialog_close_tittle">Close</string>
+    <string name="ivf_dialog_close_tittle_zh">離開</string>
+    <string name="ivf_dialog_close_message">Are you sure close application?</string>
+    <string name="ivf_dialog_close_message_zh">確定要離開 素不素 程式?</string>
     <string name="ivf_dialog_left">Cancel</string>
     <string name="ivf_dialog_left_zh">取消</string>
     <string name="ivf_dialog_right">Confirm</string>

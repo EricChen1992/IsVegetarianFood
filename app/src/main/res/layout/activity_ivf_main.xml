@@ -3,6 +3,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="viewModel"
+            type="thisis.vegetarian.question.mark.viewmodel.IVFMainViewModel" />
+        <import type="android.view.View" />
+    </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -10,6 +16,7 @@
         tools:context=".IVFMainActivity">
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/coordinatorLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -48,27 +55,27 @@
                     android:id="@+id/main_viewPage2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="horizontal"
                     android:layout_marginBottom="?attr/actionBarSize"
+                    android:orientation="horizontal"
                     app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
                 <FrameLayout
                     android:id="@+id/main_scrim"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:elevation="10dp"/>
+                    android:elevation="10dp" />
 
                 <com.google.android.material.navigation.NavigationView
                     android:id="@+id/main_bottom_navigation_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fitsSystemWindows="true"
                     android:background="@drawable/ivf_navigation_shap"
+                    android:fitsSystemWindows="true"
                     android:paddingBottom="?attr/actionBarSize"
-                    app:layout_behavior="@string/bottom_sheet_behavior"
                     app:behavior_hideable="true"
                     app:headerLayout="@layout/navigation_ivf_header"
-                    app:menu="@menu/navigation_drawer_menu"/>
+                    app:layout_behavior="@string/bottom_sheet_behavior"
+                    app:menu="@menu/navigation_drawer_menu" />
 
             </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
@@ -79,18 +86,32 @@
                 android:backgroundTint="@color/yellow_206"
                 app:layout_anchor="@id/main_bottom_bar"
                 app:srcCompat="@drawable/ivf_scanner"
-                tools:ignore="VectorDrawableCompat"/>
+                tools:ignore="VectorDrawableCompat" />
 
             <com.google.android.material.bottomappbar.BottomAppBar
                 android:id="@+id/main_bottom_bar"
+                style="@style/Widget.MaterialComponents.BottomAppBar.PrimarySurface"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                style="@style/Widget.MaterialComponents.BottomAppBar.PrimarySurface"
                 app:menu="@menu/bottom_app_bar"
                 app:navigationIcon="@drawable/ivf_menu" />
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+        <ProgressBar
+            android:id="@+id/ivf_welcome_progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:indeterminate="true"
+            android:indeterminateDrawable="@drawable/ivf_progress_yellow_shap"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/coordinatorLayout"
+            app:layout_constraintVertical_bias="0.5" 
+            android:visibility="@{viewModel.progressStatus ? View.VISIBLE : View.GONE}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

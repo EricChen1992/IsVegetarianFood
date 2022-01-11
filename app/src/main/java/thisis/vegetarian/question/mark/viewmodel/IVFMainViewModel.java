@@ -3,8 +3,10 @@ package thisis.vegetarian.question.mark.viewmodel;
 import android.app.Application;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.ObservableBoolean;
 import androidx.databinding.ObservableField;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 
@@ -25,6 +27,8 @@ public class IVFMainViewModel extends AndroidViewModel {
     public ObservableField<String> userName = new ObservableField<>("");
     public ObservableField<String> userId = new ObservableField<>("");
     public ObservableField<UserInfoEntity> userInfo = new ObservableField<>();
+    public ObservableBoolean progressStatus = new ObservableBoolean(false);
+    private MutableLiveData<Boolean> logoutStatus = new MutableLiveData<>(null);
     public IVFMainViewModel(@NonNull Application application) {
         super(application);
         this.dataProductRepository = new DataProductRepository(application);
@@ -32,6 +36,7 @@ public class IVFMainViewModel extends AndroidViewModel {
     }
 
     public void setFragmentList(IVFViewPage2Adapter adapter){
+        progressStatus.set(true);
         if (null != adapter){
             //建立各類別Fragment
             String[] fragmentList = {"topSearch", "cookies", "candy", "drinks", "instantNoodles", "Ingredients", "cannedFood", "jam", "other"};
@@ -40,6 +45,7 @@ public class IVFMainViewModel extends AndroidViewModel {
             }
             adapterMutableLiveData.postValue(adapter);
         }
+        progressStatus.set(false);
 
     }
 
@@ -48,9 +54,9 @@ public class IVFMainViewModel extends AndroidViewModel {
     }
 
     public void getCheckUser(){
-        dataUserRepository.getUser(new UserRepositoryCallback.UserCallback() {
+        dataUserRepository.getUser(new UserRepositoryCallback.GetUserCallback() {
             @Override
-            public void onGetUserResult(UserInfoEntity userInfoEntity) {
+            public void onResult(UserInfoEntity userInfoEntity) {
                 userName.set(userInfoEntity.getDisplayName());
                 userId.set(String.valueOf(userInfoEntity.getId()));
                 userInfo.set(userInfoEntity);
@@ -65,5 +71,20 @@ public class IVFMainViewModel extends AndroidViewModel {
 
             }
         });
+    }
+
+    public void logout(){
+        progressStatus.set(true);
+        this.dataUserRepository.logout(new UserRepositoryCallback.LogoutCallback() {
+            @Override
+            public void onResult(Boolean result) {
+                logoutStatus.postValue(result);
+                progressStatus.set(false);
+            }
+        });
+    }
+
+    public MutableLiveData<Boolean> getLogoutStatus() {
+        return logoutStatus;
     }
 }

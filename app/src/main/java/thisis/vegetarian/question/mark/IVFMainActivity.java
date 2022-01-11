@@ -34,6 +34,7 @@ import com.google.zxing.integration.android.IntentResult;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 import thisis.vegetarian.question.mark.databinding.ActivityIvfMainBinding;
@@ -53,6 +54,7 @@ public class IVFMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         activityIvfMainBinding = DataBindingUtil.setContentView(IVFMainActivity.this, R.layout.activity_ivf_main);
         mainViewModel = new ViewModelProvider(this).get(IVFMainViewModel.class);
+        activityIvfMainBinding.setViewModel(mainViewModel);
         activityIvfMainBinding.setLifecycleOwner(this);
 
         //建立ViewPage2
@@ -188,8 +190,28 @@ public class IVFMainActivity extends AppCompatActivity {
                         Log.d("Main","bottom bar feedback");
                         setFeedbackLauncher(mainViewModel.userInfo.get());
                         return true;
+                    case R.id.main_bottom_bar_logout:
+                        Log.d("Main","Log out.");
+                        setBackPressedDialog(1, R.string.ivf_dialog_logout_tittle_zh, R.string.ivf_dialog_logout_message_zh);
+                        return true;
                     default:
                         return false;
+                }
+            }
+        });
+
+        /**
+         * 觀察登出
+         * */
+        mainViewModel.getLogoutStatus().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if (aBoolean == null) return;
+                if (aBoolean){
+                    startActivity(new Intent(IVFMainActivity.this, IVFLoginActivity.class));
+                    showMessage(getString(R.string.ivf_main_logout_success_zh));
+                } else {
+                    showMessage(getString(R.string.ivf_main_logout_fail_zh));
                 }
             }
         });
@@ -208,14 +230,24 @@ public class IVFMainActivity extends AppCompatActivity {
         tabLayoutMediator.attach();
     }
 
-    private void setBackPressedDialog(){
+    /**
+     * setBackPressedDialog
+     * @param type 0.離開程式. 1.登出.
+     * @param tittle
+     * @param message
+     * */
+    private void setBackPressedDialog(int type, Integer tittle, Integer message){
         AlertDialog.Builder alertDialogBuild = new AlertDialog.Builder(this);
-        alertDialogBuild.setTitle(getString(R.string.ivf_dialog_tittle_zh));
-        alertDialogBuild.setMessage(getString(R.string.ivf_dialog_message_zh));
+        alertDialogBuild.setTitle(getString(tittle));
+        alertDialogBuild.setMessage(getString(message));
         alertDialogBuild.setPositiveButton(getString(R.string.ivf_dialog_right_zh), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                finishAffinity();
+                if (type == 0){
+                    finishAffinity();
+                } else if (type == 1){
+                    mainViewModel.logout();
+                }
             }
         });
         alertDialogBuild.setNegativeButton(getString(R.string.ivf_dialog_left_zh), new DialogInterface.OnClickListener() {
@@ -230,7 +262,7 @@ public class IVFMainActivity extends AppCompatActivity {
 
     private void setFeedbackLauncher(UserInfoEntity userInfoEntity){
         if (userInfoEntity == null || "".equals(userInfoEntity.getDisplayName())){
-            showMessage("發現錯誤，需稍後在試，或嘗試重新開啟APP.");
+            showMessage(getString(R.string.ivf_main_feedback_fail_zh));
         } else {
             feedbackLauncher.launch(userInfoEntity);
         }
@@ -250,7 +282,7 @@ public class IVFMainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        setBackPressedDialog();
+        setBackPressedDialog(1, R.string.ivf_dialog_close_tittle_zh, R.string.ivf_dialog_close_message_zh);
     }
 
     @Override
@@ -324,7 +356,7 @@ public class IVFMainActivity extends AppCompatActivity {
         public void onActivityResult(String result) {//CallBack result
             if (!"".equals(result)) {
                 Log.e("main", result);
-                showMessage("Hello " + mainViewModel.userName.get() + ", thanks you feedback.");
+                showMessage(MessageFormat.format(getString(R.string.ivf_main_feedback_result_zh), mainViewModel.userName.get()));
             }
         }
     });

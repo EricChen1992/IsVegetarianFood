@@ -26,9 +26,9 @@ public class IVFWelcomeViewModel extends ViewModel {
     }
 
     public void getCheckUser(){
-        dataUserRepository.getUser(new UserRepositoryCallback.UserCallback() {
+        dataUserRepository.getUser(new UserRepositoryCallback.GetUserCallback() {
             @Override
-            public void onGetUserResult(UserInfoEntity userInfoEntity) {
+            public void onResult(UserInfoEntity userInfoEntity) {
                 haveUser.set(!userInfoEntity.getDisplayName().equals(""));
             }
         });

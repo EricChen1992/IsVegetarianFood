@@ -76,19 +76,18 @@ public class DataUserRepository {
         });
     }
 
-    public void getUser(UserRepositoryCallback.UserCallback callback){
+    public void getUser(UserRepositoryCallback.GetUserCallback callback){
         executorService.submit(new Runnable() {
             @Override
             public void run() {
                 List<UserInfoEntity> list = userLoginInfoDao.getUser();
                 if (list.size() > 0){
-                    callback.onGetUserResult(list.get(0));
+                    callback.onResult(list.get(0));
                 }
             }
         });
     }
-
-    public void signup(MemberProfileEntity memberProfileEntity, UserRepositoryCallback.DatabaseCallback callback){
+    public void signup(MemberProfileEntity memberProfileEntity, UserRepositoryCallback.LoginCallback callback){
         //on-line DB
 //        ResultType<Boolean> result = dataUserSource.signup(memberProfileEntity);
         //Save to DB for test
@@ -102,13 +101,28 @@ public class DataUserRepository {
                 try {
                     long r = memberProfileDao.insert(insertMpe);
                     Thread.sleep(2000);
-                    callback.onInsertResult(r > -1);
+                    callback.onResult(r > -1);
                 } catch (Exception e){
-                    callback.onInsertResult(false);
+                    callback.onResult(false);
                 }
             }
         });
 
+    }
+
+    public void logout(UserRepositoryCallback.LogoutCallback callback){
+        executorService.submit(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(2000);
+                    userLoginInfoDao.deleteAll();
+                    callback.onResult(true);
+                } catch (Exception e){
+                    callback.onResult(false);
+                }
+            }
+        });
     }
 
 }

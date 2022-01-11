@@ -31,6 +31,7 @@ import thisis.vegetarian.question.mark.data.DataUserRepository;
 import thisis.vegetarian.question.mark.data.DataUserSource;
 import thisis.vegetarian.question.mark.db.IVF_Database;
 import thisis.vegetarian.question.mark.db.entity.MemberProfileEntity;
+import thisis.vegetarian.question.mark.db.entity.UserInfoEntity;
 import thisis.vegetarian.question.mark.model.InsertCallback;
 import thisis.vegetarian.question.mark.model.SignupEditStatus;
 import thisis.vegetarian.question.mark.model.UserRepositoryCallback;
@@ -136,9 +137,9 @@ public class IVFSignupViewModel extends ViewModel {
         if (name.isEmpty() && email.isEmpty() && password.isEmpty() && phone.isEmpty()) return;
 
         showProgressView.postValue(true);
-        repository.signup(new MemberProfileEntity(name, gender, email, password, county, town, phone), new UserRepositoryCallback.DatabaseCallback() {
+        repository.signup(new MemberProfileEntity(name, gender, email, password, county, town, phone), new UserRepositoryCallback.LoginCallback() {
             @Override
-            public void onInsertResult(Boolean result) {
+            public void onResult(Boolean result) {
                 signupStatus.postValue(result);
                 //set mutableLiveData show ProgressView
                 showProgressView.postValue(false);
