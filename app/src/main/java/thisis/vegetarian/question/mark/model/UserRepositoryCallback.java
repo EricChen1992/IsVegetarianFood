@@ -1,5 +1,6 @@
 package thisis.vegetarian.question.mark.model;
 
+import thisis.vegetarian.question.mark.data.ResultType;
 import thisis.vegetarian.question.mark.db.entity.UserInfoEntity;
 
 public interface UserRepositoryCallback {
@@ -14,5 +15,9 @@ public interface UserRepositoryCallback {
 
     interface GetUserCallback{
         void onResult(UserInfoEntity userInfoEntity);
+    }
+
+    interface GetUserInfoCallback{
+        void onResult(ResultType resultType);
     }
 }

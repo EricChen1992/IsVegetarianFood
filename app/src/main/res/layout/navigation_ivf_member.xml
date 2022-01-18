@@ -57,11 +57,11 @@
                     android:id="@+id/textView2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{`會員編號:\n` + viewmodel.userInfo.userId}"
+                    android:text="@{`會員編號:\n` + viewmodel.userRemoteInfoResult.userId}"
                     android:gravity="center"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                     android:textColor="@color/yellow_206"
-                    android:lineSpacingExtra="2dp"
+                    android:lineSpacingExtra="5dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias=".2"
@@ -74,10 +74,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="@{`加入時間:\n` + viewmodel.userInfo.create_at}"
+                    android:text="@{`加入時間:\n` + viewmodel.userRemoteInfoResult.registrationDate}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                     android:textColor="@color/yellow_206"
-                    android:lineSpacingExtra="2dp"
+                    android:lineSpacingExtra="5dp"
                     app:layout_constraintBottom_toBottomOf="@+id/textView2"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias=".8"
@@ -150,7 +150,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:text="@{viewmodel.userInfo.displayName}"
+                android:text="@{viewmodel.userRemoteInfoResult.userDisplayName}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textStyle="bold" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -174,7 +174,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:text="@{viewmodel.userInfo.email}"
+                android:text="@{viewmodel.userRemoteInfoResult.userEmail}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:enabled="false"
                 android:textColor="@color/grey"
@@ -205,7 +205,8 @@
                 android:prompt="@string/taiwan_county_tittle_zh"
                 android:spinnerMode="dialog"
                 android:gravity="center"
-                android:paddingStart="10dp"/>
+                android:paddingStart="10dp"
+                />
 
             <Spinner
                 android:id="@+id/main_member_local_town"
@@ -214,11 +215,11 @@
                 android:layout_weight="1"
                 android:background="@drawable/ivf_login_edittext_shap"
                 spinnerContent="@{viewmodel.townString}"
+                selectionPosition="@{viewmodel.selectedPosition2}"
                 android:prompt="@string/taiwan_town_tittle_zh"
                 android:spinnerMode="dialog"
                 android:gravity="center"
-                android:paddingStart="10dp"
-                android:clickable="@{viewmodel.townClickable}"/>
+                android:paddingStart="10dp"/>
         </LinearLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -241,7 +242,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:enabled="false"
-                android:text="091872****"
+                android:text="@{viewmodel.userRemoteInfoResult.userPhone}"
                 android:textColor="@color/grey"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textStyle="bold" />

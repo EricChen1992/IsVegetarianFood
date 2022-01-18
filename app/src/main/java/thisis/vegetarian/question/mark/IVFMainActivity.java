@@ -41,6 +41,7 @@ import thisis.vegetarian.question.mark.databinding.ActivityIvfMainBinding;
 import thisis.vegetarian.question.mark.databinding.NavigationIvfHeaderBinding;
 import thisis.vegetarian.question.mark.databinding.NavigationIvfMemberBinding;
 import thisis.vegetarian.question.mark.db.entity.UserInfoEntity;
+import thisis.vegetarian.question.mark.model.MemberInfo;
 import thisis.vegetarian.question.mark.viewmodel.IVFMainViewModel;
 
 public class IVFMainActivity extends AppCompatActivity {
@@ -223,15 +224,7 @@ public class IVFMainActivity extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.main_bottom_bar_member:
-                        if (infoBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_HIDDEN){
-                            //menu
-                            activityIvfMainBinding.mainBottomNavigationView.setVisibility(View.GONE);
-                            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-
-                            activityIvfMainBinding.userInfoBottomNavigationView.setVisibility(View.VISIBLE);
-                            infoBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-                            activityIvfMainBinding.mainScrim.setVisibility(View.VISIBLE);
-                        }
+                        getMemberInfo();
                         return true;
                     case R.id.main_bottom_bar_feedback:
                         Log.d("Main","bottom bar feedback");
@@ -259,6 +252,25 @@ public class IVFMainActivity extends AppCompatActivity {
                     showMessage(getString(R.string.ivf_main_logout_success_zh));
                 } else {
                     showMessage(getString(R.string.ivf_main_logout_fail_zh));
+                }
+            }
+        });
+
+        mainViewModel.getUserRemoteInfoResult().observe(this, new Observer<MemberInfo>() {
+            @Override
+            public void onChanged(MemberInfo memberInfo) {
+                if (memberInfo.getError() == null){
+                    if (infoBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_HIDDEN){
+                        //menu
+                        activityIvfMainBinding.mainBottomNavigationView.setVisibility(View.GONE);
+                        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+
+                        activityIvfMainBinding.userInfoBottomNavigationView.setVisibility(View.VISIBLE);
+                        infoBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                        activityIvfMainBinding.mainScrim.setVisibility(View.VISIBLE);
+                    }
+                } else {
+                    showMessage(getString(memberInfo.getError()));
                 }
             }
         });
@@ -313,6 +325,10 @@ public class IVFMainActivity extends AppCompatActivity {
         } else {
             feedbackLauncher.launch(userInfoEntity);
         }
+    }
+
+    private void getMemberInfo(){
+        mainViewModel.getMemberInfo();
     }
 
     private void showMessage(String msg){
@@ -395,12 +411,15 @@ public class IVFMainActivity extends AppCompatActivity {
         public String parseResult(int resultCode, @Nullable Intent intent) {//return result
             if (resultCode == RESULT_OK && intent != null){
                 return "Send mail success.";
+            } else if (resultCode == RESULT_CANCELED){
+                return "Send mail cancel.";
             }
             return null;
         }
     }, new ActivityResultCallback<String>() {
         @Override
         public void onActivityResult(String result) {//CallBack result
+            if ("Send mail cancel.".equals(result)) return;
             if (!"".equals(result)) {
                 Log.e("main", result);
                 showMessage(MessageFormat.format(getString(R.string.ivf_main_feedback_result_zh), mainViewModel.userName.get()));

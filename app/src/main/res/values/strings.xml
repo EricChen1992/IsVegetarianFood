@@ -73,7 +73,7 @@
     <string name="ivf_login_error">登入失敗</string>
     <string name="ivf_logging_error">登入異常，請稍後再試</string>
 
-    <!--    IVFLoginActivity-->
+    <!--    IVFMainActivity-->
     <string name="ivf_main_logout_success">Logout success.</string>
     <string name="ivf_main_logout_success_zh">登出成功.</string>
     <string name="ivf_main_logout_fail">Logout fail, please try again later.</string>
@@ -82,6 +82,11 @@
     <string name="ivf_main_feedback_fail_zh">發現錯誤，需稍後在試，或嘗試重新開啟APP.</string>
     <string name="ivf_main_feedback_result">"Hello {0}, thanks you feedback.</string>
     <string name="ivf_main_feedback_result_zh">"哈囉 {0}, 感謝您的回報問題.</string>
+
+    <string name="ivf_main_member_remote_get_fail">Error, get member info fail.</string>
+    <string name="ivf_main_member_remote_get_fail_zh">個人資料發生錯，請稍後再試.</string>
+    <string name="ivf_main_member_remote_fail">Error, you need to try later or try to restart the application.</string>
+    <string name="ivf_main_member_remote_fail_zh">發現錯誤，需稍後在試，或嘗試重新開啟APP.</string>
 
     <!-- Dialog   -->
     <string name="ivf_dialog_logout_tittle">Log out</string>

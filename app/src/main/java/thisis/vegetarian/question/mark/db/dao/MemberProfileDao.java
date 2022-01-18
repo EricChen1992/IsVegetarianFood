@@ -1,6 +1,5 @@
 package thisis.vegetarian.question.mark.db.dao;
 
-import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Query;
 
@@ -28,5 +27,8 @@ public interface MemberProfileDao {
 
     @Query("SELECT * FROM MemberProfile WHERE email = :email AND password = :password")
     MemberProfileEntity getUser(String email, String password);
+
+    @Query("SELECT * FROM MemberProfile WHERE email = :email AND tokenId = :token")
+    MemberProfileEntity getUserInfo(String email, String token);
 
 }

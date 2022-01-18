@@ -30,28 +30,31 @@ import thisis.vegetarian.question.mark.IVFViewPage2Adapter;
 import thisis.vegetarian.question.mark.R;
 import thisis.vegetarian.question.mark.data.DataProductRepository;
 import thisis.vegetarian.question.mark.data.DataUserRepository;
+import thisis.vegetarian.question.mark.data.ResultType;
 import thisis.vegetarian.question.mark.db.IVF_Database;
 import thisis.vegetarian.question.mark.db.entity.IVF_ProductDataEntity;
 import thisis.vegetarian.question.mark.db.entity.MemberProfileEntity;
 import thisis.vegetarian.question.mark.db.entity.UserInfoEntity;
 import thisis.vegetarian.question.mark.model.InsertCallback;
+import thisis.vegetarian.question.mark.model.MemberInfo;
 import thisis.vegetarian.question.mark.model.UserRepositoryCallback;
 
 public class IVFMainViewModel extends AndroidViewModel {
     private DataProductRepository dataProductRepository;
     private DataUserRepository dataUserRepository;
     private MutableLiveData<IVFViewPage2Adapter> adapterMutableLiveData = new MutableLiveData<>();
-    public ObservableField<String> userName = new ObservableField<>("");
-    public ObservableField<String> userId = new ObservableField<>("");
+    public ObservableField<String> userName = new ObservableField<>("unKnow");
+    public ObservableField<String> userId = new ObservableField<>("unKnow");
     public ObservableField<UserInfoEntity> userInfo = new ObservableField<>();
     public ObservableBoolean progressStatus = new ObservableBoolean(false);
     private MutableLiveData<Boolean> logoutStatus = new MutableLiveData<>(null);
+    public MutableLiveData<MemberInfo> userRemoteInfoResult = new MutableLiveData<>();
 
     public ObservableField<List<String>> countyString = new ObservableField<>();
     public ObservableField<List<String>> townString = new ObservableField<>();
     public ObservableInt selectedPosition = new ObservableInt(0);
+    public ObservableInt selectedPosition2 = new ObservableInt(0);
     public List<List<String>> townListContainer = new ArrayList<>();
-    public ObservableField<Boolean> townClickable = new ObservableField<>(false);
     final Integer[] townListName = {  R.array.taipei_city_town_zh,
             R.array.new_taipei_city_town_zh,
             R.array.keelung_city_town_zh,
@@ -111,6 +114,36 @@ public class IVFMainViewModel extends AndroidViewModel {
         });
     }
 
+    //
+    public void getMemberInfo(){
+        progressStatus.set(true);
+
+        dataUserRepository.getMemberInfo(userInfo.get().getEmail(), userInfo.get().getTokenId(), new UserRepositoryCallback.GetUserInfoCallback() {
+            @Override
+            public void onResult(ResultType resultType) {
+                if (resultType instanceof ResultType.Success){
+                    MemberInfo memberInfo = ((ResultType.Success<MemberInfo>) resultType).getData();
+                    userRemoteInfoResult.postValue(memberInfo);
+                    selectedPosition.set(memberInfo.getUserCounty());//set user county on spinner
+                    selectedPosition2.set(memberInfo.getUserTown());//set user town on spinner
+                } else {
+                    String errorMsg = ((ResultType.Error) resultType).getException().getMessage();
+                    if (errorMsg.equals("Get Fail")){
+                        userRemoteInfoResult.postValue(new MemberInfo(R.string.ivf_main_member_remote_get_fail_zh));
+                    } else {
+                        userRemoteInfoResult.postValue(new MemberInfo(R.string.ivf_main_member_remote_fail_zh));
+                    }
+                }
+                progressStatus.set(false);
+            }
+        });
+    }
+
+    //Return Remote User info
+    public MutableLiveData<MemberInfo> getUserRemoteInfoResult() {
+        return userRemoteInfoResult;
+    }
+
     public void insert(IVF_ProductDataEntity ivf_productDataEntity){
         this.dataProductRepository.insert(ivf_productDataEntity, new InsertCallback() {
             @Override
@@ -161,10 +194,8 @@ public class IVFMainViewModel extends AndroidViewModel {
                 //set selectedPosition not 0 then change town list and enable town list.
                 if (selectedPosition.get() != 0){
                     townString.set(townListContainer.get(selectedPosition.get() - 1));
-                    townClickable.set(true);
                 } else {
                     townString.set(townListContainer.get(0));
-                    townClickable.set(false);
                 }
             }
         });

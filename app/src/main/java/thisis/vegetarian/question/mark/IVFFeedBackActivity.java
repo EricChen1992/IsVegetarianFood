@@ -92,4 +92,10 @@ public class IVFFeedBackActivity extends AppCompatActivity {
         if (message.equals("")) return;
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
+
+    @Override
+    public void onBackPressed() {
+        setResult(RESULT_CANCELED, new Intent());
+        finish();
+    }
 }

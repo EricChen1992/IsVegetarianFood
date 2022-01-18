@@ -1,5 +1,7 @@
 package thisis.vegetarian.question.mark.data;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 
 import java.util.List;
@@ -18,6 +20,7 @@ import thisis.vegetarian.question.mark.db.entity.UserInfoEntity;
 import thisis.vegetarian.question.mark.model.InsertCallback;
 import thisis.vegetarian.question.mark.model.LoginCallback;
 import thisis.vegetarian.question.mark.model.LoginUser;
+import thisis.vegetarian.question.mark.model.MemberInfo;
 import thisis.vegetarian.question.mark.model.UserRepositoryCallback;
 
 public class DataUserRepository {
@@ -34,6 +37,7 @@ public class DataUserRepository {
 
     public DataUserRepository(IVF_Database ivf_productDatabase){
         this.userLoginInfoDao = ivf_productDatabase.userLoginInfoDao();
+        this.memberProfileDao = ivf_productDatabase.userInfoDao();
         executorService = Executors.newFixedThreadPool(1);
     }
 
@@ -71,6 +75,7 @@ public class DataUserRepository {
                     }
                 } catch (Exception e){
                     e.getStackTrace();
+                    callback.onLoginResult(new ResultType.Error(new Exception("")));
                 }
             }
         });
@@ -87,6 +92,35 @@ public class DataUserRepository {
             }
         });
     }
+
+    public void getMemberInfo(final String user_email, final String user_token, UserRepositoryCallback.GetUserInfoCallback callback){
+        executorService.submit(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    MemberProfileEntity member = memberProfileDao.getUserInfo(user_email, user_token);
+                    Thread.sleep(1000);
+                    if (member != null) {
+                        callback.onResult(new ResultType.Success(new MemberInfo(String.valueOf(member.getId()),
+                                member.getName(),
+                                member.getEmail(),
+                                member.getCounty(),
+                                member.getTown(),
+                                member.getPhone(),
+                                member.getTokenId(),
+                                member.getCreate_at().split(" ")[0])));
+                    } else {
+                        new ResultType.Error(new Exception("Get Fail"));
+                    }
+                } catch (Exception e){
+                    e.printStackTrace();
+                    callback.onResult(new ResultType.Error(new Exception("")));
+                }
+
+            }
+        });
+    }
+
     public void signup(MemberProfileEntity memberProfileEntity, UserRepositoryCallback.LoginCallback callback){
         //on-line DB
 //        ResultType<Boolean> result = dataUserSource.signup(memberProfileEntity);
