@@ -121,6 +121,34 @@ public class DataUserRepository {
         });
     }
 
+    public void updateMemberInfo(final String user_name,
+                                 final int user_county,
+                                 final int user_town,
+                                 final String user_email,
+                                 final String user_token,
+                                 UserRepositoryCallback.UpdateUserInfoCallback callback){
+        executorService.submit(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(1000);
+
+                    MemberProfileEntity m = memberProfileDao.getUserInfo(user_email, user_token);
+                    if (m.getName().equals(user_name) && m.getCounty() == user_county && m.getTown() == user_town) {
+                        callback.onResult(true);
+                        return;
+                    }
+
+                    int re =  memberProfileDao.updateMember(user_name, user_county, user_town, user_email, user_token);
+                    callback.onResult(re > 0);
+
+                } catch (Exception e){
+                    callback.onResult(false);
+                }
+            }
+        });
+    }
+
     public void signup(MemberProfileEntity memberProfileEntity, UserRepositoryCallback.LoginCallback callback){
         //on-line DB
 //        ResultType<Boolean> result = dataUserSource.signup(memberProfileEntity);

@@ -83,7 +83,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="75dp"
-            android:text="@string/ivf_login_msg"
+            android:text="@string/ivf_login_msg_zh"
             android:textColor="@color/white"
             android:textStyle="bold"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"

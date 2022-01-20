@@ -38,8 +38,8 @@
                         android:layout_height="?attr/actionBarSize"
                         android:gravity="center"
                         app:layout_scrollFlags="scroll|enterAlways"
-                        app:title="@string/app_name"
-                        app:titleCentered="true" />
+                        app:title="@string/app_name_zh"
+                        app:titleCentered="true"/>
 
                     <com.google.android.material.tabs.TabLayout
                         android:id="@+id/main_tablayout"
@@ -47,7 +47,7 @@
                         android:layout_height="wrap_content"
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
-                        app:tabMode="auto" />
+                        app:tabMode="auto"/>
 
                 </com.google.android.material.appbar.AppBarLayout>
 

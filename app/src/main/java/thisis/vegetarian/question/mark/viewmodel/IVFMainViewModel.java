@@ -21,6 +21,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -36,6 +37,7 @@ import thisis.vegetarian.question.mark.db.entity.IVF_ProductDataEntity;
 import thisis.vegetarian.question.mark.db.entity.MemberProfileEntity;
 import thisis.vegetarian.question.mark.db.entity.UserInfoEntity;
 import thisis.vegetarian.question.mark.model.InsertCallback;
+import thisis.vegetarian.question.mark.model.MemberEditStatus;
 import thisis.vegetarian.question.mark.model.MemberInfo;
 import thisis.vegetarian.question.mark.model.UserRepositoryCallback;
 
@@ -48,8 +50,9 @@ public class IVFMainViewModel extends AndroidViewModel {
     public ObservableField<UserInfoEntity> userInfo = new ObservableField<>();
     public ObservableBoolean progressStatus = new ObservableBoolean(false);
     private MutableLiveData<Boolean> logoutStatus = new MutableLiveData<>(null);
+    private MutableLiveData<Boolean> updateStatus = new MutableLiveData<>(null);
     public MutableLiveData<MemberInfo> userRemoteInfoResult = new MutableLiveData<>();
-
+    private MutableLiveData<MemberEditStatus> memberEditStatus = new MutableLiveData<>(null);
     public ObservableField<List<String>> countyString = new ObservableField<>();
     public ObservableField<List<String>> townString = new ObservableField<>();
     public ObservableInt selectedPosition = new ObservableInt(0);
@@ -103,18 +106,19 @@ public class IVFMainViewModel extends AndroidViewModel {
         return adapterMutableLiveData;
     }
 
+    //check user have login
     public void getCheckUser(){
         dataUserRepository.getUser(new UserRepositoryCallback.GetUserCallback() {
             @Override
             public void onResult(UserInfoEntity userInfoEntity) {
                 userName.set(userInfoEntity.getDisplayName());
-                userId.set(String.valueOf(userInfoEntity.getId()));
+                userId.set(String.valueOf(userInfoEntity.getUserId()));
                 userInfo.set(userInfoEntity);
             }
         });
     }
 
-    //
+    //get Remote User info
     public void getMemberInfo(){
         progressStatus.set(true);
 
@@ -166,6 +170,51 @@ public class IVFMainViewModel extends AndroidViewModel {
 
     public MutableLiveData<Boolean> getLogoutStatus() {
         return logoutStatus;
+    }
+
+    public void memberDataChange(String member_name, String member_old_name){
+        if (member_name.isEmpty()){
+            memberEditStatus.postValue(new MemberEditStatus(R.string.ivf_navigation_member_name_empty_error));
+        } else if (!isNameValid(member_name)){
+            memberEditStatus.postValue(new MemberEditStatus(R.string.ivf_navigation_member_name_long_error));
+        } else if(member_name.equals(member_old_name)){
+            memberEditStatus.postValue(new MemberEditStatus(false));
+        } else {
+            memberEditStatus.postValue(new MemberEditStatus(true));
+        }
+    }
+
+    public void memberDataChange(int member_county, int member_old_county, int member_town, int member_old_town){
+        String newValue = MessageFormat.format("{0}-{1}", member_old_county, member_old_town);
+        String oldValue = MessageFormat.format("{0}-{1}", member_county, member_town);
+        if (newValue.equals(oldValue) || member_county == 0 || member_town == 0){
+            memberEditStatus.postValue(new MemberEditStatus(false));
+        } else {
+            memberEditStatus.postValue(new MemberEditStatus(true));
+        }
+    }
+
+    public MutableLiveData<MemberEditStatus> getMemberEditStatus() {
+        return memberEditStatus;
+    }
+
+    private boolean isNameValid(String user_name){
+        return null != user_name && user_name.length() < 20;
+    }
+
+    public void saveMemberData(String user_name, int user_county, int user_town, String user_email, String user_token){
+        progressStatus.set(true);
+        dataUserRepository.updateMemberInfo(user_name, user_county, user_town, user_email, user_token, new UserRepositoryCallback.UpdateUserInfoCallback() {
+            @Override
+            public void onResult(Boolean result) {
+                updateStatus.postValue(result);
+                progressStatus.set(false);
+            }
+        });
+    }
+
+    public MutableLiveData<Boolean> getUpdateStatus() {
+        return updateStatus;
     }
 
     //Count

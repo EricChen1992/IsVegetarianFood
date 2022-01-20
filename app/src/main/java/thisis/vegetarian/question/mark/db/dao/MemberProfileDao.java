@@ -2,6 +2,7 @@ package thisis.vegetarian.question.mark.db.dao;
 
 import androidx.room.Dao;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import thisis.vegetarian.question.mark.db.entity.MemberProfileEntity;
 
@@ -31,4 +32,9 @@ public interface MemberProfileDao {
     @Query("SELECT * FROM MemberProfile WHERE email = :email AND tokenId = :token")
     MemberProfileEntity getUserInfo(String email, String token);
 
+    @Query("UPDATE memberprofile SET name =  :name,county = :county, town = :town WHERE email = :email AND tokenId = :token")
+    int updateMember(String name, int county, int town, String email, String token);
+
+//    @Update
+//    long updateUser(MemberProfileEntity memberProfileEntity);
 }

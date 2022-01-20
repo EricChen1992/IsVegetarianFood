@@ -125,4 +125,11 @@
     <string name="ivf_navigation_member_email">信箱</string>
     <string name="ivf_navigation_member_phone">電話</string>
     <string name="ivf_navigation_member_change_password">變更密碼</string>
+    <string name="ivf_navigation_member_name_long_error">名稱過長</string>
+    <string name="ivf_navigation_member_name_empty_error">名稱不能空白</string>
+    <string name="ivf_navigation_member_county_error">請選擇縣市</string>
+    <string name="ivf_navigation_member_town_error">請選擇市鄉鎮</string>
+    <string name="ivf_navigation_member_update_success">更新成功.</string>
+    <string name="ivf_navigation_member_update_fail">更新失敗，請稍後再試.</string>
+    <string name="ivf_navigation_member_data_error">發生錯誤，請稍後再試.</string>
 </resources>

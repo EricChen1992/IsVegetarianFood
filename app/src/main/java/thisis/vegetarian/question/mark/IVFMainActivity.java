@@ -14,14 +14,22 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -41,6 +49,7 @@ import thisis.vegetarian.question.mark.databinding.ActivityIvfMainBinding;
 import thisis.vegetarian.question.mark.databinding.NavigationIvfHeaderBinding;
 import thisis.vegetarian.question.mark.databinding.NavigationIvfMemberBinding;
 import thisis.vegetarian.question.mark.db.entity.UserInfoEntity;
+import thisis.vegetarian.question.mark.model.MemberEditStatus;
 import thisis.vegetarian.question.mark.model.MemberInfo;
 import thisis.vegetarian.question.mark.viewmodel.IVFMainViewModel;
 
@@ -52,6 +61,7 @@ public class IVFMainActivity extends AppCompatActivity {
     private ViewPager2 viewPager2;
     private BottomSheetBehavior<NavigationView> bottomSheetBehavior;
     private BottomSheetBehavior<NavigationView> infoBottomSheetBehavior;
+    private SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +69,7 @@ public class IVFMainActivity extends AppCompatActivity {
         mainViewModel = new ViewModelProvider(this).get(IVFMainViewModel.class);
         activityIvfMainBinding.setViewModel(mainViewModel);
         activityIvfMainBinding.setLifecycleOwner(this);
-
+        sharedPreferences = getSharedPreferences("ivf_value", MODE_PRIVATE);
         //建立ViewPage2
         viewPager2 = activityIvfMainBinding.mainViewPage2;
 
@@ -196,6 +206,112 @@ public class IVFMainActivity extends AppCompatActivity {
         navigationIvfMemberBinding.setViewmodel(mainViewModel);
         navigationIvfMemberBinding.setLifecycleOwner(this);
 
+        //set name edittext text change
+        navigationIvfMemberBinding.ivfMainMemberName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String oldName = sharedPreferences.getString("ivf_name","");
+                if (!"".equals(oldName)) {
+                    mainViewModel.memberDataChange(editable.toString(), oldName);
+                }
+            }
+        });
+
+        //set county and town spinner listener
+        AdapterView.OnItemSelectedListener spinnerListener = new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                int oldCounty = sharedPreferences.getInt("ivf_county", 0);
+                int oldTown = sharedPreferences.getInt("ivf_town", 0);
+                if (oldCounty != 0 || oldTown != 0) {
+                    mainViewModel.memberDataChange(navigationIvfMemberBinding.ivfMainMemberLocalCounty.getSelectedItemPosition(),
+                            oldCounty,
+                            navigationIvfMemberBinding.ivfMainMemberLocalTown.getSelectedItemPosition(),
+                            oldTown);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        };
+
+        navigationIvfMemberBinding.ivfMainMemberLocalCounty.setOnItemSelectedListener(spinnerListener);
+        navigationIvfMemberBinding.ivfMainMemberLocalTown.setOnItemSelectedListener(spinnerListener);
+
+        //set confirm click
+        navigationIvfMemberBinding.ivfMainMemberConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                closeKeyBoard(view);//close keyboard
+                String email = sharedPreferences.getString("ivf_email", "");
+                String token = sharedPreferences.getString("ivf_token", "");
+                int intCounty = navigationIvfMemberBinding.ivfMainMemberLocalCounty.getSelectedItemPosition();
+                int intTown = navigationIvfMemberBinding.ivfMainMemberLocalTown.getSelectedItemPosition();
+                if (intCounty == 0) {
+                    showMessage(getString(R.string.ivf_navigation_member_county_error));
+                    return;
+                } else if (intTown == 0){
+                    showMessage(getString(R.string.ivf_navigation_member_town_error));
+                    return;
+                }
+                if (email.isEmpty() || token.isEmpty()) showMessage(getString(R.string.ivf_navigation_member_data_error));
+                mainViewModel.saveMemberData(navigationIvfMemberBinding.ivfMainMemberName.getText().toString(), intCounty, intTown, email, token);
+            }
+        });
+
+        //set cancel click
+        navigationIvfMemberBinding.ivfMainMemberCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                closeKeyBoard(view);
+                activityIvfMainBinding.mainScrim.setVisibility(View.GONE);
+                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+                infoBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+            }
+        });
+
+        //Member edit status
+        mainViewModel.getMemberEditStatus().observe(this, new Observer<MemberEditStatus>() {
+            @Override
+            public void onChanged(MemberEditStatus memberEditStatus) {
+                if (memberEditStatus == null) return;
+
+                setMemberSaveView(navigationIvfMemberBinding.ivfMainMemberConfirm, memberEditStatus.isDataValid());
+
+                if (memberEditStatus.getNameError() != null){
+                    navigationIvfMemberBinding.ivfMainMemberName.setError(getString(memberEditStatus.getNameError()));
+                }
+            }
+        });
+
+        //Get update result
+        mainViewModel.getUpdateStatus().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if (aBoolean == null) return;
+                if(aBoolean) {
+                    activityIvfMainBinding.mainScrim.setVisibility(View.GONE);
+                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+                    infoBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+                    showMessage(getString(R.string.ivf_navigation_member_update_success));
+                } else {
+                    showMessage(getString(R.string.ivf_navigation_member_update_fail));
+                }
+            }
+        });
+
         //Set User info on Navigation Header
         mainViewModel.getCheckUser();
 
@@ -256,6 +372,7 @@ public class IVFMainActivity extends AppCompatActivity {
             }
         });
 
+        //get remote info
         mainViewModel.getUserRemoteInfoResult().observe(this, new Observer<MemberInfo>() {
             @Override
             public void onChanged(MemberInfo memberInfo) {
@@ -268,6 +385,15 @@ public class IVFMainActivity extends AppCompatActivity {
                         activityIvfMainBinding.userInfoBottomNavigationView.setVisibility(View.VISIBLE);
                         infoBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
                         activityIvfMainBinding.mainScrim.setVisibility(View.VISIBLE);
+
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("ivf_name", memberInfo.getUserDisplayName());
+                        editor.putString("ivf_email", memberInfo.getUserEmail());
+                        editor.putInt("ivf_county", memberInfo.getUserCounty());
+                        editor.putInt("ivf_town", memberInfo.getUserTown());
+                        editor.putString("ivf_token", memberInfo.getUserToken());
+                        editor.apply();
+                        editor.commit();
                     }
                 } else {
                     showMessage(getString(memberInfo.getError()));
@@ -331,9 +457,26 @@ public class IVFMainActivity extends AppCompatActivity {
         mainViewModel.getMemberInfo();
     }
 
+    @SuppressLint("NewApi")
+    private void setMemberSaveView(TextView save_view, boolean status){
+        save_view.setTypeface(status ? Typeface.DEFAULT_BOLD : Typeface.DEFAULT);
+        save_view.setTextColor(status ? Color.BLACK : getColor(R.color.grey));
+        save_view.setClickable(status);
+    }
+
     private void showMessage(String msg){
         if (!"".equals(msg)){
             Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void closeKeyBoard(View v){
+        InputMethodManager imm =  (InputMethodManager)this.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+        try {
+            Thread.sleep(10);
+        } catch (Exception e){
+
         }
     }
 

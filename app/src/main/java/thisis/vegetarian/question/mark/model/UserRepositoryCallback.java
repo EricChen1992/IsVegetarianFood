@@ -20,4 +20,8 @@ public interface UserRepositoryCallback {
     interface GetUserInfoCallback{
         void onResult(ResultType resultType);
     }
+
+    interface UpdateUserInfoCallback{
+        void onResult(Boolean result);
+    }
 }

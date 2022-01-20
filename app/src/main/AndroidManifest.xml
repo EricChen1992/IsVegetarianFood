@@ -13,7 +13,7 @@
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ivf_app_icon"
-        android:label="@string/app_name"
+        android:label="@string/app_name_zh"
         android:roundIcon="@mipmap/ivf_app_icon_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.IsVegetarianFood">
