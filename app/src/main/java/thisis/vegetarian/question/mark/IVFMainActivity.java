@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
@@ -49,12 +50,20 @@ import thisis.vegetarian.question.mark.databinding.ActivityIvfMainBinding;
 import thisis.vegetarian.question.mark.databinding.NavigationIvfHeaderBinding;
 import thisis.vegetarian.question.mark.databinding.NavigationIvfMemberBinding;
 import thisis.vegetarian.question.mark.db.entity.UserInfoEntity;
+import thisis.vegetarian.question.mark.model.InfoProduct;
 import thisis.vegetarian.question.mark.model.MemberEditStatus;
 import thisis.vegetarian.question.mark.model.MemberInfo;
+import thisis.vegetarian.question.mark.model.Product;
 import thisis.vegetarian.question.mark.viewmodel.IVFMainViewModel;
 
 public class IVFMainActivity extends AppCompatActivity {
     public static final String EXTRA_BARCODE = "thisis.vegetarian.question.mark.EXTRA_BARCODE";
+    private static final String SP_NAME = "ivf_value";
+    private static final String SP_USER_NAME = "ivf_name";
+    private static final String SP_USER_EMAIL = "ivf_email";
+    private static final String SP_USER_TOKEN = "ivf_token";
+    private static final String SP_USER_COUNTY = "ivf_county";
+    private static final String SP_USER_TOWN = "ivf_town";
     private TabLayoutMediator tabLayoutMediator;
     private ActivityIvfMainBinding activityIvfMainBinding;
     private IVFMainViewModel mainViewModel;
@@ -69,7 +78,7 @@ public class IVFMainActivity extends AppCompatActivity {
         mainViewModel = new ViewModelProvider(this).get(IVFMainViewModel.class);
         activityIvfMainBinding.setViewModel(mainViewModel);
         activityIvfMainBinding.setLifecycleOwner(this);
-        sharedPreferences = getSharedPreferences("ivf_value", MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(SP_NAME, MODE_PRIVATE);
         //建立ViewPage2
         viewPager2 = activityIvfMainBinding.mainViewPage2;
 
@@ -220,7 +229,7 @@ public class IVFMainActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                String oldName = sharedPreferences.getString("ivf_name","");
+                String oldName = sharedPreferences.getString(SP_USER_NAME,"");
                 if (!"".equals(oldName)) {
                     mainViewModel.memberDataChange(editable.toString(), oldName);
                 }
@@ -231,14 +240,16 @@ public class IVFMainActivity extends AppCompatActivity {
         AdapterView.OnItemSelectedListener spinnerListener = new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                int oldCounty = sharedPreferences.getInt("ivf_county", 0);
-                int oldTown = sharedPreferences.getInt("ivf_town", 0);
+                navigationIvfMemberBinding.ivfMainMemberName.setEnabled(false);//跳脫編輯
+                int oldCounty = sharedPreferences.getInt(SP_USER_COUNTY, 0);
+                int oldTown = sharedPreferences.getInt(SP_USER_TOWN, 0);
                 if (oldCounty != 0 || oldTown != 0) {
                     mainViewModel.memberDataChange(navigationIvfMemberBinding.ivfMainMemberLocalCounty.getSelectedItemPosition(),
                             oldCounty,
                             navigationIvfMemberBinding.ivfMainMemberLocalTown.getSelectedItemPosition(),
                             oldTown);
                 }
+                navigationIvfMemberBinding.ivfMainMemberName.setEnabled(true);//跳脫編輯
             }
 
             @Override
@@ -255,8 +266,8 @@ public class IVFMainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 closeKeyBoard(view);//close keyboard
-                String email = sharedPreferences.getString("ivf_email", "");
-                String token = sharedPreferences.getString("ivf_token", "");
+                String email = sharedPreferences.getString(SP_USER_EMAIL, "");
+                String token = sharedPreferences.getString(SP_USER_TOKEN, "");
                 int intCounty = navigationIvfMemberBinding.ivfMainMemberLocalCounty.getSelectedItemPosition();
                 int intTown = navigationIvfMemberBinding.ivfMainMemberLocalTown.getSelectedItemPosition();
                 if (intCounty == 0) {
@@ -401,6 +412,28 @@ public class IVFMainActivity extends AppCompatActivity {
             }
         });
 
+
+        //get search product
+        mainViewModel.getSearchProductResult().observe(this, new Observer<InfoProduct>() {
+            @Override
+            public void onChanged(InfoProduct infoProduct) {
+                if (infoProduct == null) return;
+                if (infoProduct.getError() == null){
+                    if (infoProduct.getType()){
+                        //Get product
+                        productLauncher.launch(infoProduct, ActivityOptionsCompat.makeSceneTransitionAnimation(IVFMainActivity.this, activityIvfMainBinding.mainScannerButton, "scanner_product"));
+                    } else {
+                        //Create product
+                        createProductLauncher.launch(infoProduct.getBarcode());//跳轉至建立頁面
+                    }
+
+                } else {
+                    //Error
+                    showMessage(getString(infoProduct.getError()));
+                }
+            }
+        });
+
     }
 
     private void setTabLayoutMediator(ViewPager2 vP2){
@@ -449,7 +482,7 @@ public class IVFMainActivity extends AppCompatActivity {
         if (userInfoEntity == null || "".equals(userInfoEntity.getDisplayName())){
             showMessage(getString(R.string.ivf_main_feedback_fail_zh));
         } else {
-            feedbackLauncher.launch(userInfoEntity);
+            feedbackLauncher.launch(userInfoEntity, ActivityOptionsCompat.makeSceneTransitionAnimation(IVFMainActivity.this, activityIvfMainBinding.mainBottomBar, "bottom_feedback"));
         }
     }
 
@@ -500,10 +533,14 @@ public class IVFMainActivity extends AppCompatActivity {
             } else {
                 //判斷格式是否正確
                 if (IntentIntegrator.PRODUCT_CODE_TYPES.contains(result.getFormatName())){
-                    //判斷商品是否存在
-                    if (IVFVerifyBarcode.verifyBarcode(result.getContents())){
-                        Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
-                        createProductLauncher.launch(result.getContents());//跳轉至建立頁面
+                    String barcode = result.getContents();
+                    //判斷商品Barcode格式是否正確
+                    if (!"".equals(barcode) && IVFVerifyBarcode.verifyBarcode(barcode)){
+                        //判斷商品是否存在
+                        String emil = sharedPreferences.getString(SP_USER_EMAIL,"");
+                        String token = sharedPreferences.getString(SP_USER_TOKEN, "");
+                        if ("".equals(emil) && "".equals(token)) return;
+                        mainViewModel.searchProduct(barcode, emil, token);
                     } else {
                         Toast.makeText(this, R.string.ivf_activity_scanner_decode_error_msg, Toast.LENGTH_LONG).show();
                     }
@@ -516,6 +553,7 @@ public class IVFMainActivity extends AppCompatActivity {
         }
     }
 
+    //導頁至建立商品
     ActivityResultLauncher<String> createProductLauncher = registerForActivityResult(new ActivityResultContract<String, String>() {
         @NonNull
         @Override
@@ -540,6 +578,7 @@ public class IVFMainActivity extends AppCompatActivity {
     });
 
 
+    //導頁至回報頁面
     ActivityResultLauncher<UserInfoEntity> feedbackLauncher = registerForActivityResult(new ActivityResultContract<UserInfoEntity, String>() {
         @NonNull
         @Override
@@ -547,6 +586,7 @@ public class IVFMainActivity extends AppCompatActivity {
             Intent intent = new Intent(IVFMainActivity.this, IVFFeedBackActivity.class);
             intent.putExtra(IVFFeedBackActivity.EXTRA_NAME, userInfoEntity.getDisplayName());
             intent.putExtra(IVFFeedBackActivity.EXTRA_ID, String.valueOf(userInfoEntity.getId()));
+            intent.putExtra(IVFFeedBackActivity.EXTRA_TRANSITIONS, 1);
             return intent; //start activity
         }
 
@@ -569,4 +609,38 @@ public class IVFMainActivity extends AppCompatActivity {
             }
         }
     });
+
+    //導頁至商品頁面
+    ActivityResultLauncher<InfoProduct> productLauncher = registerForActivityResult(
+            new ActivityResultContract<InfoProduct, String>() {
+
+                @NonNull
+                @Override
+                public Intent createIntent(@NonNull  Context context, InfoProduct product) {
+                    Intent intent = new Intent(IVFMainActivity.this, IVFInfoProduct.class);
+                    intent.putExtra(IVFInfoProduct.EXTRA_BARCODE, product.getBarcode());
+                    intent.putExtra(IVFInfoProduct.EXTRA_NAME, product.getName());
+                    intent.putExtra(IVFInfoProduct.EXTRA_CATEGORY, product.getCategory());
+                    intent.putExtra(IVFInfoProduct.EXTRA_ORIGIN, product.getOrigin());
+                    intent.putExtra(IVFInfoProduct.EXTRA_VEGETARIAN, product.getVegetarian());
+                    intent.putExtra(IVFInfoProduct.EXTRA_REMARK, product.getRemark());
+                    intent.putExtra(IVFInfoProduct.EXTRA_TRANSITIONS, 1);
+                    return intent;
+                }
+
+                @Override
+                public String parseResult(int resultCode, @Nullable Intent intent) {
+                    if (resultCode == RESULT_OK && intent != null){
+                        return "Call back Success.";
+                    }
+                    return "Back Activity";
+                }
+            },
+            new ActivityResultCallback<String>() {
+                @Override
+                public void onActivityResult(String result) {
+                    Log.e("Result", "Parse Result: " + result);
+                }
+            }
+    );
 }

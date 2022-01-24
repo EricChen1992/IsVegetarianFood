@@ -5,11 +5,17 @@ import androidx.databinding.DataBindingUtil;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.transition.Explode;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import com.google.android.material.color.MaterialColors;
+import com.google.android.material.transition.platform.MaterialContainerTransform;
+import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback;
 
 import java.text.MessageFormat;
 
@@ -18,6 +24,7 @@ import thisis.vegetarian.question.mark.databinding.ActivityIvfFeedbackBinding;
 public class IVFFeedBackActivity extends AppCompatActivity {
     public static final String EXTRA_NAME = "thisis.vegetarian.question.mark.feedback.EXTRA_NAME";
     public static final String EXTRA_ID = "thisis.vegetarian.question.mark.feedback.EXTRA_ID";
+    public static final String EXTRA_TRANSITIONS = "thisis.vegetarian.question.mark.feedback.EXTRA_TRANSITIONS";
     private final String feedBakEmail = "azxt1468@gmail.com";
     private final String feedBackTittle = "IsVegetarian Feedback - {0}";
     private final String feedBackBody = "Create name: {0}\nCreate id: {1}\nContent:\n{2}";
@@ -27,6 +34,8 @@ public class IVFFeedBackActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         activityIvfFeedbackBinding = DataBindingUtil.setContentView(IVFFeedBackActivity.this, R.layout.activity_ivf_feedback);
         Intent intent = getIntent();
+        int transitions = intent.getIntExtra(EXTRA_TRANSITIONS, 0);
+        setConfig(transitions);
         String userName = intent.getStringExtra(EXTRA_NAME);
         String userId = intent.getStringExtra(EXTRA_ID);
         Button button = activityIvfFeedbackBinding.ivfFeedbackButton;
@@ -85,6 +94,22 @@ public class IVFFeedBackActivity extends AppCompatActivity {
         } catch (android.content.ActivityNotFoundException ex) {
             Toast.makeText(this,
                     "There is no email client installed.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void setConfig(int type) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            switch (type){
+                case 1:
+                    Explode explodeTransitions = new Explode();
+                    explodeTransitions.setDuration(1000);
+                    getWindow().setEnterTransition(explodeTransitions);
+                    getWindow().setExitTransition(explodeTransitions);
+                    break;
+                default:
+                    break;
+            }
+
         }
     }
 

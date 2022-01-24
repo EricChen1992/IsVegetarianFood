@@ -2,7 +2,6 @@ package thisis.vegetarian.question.mark.viewmodel;
 
 import android.app.Application;
 import android.content.res.Resources;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -17,7 +16,6 @@ import androidx.databinding.ObservableBoolean;
 import androidx.databinding.ObservableField;
 import androidx.databinding.ObservableInt;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 
@@ -34,9 +32,9 @@ import thisis.vegetarian.question.mark.data.DataUserRepository;
 import thisis.vegetarian.question.mark.data.ResultType;
 import thisis.vegetarian.question.mark.db.IVF_Database;
 import thisis.vegetarian.question.mark.db.entity.IVF_ProductDataEntity;
-import thisis.vegetarian.question.mark.db.entity.MemberProfileEntity;
 import thisis.vegetarian.question.mark.db.entity.UserInfoEntity;
-import thisis.vegetarian.question.mark.model.InsertCallback;
+import thisis.vegetarian.question.mark.model.DataProductRepositoryCallback;
+import thisis.vegetarian.question.mark.model.InfoProduct;
 import thisis.vegetarian.question.mark.model.MemberEditStatus;
 import thisis.vegetarian.question.mark.model.MemberInfo;
 import thisis.vegetarian.question.mark.model.UserRepositoryCallback;
@@ -53,6 +51,9 @@ public class IVFMainViewModel extends AndroidViewModel {
     private MutableLiveData<Boolean> updateStatus = new MutableLiveData<>(null);
     public MutableLiveData<MemberInfo> userRemoteInfoResult = new MutableLiveData<>();
     private MutableLiveData<MemberEditStatus> memberEditStatus = new MutableLiveData<>(null);
+    public MutableLiveData<InfoProduct> searchProductResult = new MutableLiveData<>(null);
+
+
     public ObservableField<List<String>> countyString = new ObservableField<>();
     public ObservableField<List<String>> townString = new ObservableField<>();
     public ObservableInt selectedPosition = new ObservableInt(0);
@@ -106,6 +107,35 @@ public class IVFMainViewModel extends AndroidViewModel {
         return adapterMutableLiveData;
     }
 
+    public void searchProduct(String product_barcode, String user_email, String user_token){
+        progressStatus.set(true);
+        dataProductRepository.getSearchProduct(product_barcode, user_email, user_token, new DataProductRepositoryCallback.GetProductCallback() {
+            @Override
+            public void onResult(ResultType result) {
+                if (result instanceof ResultType.Success){
+                    searchProductResult.postValue(((ResultType.Success<InfoProduct>) result).getData());
+                } else {
+                    String message = ((ResultType.Error) result).getException().getMessage();
+                    if (message.equals("Not find product")){
+                        //未找到Product
+                        searchProductResult.postValue(new InfoProduct(product_barcode, false));
+                    } else if (message.equals("User auth fail")){
+                        //使用者驗證失敗
+                        searchProductResult.postValue(new InfoProduct(R.string.ivf_main_scanner_product_auth_fail_zh));
+                    }else {
+                        //其他問題
+                        searchProductResult.postValue(new InfoProduct(R.string.ivf_main_scanner_product_get_fail_zh));
+                    }
+                }
+                progressStatus.set(false);
+            }
+        });
+    }
+
+    public MutableLiveData<InfoProduct> getSearchProductResult() {
+        return searchProductResult;
+    }
+
     //check user have login
     public void getCheckUser(){
         dataUserRepository.getUser(new UserRepositoryCallback.GetUserCallback() {
@@ -146,15 +176,6 @@ public class IVFMainViewModel extends AndroidViewModel {
     //Return Remote User info
     public MutableLiveData<MemberInfo> getUserRemoteInfoResult() {
         return userRemoteInfoResult;
-    }
-
-    public void insert(IVF_ProductDataEntity ivf_productDataEntity){
-        this.dataProductRepository.insert(ivf_productDataEntity, new InsertCallback() {
-            @Override
-            public void insertFinish(Boolean result) {
-
-            }
-        });
     }
 
     public void logout(){

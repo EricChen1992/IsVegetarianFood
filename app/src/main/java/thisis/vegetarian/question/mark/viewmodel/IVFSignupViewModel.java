@@ -2,7 +2,6 @@ package thisis.vegetarian.question.mark.viewmodel;
 
 import android.app.Application;
 import android.content.res.Resources;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.AdapterView;
@@ -15,7 +14,6 @@ import androidx.databinding.InverseBindingListener;
 import androidx.databinding.Observable;
 import androidx.databinding.ObservableField;
 import androidx.databinding.ObservableInt;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
@@ -31,8 +29,6 @@ import thisis.vegetarian.question.mark.data.DataUserRepository;
 import thisis.vegetarian.question.mark.data.DataUserSource;
 import thisis.vegetarian.question.mark.db.IVF_Database;
 import thisis.vegetarian.question.mark.db.entity.MemberProfileEntity;
-import thisis.vegetarian.question.mark.db.entity.UserInfoEntity;
-import thisis.vegetarian.question.mark.model.InsertCallback;
 import thisis.vegetarian.question.mark.model.SignupEditStatus;
 import thisis.vegetarian.question.mark.model.UserRepositoryCallback;
 

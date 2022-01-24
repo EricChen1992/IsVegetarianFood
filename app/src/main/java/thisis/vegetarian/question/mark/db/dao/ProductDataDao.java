@@ -10,6 +10,7 @@ import androidx.room.Update;
 import java.util.List;
 
 import thisis.vegetarian.question.mark.db.entity.IVF_ProductDataEntity;
+import thisis.vegetarian.question.mark.db.entity.MemberProfileEntity;
 
 @Dao
 public interface ProductDataDao {
@@ -46,4 +47,10 @@ public interface ProductDataDao {
     //類別篩選
     @Query("SELECT * FROM IVF_Product WHERE category LIKE :category_id ")
     LiveData<List<IVF_ProductDataEntity>> getCategory(int category_id);
+
+    @Query("SELECT * FROM IVF_Product WHERE barcode LIKE :barcode")
+    IVF_ProductDataEntity getSearchProduct(String barcode);
+
+    @Query("SELECT id FROM MEMBERPROFILE WHERE email LIKE :email  AND tokenId LIKE :token ")
+    long authenticateUser(String email, String token);
 }

@@ -1,9 +1,5 @@
 package thisis.vegetarian.question.mark.data;
 
-import android.util.Log;
-
-import androidx.lifecycle.LiveData;
-
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -11,13 +7,11 @@ import java.util.concurrent.Executors;
 import javax.security.auth.login.LoginException;
 
 import thisis.vegetarian.question.mark.IVFHashEncode;
-import thisis.vegetarian.question.mark.R;
 import thisis.vegetarian.question.mark.db.IVF_Database;
 import thisis.vegetarian.question.mark.db.dao.MemberProfileDao;
 import thisis.vegetarian.question.mark.db.dao.UserLoginInfoDao;
 import thisis.vegetarian.question.mark.db.entity.MemberProfileEntity;
 import thisis.vegetarian.question.mark.db.entity.UserInfoEntity;
-import thisis.vegetarian.question.mark.model.InsertCallback;
 import thisis.vegetarian.question.mark.model.LoginCallback;
 import thisis.vegetarian.question.mark.model.LoginUser;
 import thisis.vegetarian.question.mark.model.MemberInfo;

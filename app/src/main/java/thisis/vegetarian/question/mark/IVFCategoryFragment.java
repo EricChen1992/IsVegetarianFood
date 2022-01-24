@@ -89,34 +89,35 @@ public class IVFCategoryFragment extends Fragment implements OnItemListener {
     }
 
     private ActivityResultLauncher<Product> itemProductLauncher = registerForActivityResult(
-            new ActivityResultContract<Product, String>() {
+        new ActivityResultContract<Product, String>() {
 
-                @NonNull
-                @Override
-                public Intent createIntent(@NonNull  Context context, Product product) {
-                    Intent intent = new Intent(getActivity(), IVFInfoProduct.class);
-                    intent.putExtra(IVFInfoProduct.EXTRA_BARCODE, product.getBarcode());
-                    intent.putExtra(IVFInfoProduct.EXTRA_NAME, product.getName());
-                    intent.putExtra(IVFInfoProduct.EXTRA_CATEGORY, product.getCategory());
-                    intent.putExtra(IVFInfoProduct.EXTRA_ORIGIN, product.getOrigin());
-                    intent.putExtra(IVFInfoProduct.EXTRA_VEGETARIAN, product.getVegetarian());
-                    intent.putExtra(IVFInfoProduct.EXTRA_REMARK, product.getRemark());
-                    return intent;
-                }
+            @NonNull
+            @Override
+            public Intent createIntent(@NonNull  Context context, Product product) {
+                Intent intent = new Intent(getActivity(), IVFInfoProduct.class);
+                intent.putExtra(IVFInfoProduct.EXTRA_BARCODE, product.getBarcode());
+                intent.putExtra(IVFInfoProduct.EXTRA_NAME, product.getName());
+                intent.putExtra(IVFInfoProduct.EXTRA_CATEGORY, product.getCategory());
+                intent.putExtra(IVFInfoProduct.EXTRA_ORIGIN, product.getOrigin());
+                intent.putExtra(IVFInfoProduct.EXTRA_VEGETARIAN, product.getVegetarian());
+                intent.putExtra(IVFInfoProduct.EXTRA_REMARK, product.getRemark());
+                return intent;
+            }
 
-                @Override
-                public String parseResult(int resultCode, @Nullable Intent intent) {
-                    if (resultCode == RESULT_OK && intent != null){
-                        return "Call back Success.";
-                    }
-                    return "Back Activity";
+            @Override
+            public String parseResult(int resultCode, @Nullable Intent intent) {
+                if (resultCode == RESULT_OK && intent != null){
+                    return "Call back Success.";
                 }
-            },
-            new ActivityResultCallback<String>() {
-                @Override
-                public void onActivityResult(String result) {
-                    Log.e("Result", "Parse Result: " + result);
-                }
-            });
+                return "Back Activity";
+            }
+        },
+        new ActivityResultCallback<String>() {
+            @Override
+            public void onActivityResult(String result) {
+                Log.e("Result", "Parse Result: " + result);
+            }
+        }
+    );
 
 }

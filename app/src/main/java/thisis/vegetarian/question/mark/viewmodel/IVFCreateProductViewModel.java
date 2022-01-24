@@ -9,7 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import thisis.vegetarian.question.mark.data.DataProductRepository;
 import thisis.vegetarian.question.mark.db.entity.IVF_ProductDataEntity;
-import thisis.vegetarian.question.mark.model.InsertCallback;
+import thisis.vegetarian.question.mark.model.DataProductRepositoryCallback;
 
 
 public class IVFCreateProductViewModel extends AndroidViewModel {
@@ -24,9 +24,9 @@ public class IVFCreateProductViewModel extends AndroidViewModel {
 
     public void insert(IVF_ProductDataEntity ivf_productDataEntity){
         showProgress.postValue(true);
-        repository.insert(ivf_productDataEntity, new InsertCallback() {
+        repository.insert(ivf_productDataEntity, new DataProductRepositoryCallback.InsertProductCallback() {
             @Override
-            public void insertFinish(Boolean result) {
+            public void onResult(Boolean result) {
                 updateType.postValue(result);
                 showProgress.postValue(false);
             }

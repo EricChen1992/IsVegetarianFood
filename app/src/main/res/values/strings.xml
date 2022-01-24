@@ -88,6 +88,11 @@
     <string name="ivf_main_member_remote_fail">Error, you need to try later or try to restart the application.</string>
     <string name="ivf_main_member_remote_fail_zh">發現錯誤，需稍後在試，或嘗試重新開啟APP.</string>
 
+    <string name="ivf_main_scanner_product_auth_fail">User auth fail.</string>
+    <string name="ivf_main_scanner_product_auth_fail_zh">授權失敗，請嘗試重新登入.</string>
+    <string name="ivf_main_scanner_product_get_fail">Error, get product fail.</string>
+    <string name="ivf_main_scanner_product_get_fail_zh">取得商品失敗，請稍後再試.</string>
+
     <!-- Dialog   -->
     <string name="ivf_dialog_logout_tittle">Log out</string>
     <string name="ivf_dialog_logout_tittle_zh">登出</string>

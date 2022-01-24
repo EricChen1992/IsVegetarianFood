@@ -7,6 +7,7 @@ import androidx.databinding.DataBindingUtil;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.transition.Explode;
 import android.transition.Transition;
 import android.util.Log;
 import android.view.MenuItem;
@@ -32,6 +33,7 @@ public class IVFInfoProduct extends AppCompatActivity {
     public static final String EXTRA_ORIGIN = "thisis.vegetarian.question.mark.info.EXTRA_ORIGIN";
     public static final String EXTRA_VEGETARIAN = "thisis.vegetarian.question.mark.info.EXTRA_VEGETARIAN";
     public static final String EXTRA_REMARK = "thisis.vegetarian.question.mark.info.EXTRA_REMARK";
+    public static final String EXTRA_TRANSITIONS = "thisis.vegetarian.question.mark.info.EXTRA_TRANSITIONS";
 
     private ActivityIvfInfoproductBinding activityIvfInfoproductBinding;
     private int[] vegetarian_image = new int[]{
@@ -45,11 +47,12 @@ public class IVFInfoProduct extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setConfig();
         super.onCreate(savedInstanceState);
 
         activityIvfInfoproductBinding = DataBindingUtil.setContentView(this, R.layout.activity_ivf_infoproduct);
         Intent intent = getIntent();
+        int infoTransitions = intent.getIntExtra(EXTRA_TRANSITIONS, 0);
+        setConfig(infoTransitions);
         String infoBarcode = intent.getStringExtra(EXTRA_BARCODE);
         String infoName = intent.getStringExtra(EXTRA_NAME);
         int infoCategory = intent.getIntExtra(EXTRA_CATEGORY, 7);
@@ -97,25 +100,37 @@ public class IVFInfoProduct extends AppCompatActivity {
         return true;
     }
 
-    private void setConfig() {
+    private void setConfig(int type) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
-            findViewById(android.R.id.content).setTransitionName("select_item");
-            setEnterSharedElementCallback(new MaterialContainerTransformSharedElementCallback());
+            switch (type){
+                case 0:
+                    findViewById(android.R.id.content).setTransitionName("select_item");
+                    setEnterSharedElementCallback(new MaterialContainerTransformSharedElementCallback());
 
 
-            MaterialContainerTransform enterTransform = new MaterialContainerTransform();
-            enterTransform.addTarget(android.R.id.content);
-            enterTransform.setAllContainerColors(MaterialColors.getColor(findViewById(android.R.id.content), R.attr.colorSurface));
-            enterTransform.setDuration(800);
+                    MaterialContainerTransform enterTransform = new MaterialContainerTransform();
+                    enterTransform.addTarget(android.R.id.content);
+                    enterTransform.setAllContainerColors(MaterialColors.getColor(findViewById(android.R.id.content), R.attr.colorSurface));
+                    enterTransform.setDuration(800);
 
-            MaterialContainerTransform returnTransform = new MaterialContainerTransform();
-            returnTransform.addTarget(android.R.id.content);
-            returnTransform.setAllContainerColors(MaterialColors.getColor(findViewById(android.R.id.content), R.attr.colorSurface));
-            returnTransform.setDuration(1000);
+                    MaterialContainerTransform returnTransform = new MaterialContainerTransform();
+                    returnTransform.addTarget(android.R.id.content);
+                    returnTransform.setAllContainerColors(MaterialColors.getColor(findViewById(android.R.id.content), R.attr.colorSurface));
+                    returnTransform.setDuration(1000);
 
-            getWindow().setSharedElementEnterTransition(enterTransform);
-            getWindow().setSharedElementReturnTransition(returnTransform);
+                    getWindow().setSharedElementEnterTransition(enterTransform);
+                    getWindow().setSharedElementReturnTransition(returnTransform);
+                    break;
+                case 1:
+                    Explode explodeTransitions = new Explode();
+                    explodeTransitions.setDuration(1000);
+                    getWindow().setEnterTransition(explodeTransitions);
+                    getWindow().setExitTransition(explodeTransitions);
+                    break;
+                default:
+                    break;
+            }
+
         }
     }
 
