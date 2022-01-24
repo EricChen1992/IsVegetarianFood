@@ -1,4 +1,5 @@
 # 素不素<br/>IsVegetarianFood  
+<img src="./readme/ivf_app_icon.png" width = "150" height = "150" alt="歡迎畫面" align=right />
 
 ### 架構
 ``
@@ -37,4 +38,4 @@ MVVM
 
 ---
 ### 畫面
-<img src="./readme/ivf_open.jpg" width = "300" height = "579" alt="歡迎畫面" align=center />
+<img src="./readme/ivf_open.jpg" width = "300" height = "600" alt="歡迎畫面" align=center />
