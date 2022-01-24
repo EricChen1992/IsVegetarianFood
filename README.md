@@ -18,8 +18,6 @@ MVVM
 
 `Room `<br />
 
-`Room `<br />
-
 `ViewMode`<br />
 
 `LiveData`<br />
